@@ -9,7 +9,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.shoppi.app.R
+import com.shoppi.app.ui.DevByteActivity
 import com.shoppi.app.ui.common.MoveToGalleryCameraPickOneActivity
+import com.shoppi.app.ui.common.MoveToGalleryCameraPickOneWithNextActivity
+import com.shoppi.app.ui.feed.MemoWithoutPictureActivity
 import com.shoppi.app.ui.feed.PictureWithMemoActivity
 import com.shoppi.app.ui.feed.PictureWithoutMemoActivity
 import com.shoppi.app.ui.schedule.ScheduleWriteEditActivity
@@ -121,6 +124,27 @@ class MypageFragment : Fragment() {
 
         view.findViewById<Button>(R.id.btn_move_test_12).setOnClickListener {
             val intent = Intent(activity, TheLocationActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
+        view.findViewById<Button>(R.id.btn_move_test_13).setOnClickListener {
+            val intent = Intent(activity, MoveToGalleryCameraPickOneWithNextActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
+        view.findViewById<Button>(R.id.btn_move_test_14).setOnClickListener {
+            val intent = Intent(activity, MemoWithoutPictureActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
+        view.findViewById<Button>(R.id.btn_move_test_15).setOnClickListener {
+            val intent = Intent(activity, DevByteActivity::class.java)
             startActivity(intent)
         }
 

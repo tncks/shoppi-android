@@ -9,7 +9,6 @@ import com.shoppi.app.network.DevByteNetwork
 import com.shoppi.app.network.asDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 class VideosRepository(private val database: VideosDatabase) {
 
@@ -20,7 +19,7 @@ class VideosRepository(private val database: VideosDatabase) {
 
     suspend fun refreshVideos() {
         withContext(Dispatchers.IO) {
-            Timber.d("refresh videos is called")
+//            Timber.d("refresh videos is called")
             val playlist = DevByteNetwork.devbytes.getPlaylist()
             database.videoDao.insertAll(playlist.asDatabaseModel())
         }

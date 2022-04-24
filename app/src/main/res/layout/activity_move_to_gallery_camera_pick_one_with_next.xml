@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 사진 추가 이동 처리, 1.갤러리로 이동 -->
-    <!-- 2.카메라로 이동 / p7. 여행피드 -->
+    <!-- 사진 선택 (오른쪽 위 다음 있음) -->
+    <!-- 갤러리, 카메라 중 택 1 / p6. 여행일지 -->
 
     <ImageView
         android:id="@+id/iv_unreal_back_simple"
@@ -18,6 +18,17 @@
         android:src="@drawable/ic_unreal_back_page_left"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_next_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="다음" />
 
     <View
         android:id="@+id/v_gallery_area_divider_line"

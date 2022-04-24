@@ -111,6 +111,14 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextHeadline5.White02" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/shoppi_white</item>
+    </style>
+
+    <style name="TextHeadline5.White02.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextHeadline5.Sky01" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textColor">@color/shoppi_sky</item>
     </style>

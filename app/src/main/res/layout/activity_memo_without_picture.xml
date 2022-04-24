@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 사진1 액티비티 / p7. 여행피드 -->
-    <!-- 사진1+글 액티비티랑 동일하나, 글 없는 버전 -->
+    <!-- 글 액티비티 / p7. 여행피드 -->
 
     <ImageView
         android:id="@+id/iv_unreal_back_simple"
@@ -20,17 +19,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
-        android:id="@+id/imageView_profile"
-        android:layout_width="320dp"
-        android:layout_height="320dp"
-        android:layout_marginTop="30dp"
-        android:contentDescription="@string/upload_desc"
-        android:scaleType="centerCrop"
-        android:src="@drawable/image_border"
+    <EditText
+        android:id="@+id/plain_text_input3"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="60dp"
+        android:autofillHints="name"
+        android:background="@android:color/transparent"
+        android:gravity="top"
+        android:hint="@string/et_hint_memo_value"
+        android:inputType="text"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="아름다운 이 땅에"
+        tools:textSize="13sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.shoppi.app.ui
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -57,7 +58,9 @@ class LastingActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             runOnUiThread {
                 fab.setOnClickListener {
-                    Toast.makeText(this, "FAB Plus Button Clicked Successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Photo Plus", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(applicationContext, TempReActivity::class.java)
+                    startActivity(intent)
                 }
                 if (adapter.itemCount > 14) {
                     recycler.smoothScrollToPosition(adapter.itemCount - 1)
@@ -81,7 +84,7 @@ class LastingActivity : AppCompatActivity() {
                     }
                 })
             }
-        }, 2000)
+        }, 1200)
         // End Of Handler
 
     }

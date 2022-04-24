@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
 
-    <!-- 이미지 설정 -->
+    <!-- 이미지 설정 / p3. 여행계획 -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"

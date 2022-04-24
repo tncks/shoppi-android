@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 일정(스케쥴) 작성 & 수정 액티비티 -->
+    <!-- 일정(스케쥴) 작성 & 수정 액티비티 / p5. 여행일정2 -->
 
     <ImageView
         android:id="@+id/iv_unreal_back_simple"

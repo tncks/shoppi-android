@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/navigation_home">
+    app:startDestination="@id/navigation_category">
 
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.shoppi.app.ui.home.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home">
+        android:label="HomeFragment">
         <action
             android:id="@+id/action_home_to_product_detail"
             app:destination="@id/navigation_product_detail" />
@@ -29,8 +28,7 @@
     <fragment
         android:id="@+id/navigation_cart"
         android:name="com.shoppi.app.ui.cart.CartFragment"
-        android:label="CartFragment"
-        tools:layout="@layout/fragment_cart" />
+        android:label="CartFragment" />
     <fragment
         android:id="@+id/navigation_product_detail"
         android:name="com.shoppi.app.ui.ProductDetailFragment"
@@ -46,4 +44,105 @@
         android:name="com.shoppi.app.ui.mypage.MypageFragment"
         android:label="MypageFragment"
         tools:layout="@layout/fragment_mypage" />
+    <!-- divider divider divider divider divider divider divider divider -->
+    <!-- divider divider divider divider divider divider divider divider -->
+    <!-- divider divider divider divider divider divider divider divider -->
+    <activity
+        android:id="@+id/signBeforeStartActivity"
+        android:name="com.shoppi.app.ui.SignBeforeStartActivity"
+        android:label="SignBeforeStartActivity"
+        tools:layout="@layout/activity_sign_before_start" />
+    <navigation
+        android:id="@+id/navigation_forgot"
+        app:startDestination="@id/forgotPwNeedEmailAddressActivity">
+        <activity
+            android:id="@+id/forgotPwConfirmEmailCheckValidActivity"
+            android:name="com.shoppi.app.ui.signstep.ForgotPwConfirmEmailCheckValidActivity"
+            android:label="ForgotPwConfirmEmailCheckValidActivity"
+            tools:layout="@layout/activity_forgot_pw_confirm_email_check_valid" />
+        <activity
+            android:id="@+id/forgotResetPasswordRenewActivity"
+            android:name="com.shoppi.app.ui.signstep.ForgotResetPasswordRenewActivity"
+            android:label="ForgotResetPasswordRenewActivity"
+            tools:layout="@layout/activity_forgot_reset_password_renew" />
+        <activity
+            android:id="@+id/forgotPwNeedEmailAddressActivity"
+            android:name="com.shoppi.app.ui.signstep.ForgotPwNeedEmailAddressActivity"
+            android:label="ForgotPwNeedEmailAddressActivity"
+            tools:layout="@layout/activity_forgot_pw_need_email_address" />
+    </navigation>
+    <navigation
+        android:id="@+id/navigation_join"
+        app:startDestination="@id/joinNormalNewActivity">
+        <activity
+            android:id="@+id/joinEntireViewOfTermsAgreeActivity"
+            android:name="com.shoppi.app.ui.signstep.JoinEntireViewOfTermsAgreeActivity"
+            android:label="JoinEntireViewOfTermsAgreeActivity"
+            tools:layout="@layout/activity_join_entire_view_of_terms_agree" />
+        <activity
+            android:id="@+id/joinCompleteSuccessActivity"
+            android:name="com.shoppi.app.ui.signstep.JoinCompleteSuccessActivity"
+            android:label="JoinCompleteSuccessActivity"
+            tools:layout="@layout/activity_join_complete_success" />
+        <activity
+            android:id="@+id/joinNormalNewActivity"
+            android:name="com.shoppi.app.ui.signstep.JoinNormalNewActivity"
+            android:label="JoinNormalNewActivity"
+            tools:layout="@layout/activity_join_normal_new" />
+        <activity
+            android:id="@+id/joinIncompleteInvalidorfailActivity"
+            android:name="com.shoppi.app.ui.signstep.JoinIncompleteInvalidorfailActivity"
+            android:label="JoinIncompleteInvalidorfailActivity"
+            tools:layout="@layout/activity_join_incomplete_invalidorfail" />
+    </navigation>
+    <activity
+        android:id="@+id/profileAddEditActivity"
+        android:name="com.shoppi.app.ui.ProfileAddEditActivity"
+        android:label="ProfileAddEditActivity"
+        tools:layout="@layout/activity_profile_add_edit" />
+    <activity
+        android:id="@+id/lastingActivity"
+        android:name="com.shoppi.app.ui.LastingActivity"
+        android:label="LastingActivity"
+        tools:layout="@layout/activity_lasting" />
+    <activity
+        android:id="@+id/scheduleWriteEditActivity"
+        android:name="com.shoppi.app.ui.schedule.ScheduleWriteEditActivity"
+        android:label="ScheduleWriteEditActivity"
+        tools:layout="@layout/activity_schedule_write_edit" />
+    <activity
+        android:id="@+id/theLocationActivity"
+        android:name="com.shoppi.app.ui.schedule.TheLocationActivity"
+        android:label="TheLocationActivity"
+        tools:layout="@layout/activity_the_location" />
+    <activity
+        android:id="@+id/moveToGalleryCameraPickOneWithNextActivity"
+        android:name="com.shoppi.app.ui.common.MoveToGalleryCameraPickOneWithNextActivity"
+        android:label="MoveToGalleryCameraPickOneWithNextActivity"
+        tools:layout="@layout/activity_move_to_gallery_camera_pick_one_with_next" />
+    <activity
+        android:id="@+id/pictureWithMemoActivity"
+        android:name="com.shoppi.app.ui.feed.PictureWithMemoActivity"
+        android:label="PictureWithMemoActivity"
+        tools:layout="@layout/activity_picture_with_memo" />
+    <activity
+        android:id="@+id/pictureWithoutMemoActivity"
+        android:name="com.shoppi.app.ui.feed.PictureWithoutMemoActivity"
+        android:label="PictureWithoutMemoActivity"
+        tools:layout="@layout/activity_picture_without_memo" />
+    <activity
+        android:id="@+id/memoWithoutPictureActivity"
+        android:name="com.shoppi.app.ui.feed.MemoWithoutPictureActivity"
+        android:label="MemoWithoutPictureActivity"
+        tools:layout="@layout/activity_memo_without_picture" />
+    <activity
+        android:id="@+id/moveToGalleryCameraPickOneActivity"
+        android:name="com.shoppi.app.ui.common.MoveToGalleryCameraPickOneActivity"
+        android:label="MoveToGalleryCameraPickOneActivity"
+        tools:layout="@layout/activity_move_to_gallery_camera_pick_one" />
+    <activity
+        android:id="@+id/pictureEditActivity"
+        android:name="com.shoppi.app.ui.feed.PictureEditActivity"
+        android:label="PictureEditActivity"
+        tools:layout="@layout/activity_picture_edit" />
 </navigation>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 장소 입력 액티비티 -->
+    <!-- 장소 입력 액티비티 / p5. 여행일정2 -->
 
     <ImageView
         android:id="@+id/iv_unreal_back_simple"

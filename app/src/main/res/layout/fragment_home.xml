@@ -26,7 +26,7 @@
 
                 <TextView
                     android:id="@+id/titleText"
-                    style="@style/TextHeadline5.Black02.Bold"
+                    style="@style/TextHeadline5.White02.Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="72dp"
@@ -46,6 +46,7 @@
                     android:layout_height="68dp"
                     android:layout_gravity="end"
                     android:layout_marginEnd="4dp"
+                    android:visibility="invisible"
                     android:contentDescription="@string/applogo"
                     android:scaleType="center"
                     tools:src="@drawable/ic_gnb_back" />
@@ -69,6 +70,7 @@
                     android:id="@+id/viewpager_home_banner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -77,6 +79,7 @@
                     android:id="@+id/viewpager_home_banner_indicator"
                     android:layout_width="0dp"
                     android:layout_height="45dp"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/viewpager_home_banner"

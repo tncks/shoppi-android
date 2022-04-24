@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 사진 + 글1 액티비티 -->
+    <!-- 사진 + 글1 액티비티 / p7. 여행피드 -->
 
     <ImageView
         android:id="@+id/iv_unreal_back_simple"
