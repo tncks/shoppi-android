@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 로그인 -->
+
+    <TextView
+        android:id="@+id/tv_search_forgot_pw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="9dp"
+        android:text="@string/tv_forgot_pw_start_reset"
+        android:textColor="@color/shoppi_grey_05"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="비밀번호 찾기" />
+
+    <EditText
+        android:id="@+id/et_u_email"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="50dp"
+        android:autofillHints="i_email"
+        android:background="@null"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress|textNoSuggestions"
+        android:minHeight="48dp"
+        android:textColor="@color/shoppi_grey_04"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_search_forgot_pw"
+        tools:ignore="LabelFor"
+        tools:text="이메일" />
+
+    <EditText
+        android:id="@+id/et_u_pw"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:autofillHints="i_pw"
+        android:background="@null"
+        android:hint="@string/hint_password"
+        android:inputType="textPassword|textNoSuggestions"
+        android:minHeight="48dp"
+        android:textColor="@color/shoppi_grey_04"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/et_u_email"
+        app:layout_constraintTop_toBottomOf="@id/et_u_email"
+        tools:ignore="LabelFor"
+        tools:text="비밀번호비밀번호비밀" />
+
+    <ImageView
+        android:id="@+id/iv_hide_eye_pw"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginEnd="50dp"
+        android:contentDescription="@string/label_category"
+        android:src="@drawable/image_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_search_forgot_pw"
+        tools:srcCompat="@drawable/image_border" />
+
+    <Button
+        android:id="@+id/bt_forward_login"
+        android:layout_width="340dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/shoppi_sky"
+        android:enabled="false"
+        android:text="@string/bt_login_text_value"
+        android:textColor="@color/shoppi_white"
+        android:textSize="14sp"
+        app:cornerRadius="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_u_pw"
+        tools:textColor="@color/shoppi_white" />
+
+    <Button
+        android:id="@+id/bt_forward_join"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="@color/shoppi_white"
+        android:enabled="false"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:text="@string/bt_join_text_value"
+        android:textColor="@color/shoppi_sky"
+        android:textSize="14sp"
+        app:cornerRadius="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_forward_login"
+        app:strokeColor="@color/shoppi_sky"
+        app:strokeWidth="1dp" />
+
+    <TextView
+        android:id="@+id/tv_explore_without_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/suggest_without_login"
+        android:textColor="@color/shoppi_grey_06"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_forward_join" />
+
+    <!-- For test and debugging -->
+    <!-- here make tv_explore_without_sign to go right away home main navigate click-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!-- 이미지 설정 -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layoutDirection="rtl" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbutton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="top|start"
+        android:backgroundTint="@color/shoppi_white"
+        android:contentDescription="@string/applogo"
+        android:elevation="0dp"
+        android:src="@android:drawable/ic_input_add"
+        app:borderWidth="0dp"
+        app:elevation="0dp"
+        app:fabCustomSize="100dp"
+        app:maxImageSize="100dp"
+        tools:src="@android:drawable/ic_input_add"
+        tools:text="Button" />
+
+</FrameLayout>

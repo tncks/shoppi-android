@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="shoppi_purple">#7d22ff</color>
+    <color name="shoppi_pink_01">#66e062ff</color>
+    <color name="shoppi_pink_02">#11e062ff</color>
+    <color name="shoppi_gradient_purple">#6b19ff</color>
+    <color name="shoppi_gradient_pink">#fd62ff</color>
+    <color name="shoppi_black_01">#000000</color>
+    <color name="shoppi_black_02">#111111</color>
+    <color name="shoppi_grey_01" tools:ignore="UnusedResources">#5f5f69</color>
+    <color name="shoppi_grey_02">#52514d</color>
+    <color name="shoppi_grey_03">#555555</color>
+    <color name="shoppi_grey_04">#888888</color>
+    <color name="shoppi_grey_05">#939393</color>
+    <color name="shoppi_grey_06">#d1d1d1</color>
+    <color name="shoppi_grey_07">#d6d6d6</color>
+    <color name="shoppi_grey_08" tools:ignore="UnusedResources">#e9e9e9</color>
+    <color name="shoppi_grey_09" tools:ignore="UnusedResources">#eeeff1</color>
+    <color name="shoppi_bluegrey">#f2f4f6</color>
+    <color name="shoppi_white">#ffffff</color>
+    <color name="shoppi_brown" tools:ignore="UnusedResources">#967a6d</color>
+    <color name="shoppi_sky">#6970FD</color>
+    <color name="shoppi_splash_01">#6970FD</color>
+    <color name="shoppi_splash_02">#6971FD</color>
+    <color name="shoppi_splash_03">#FFDE94</color>
+    <color name="background_grey">#ffDDDDDD</color>
+    <color name="text_light">#ff666666</color>
+    <color name="text_black">#ff222222</color>
+    <color name="mytransparent" tools:ignore="UnusedResources">#00000000</color>
 </resources>
