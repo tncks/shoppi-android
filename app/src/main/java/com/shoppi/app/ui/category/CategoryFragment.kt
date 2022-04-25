@@ -42,7 +42,7 @@ class CategoryFragment : Fragment() {
             openCategoryDetail(it.categoryId, it.label)
         })
 
-        setFABClickEvent()
+//        setFABClickEvent()
     }
 
     /*---------------------------------------------*/
@@ -57,19 +57,19 @@ class CategoryFragment : Fragment() {
         )
     }
 
-    private fun setFABClickEvent() {
-
-        // Later, set long press detect if case here
-
-        binding.fabMain.setOnClickListener {
-            openToCart()
-        }
-    }
-
-    private fun openToCart() {
-
-        findNavController().navigate(R.id.action_category_to_cart, bundleOf())
-
-    }
+//    private fun setFABClickEvent() {
+//
+//
+//
+//        binding.fabMain.setOnClickListener {
+//            openToCart()
+//        }
+//    }
+//
+//    private fun openToCart() {
+//
+//        findNavController().navigate(R.id.action_category_to_cart, bundleOf())
+//
+//    }
 
 }

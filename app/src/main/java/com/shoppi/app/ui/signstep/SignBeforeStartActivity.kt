@@ -1,4 +1,4 @@
-package com.shoppi.app.ui
+package com.shoppi.app.ui.signstep
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

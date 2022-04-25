@@ -21,9 +21,7 @@
         <action
             android:id="@+id/action_category_to_category_detail"
             app:destination="@id/navigation_category_detail" />
-        <action
-            android:id="@+id/action_category_to_cart"
-            app:destination="@id/navigation_cart" />
+        <!-- 0425 code revised action tag that has id/action_category_to_cart was removed -->
     </fragment>
     <fragment
         android:id="@+id/navigation_cart"
@@ -49,7 +47,7 @@
     <!-- divider divider divider divider divider divider divider divider -->
     <activity
         android:id="@+id/signBeforeStartActivity"
-        android:name="com.shoppi.app.ui.SignBeforeStartActivity"
+        android:name="com.shoppi.app.ui.signstep.SignBeforeStartActivity"
         android:label="SignBeforeStartActivity"
         tools:layout="@layout/activity_sign_before_start" />
     <navigation

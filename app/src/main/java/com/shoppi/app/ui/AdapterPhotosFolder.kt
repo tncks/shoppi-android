@@ -13,19 +13,16 @@ import com.shoppi.app.R
 import com.shoppi.app.common.FILE_PROTOCOL_PREFIX_STRING
 import com.shoppi.app.model.ModelImages
 import com.shoppi.app.model.getAlImagepath
+import com.shoppi.app.model.getStrFolder
 
-class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImages>, nPos: Int) :
+class AdapterPhotosFolder(context: Context, private val alMenu: ArrayList<ModelImages>) :
     ArrayAdapter<ModelImages>(context, R.layout.adapter_photosfolder, alMenu) {
-    private lateinit var viewHolder: ViewHolder
-    private var nPos: Int = 0
 
-    init {
-        this.nPos = nPos
-    }
+    private lateinit var viewHolder: ViewHolder
 
 
     override fun getCount(): Int {
-        return alMenu[nPos].getAlImagepath().size
+        return alMenu.size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -33,8 +30,8 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
     }
 
     override fun getViewTypeCount(): Int {
-        return if (alMenu[nPos].getAlImagepath().size > 0) {
-            alMenu[nPos].getAlImagepath().size
+        return if (alMenu.size > 0) {
+            alMenu.size
         } else {
             1
         }
@@ -52,7 +49,6 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
             viewHolder = ViewHolder()
 
             convertView2 = LayoutInflater.from(context).inflate(R.layout.adapter_photosfolder, parent, false)
-
             viewHolder.tvFoldern = convertView2.findViewById<TextView>(R.id.tv_folder)
             viewHolder.tvFoldersize = convertView2.findViewById<TextView>(R.id.tv_folder2)
             viewHolder.ivImage = convertView2.findViewById<ImageView>(R.id.iv_image)
@@ -71,15 +67,14 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
     }
 
     @Suppress("RemoveRedundantQualifierName")
-    private fun retrieveAllMediaIFiles(vH: GridViewAdapter.ViewHolder, ps: Int) {
+    private fun retrieveAllMediaIFiles(vH: AdapterPhotosFolder.ViewHolder, ps: Int) {
 
-        vH.tvFoldern?.visibility = View.GONE
-        vH.tvFoldersize?.visibility = View.GONE
-        Glide.with(context).load(FILE_PROTOCOL_PREFIX_STRING + alMenu[nPos].getAlImagepath()[ps])
+        vH.tvFoldern?.text = (alMenu[ps].getStrFolder())
+        vH.tvFoldersize?.text = (alMenu[ps].getAlImagepath().size).toString()
+        Glide.with(context).load(FILE_PROTOCOL_PREFIX_STRING + alMenu[ps].getAlImagepath()[0])
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(vH.ivImage!!)
-
     }
 
     class ViewHolder {

@@ -54,4 +54,8 @@
     <string name="hint_email">이메일</string>
     <string name="hint_password">비밀번호</string>
     <string name="select_gallery_picture">갤러리사진선택</string>
+
+    <!-- Jetpack compose activity titles -->
+    <string name="title_activity_main_compose">MainComposeActivity</string>
+
 </resources>

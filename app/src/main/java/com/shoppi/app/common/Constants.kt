@@ -11,4 +11,8 @@ const val FIRE_JSON_BASEURL = "https://shoppi-4d18d-default-rtdb.asia-southeast1
 const val FIRST_BASE_HEIGHT = 330
 const val MY_HEIGHT_INTERVAL_TOP_BOTTOM = 340
 
+
+const val FILE_PROTOCOL_PREFIX_STRING = "file://"
+const val REQUEST_PERMISSIONS = 100
+
 // Add others here

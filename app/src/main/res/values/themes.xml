@@ -22,4 +22,13 @@
     <style name="Theme.Shoppiandroid.Splash">
         <item name="android:windowBackground">@drawable/background_splash_screen</item>
     </style>
+
+    <style name="Theme.Shoppiandroid.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Shoppiandroid.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Shoppiandroid.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -11,9 +11,11 @@ class PhotosActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
+
+
         val gridView = findViewById<GridView>(R.id.gv_folder)
-        val int_position = intent.getIntExtra("value", 0)
-        val adapter = GridViewAdapter(this, TempReActivity.al_images, int_position)
+        val nPos = intent.getIntExtra("value", 0)
+        val adapter = GridViewAdapter(this, GalleryActivity.alImages, nPos)
         gridView?.adapter = adapter
     }
 }

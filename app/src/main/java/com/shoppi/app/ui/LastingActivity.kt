@@ -19,6 +19,7 @@ import com.shoppi.app.common.FIRST_BASE_HEIGHT
 import com.shoppi.app.common.MY_HEIGHT_INTERVAL_TOP_BOTTOM
 
 
+@Suppress("RemoveRedundantQualifierName")
 class LastingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +60,7 @@ class LastingActivity : AppCompatActivity() {
             runOnUiThread {
                 fab.setOnClickListener {
                     Toast.makeText(this, "Photo Plus", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(applicationContext, TempReActivity::class.java)
+                    val intent = Intent(applicationContext, GalleryActivity::class.java)
                     startActivity(intent)
                 }
                 if (adapter.itemCount > 14) {

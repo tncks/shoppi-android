@@ -13,8 +13,8 @@ import com.shoppi.app.R
 import com.shoppi.app.databinding.FragmentHomeBinding
 import com.shoppi.app.ui.LastingActivity
 import com.shoppi.app.ui.ProfileAddEditActivity
-import com.shoppi.app.ui.SignBeforeStartActivity
 import com.shoppi.app.ui.common.ViewModelFactory
+import com.shoppi.app.ui.signstep.SignBeforeStartActivity
 
 class HomeFragment : Fragment() {
 
