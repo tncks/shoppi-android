@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package com.shoppi.app.myjetcp
 
 import android.Manifest
@@ -40,8 +42,8 @@ class MainComposeActivity : ComponentActivity() {
 @Composable
 fun MainContent() {
 
-    var flagOne: Boolean = false
-    var flagTwo: Boolean = false
+    var flagOne = false
+    var flagTwo = false
     /*-----------------------------------------------*/
     Scaffold(
         topBar = {
@@ -84,7 +86,7 @@ fun MainContent() {
         verticalArrangement = Arrangement.Top
     )
     {
-        permissionStates.permissions.forEach { it ->
+        permissionStates.permissions.forEach {
             when (it.permission) {
                 Manifest.permission.READ_EXTERNAL_STORAGE -> {
 
@@ -96,12 +98,12 @@ fun MainContent() {
                         }
                         it.shouldShowRationale -> {
 
-                            val mDummy = 0
+                            flagOne = false
 
                         }
                         !it.hasPermission && !it.shouldShowRationale -> {
 
-                            val pDummy = 0
+                            flagOne = false
 
                         }
                     }
@@ -124,12 +126,12 @@ fun MainContent() {
                         }
                         it.shouldShowRationale -> {
 
-                            val mDummy = 0
+                            flagTwo = false
 
                         }
                         !it.hasPermission && !it.shouldShowRationale -> {
 
-                            val pDummy = 0
+                            flagTwo = false
 
                         }
                     }
@@ -168,3 +170,4 @@ fun MyContent() {
 fun DefaultPreview() {
     MainContent()
 }
+// Preview is emulator debug purpose

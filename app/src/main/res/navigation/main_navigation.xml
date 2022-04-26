@@ -9,9 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.shoppi.app.ui.home.HomeFragment"
         android:label="HomeFragment">
-        <action
-            android:id="@+id/action_home_to_product_detail"
-            app:destination="@id/navigation_product_detail" />
+        <!-- action tag for product detail removed -->
     </fragment>
     <fragment
         android:id="@+id/navigation_category"
@@ -27,11 +25,6 @@
         android:id="@+id/navigation_cart"
         android:name="com.shoppi.app.ui.cart.CartFragment"
         android:label="CartFragment" />
-    <fragment
-        android:id="@+id/navigation_product_detail"
-        android:name="com.shoppi.app.ui.ProductDetailFragment"
-        android:label="ProductDetailFragment"
-        tools:layout="@layout/fragment_product_detail" />
     <fragment
         android:id="@+id/navigation_category_detail"
         android:name="com.shoppi.app.ui.categorydetail.CategoryDetailFragment"

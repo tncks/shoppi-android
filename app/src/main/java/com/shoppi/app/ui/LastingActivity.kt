@@ -59,7 +59,7 @@ class LastingActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             runOnUiThread {
                 fab.setOnClickListener {
-                    Toast.makeText(this, "Photo Plus", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "카메라를 실행합니다", Toast.LENGTH_SHORT).show()
                     val intent = Intent(applicationContext, GalleryActivity::class.java)
                     startActivity(intent)
                 }
@@ -85,7 +85,7 @@ class LastingActivity : AppCompatActivity() {
                     }
                 })
             }
-        }, 1200)
+        }, 1000)
         // End Of Handler
 
     }
@@ -113,7 +113,7 @@ class LastingActivity : AppCompatActivity() {
     private class MyAdapter : RecyclerView.Adapter<LastingActivity.MyViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LastingActivity.MyViewHolder {
             val inflater = LayoutInflater.from(parent.context)
-            val itemView: View = inflater.inflate(R.layout.itemview, parent, false)
+            val itemView: View = inflater.inflate(R.layout.item_view, parent, false)
             val layoutParams = itemView.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.width = parent.width / 3 - layoutParams.leftMargin - layoutParams.rightMargin
             itemView.layoutParams = layoutParams
@@ -121,7 +121,7 @@ class LastingActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: LastingActivity.MyViewHolder, position: Int) {
-            // holder.textView.text = (position).toString()
+            // holder.photoView.text = (position).toString()
         }
 
 
@@ -179,10 +179,10 @@ class LastingActivity : AppCompatActivity() {
 
 
     private class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var textView: ImageView
+        var photoView: ImageView
 
         init {
-            textView = itemView.findViewById<View>(R.id.text) as ImageView
+            photoView = itemView.findViewById<ImageView>(R.id.photo)
         }
     }
 

@@ -102,12 +102,9 @@
             android:exported="false"></activity>
         <activity
             android:name=".myjetcp.MainComposeActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_main_compose"
-            android:theme="@style/Theme.Shoppiandroid.NoActionBar">
-
-
-        </activity>
+            android:theme="@style/Theme.Shoppiandroid.NoActionBar"></activity>
     </application>
 
 </manifest>

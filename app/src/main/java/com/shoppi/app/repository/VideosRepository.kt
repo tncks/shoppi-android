@@ -19,8 +19,8 @@ class VideosRepository(private val database: VideosDatabase) {
 
     suspend fun refreshVideos() {
         withContext(Dispatchers.IO) {
-//            Timber.d("refresh videos is called")
-            val playlist = DevByteNetwork.devbytes.getPlaylist()
+
+        val playlist = DevByteNetwork.devbytes.getPlaylist()
             database.videoDao.insertAll(playlist.asDatabaseModel())
         }
     }

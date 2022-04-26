@@ -14,9 +14,7 @@ fun hideIfNetworkError(view: View, isNetWorkError: Boolean, playlist: Any?) {
     }
 }
 
-/**
- * Binding adapter used to display images from URL using Glide
- */
+
 @BindingAdapter("imageUrllll")
 fun setImageUrl(imageView: ImageView, url: String) {
     Glide.with(imageView.context).load(url).into(imageView)

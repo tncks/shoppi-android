@@ -20,14 +20,13 @@
         android:layout_height="100dp"
         android:layout_gravity="top|start"
         android:backgroundTint="@color/shoppi_white"
-        android:contentDescription="@string/applogo"
+        android:contentDescription="@string/label_category"
         android:elevation="0dp"
         android:src="@android:drawable/ic_input_add"
         app:borderWidth="0dp"
         app:elevation="0dp"
         app:fabCustomSize="100dp"
         app:maxImageSize="100dp"
-        tools:src="@android:drawable/ic_input_add"
-        tools:text="Button" />
+        tools:src="@android:drawable/ic_input_add" />
 
 </FrameLayout>

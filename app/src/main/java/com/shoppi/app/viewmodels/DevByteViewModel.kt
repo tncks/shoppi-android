@@ -43,7 +43,7 @@ class DevByteViewModel(application: Application) : AndroidViewModel(application)
                 _isNetworkErrorShown.value = false
 
             } catch (networkError: IOException) {
-                // Show a Toast error message and hide the progress bar.
+
                 if (playlist.value.isNullOrEmpty())
                     _eventNetworkError.value = true
             }
@@ -56,13 +56,13 @@ class DevByteViewModel(application: Application) : AndroidViewModel(application)
     }
 
 
-    class Factory(val app: Application) : ViewModelProvider.Factory {
+    class Factory(private val cont: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(DevByteViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return DevByteViewModel(app) as T
+                return DevByteViewModel(cont) as T
             }
-            throw IllegalArgumentException("Unable to construct viewmodel")
+            throw IllegalArgumentException("Fail unable to construct viewmodel: ${modelClass.name}")
         }
     }
 }

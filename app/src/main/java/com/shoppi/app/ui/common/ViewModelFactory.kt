@@ -21,14 +21,17 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
         return when {
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
                 val repository = HomeRepository(HomeAssetDataSource(AssetLoader(context)))
+                @Suppress("UNCHECKED_CAST")
                 HomeViewModel(repository) as T
             }
             modelClass.isAssignableFrom(CategoryViewModel::class.java) -> {
                 val repository = CategoryRepository(CategoryRemoteDataSource(ApiClient.create()))
+                @Suppress("UNCHECKED_CAST")
                 CategoryViewModel(repository) as T
             }
             modelClass.isAssignableFrom(CategoryDetailViewModel::class.java) -> {
                 val repository = CategoryDetailRepository(CategoryDetailRemoteDataSource(ApiClient.create()))
+                @Suppress("UNCHECKED_CAST")
                 CategoryDetailViewModel(repository) as T
             }
             else -> {

@@ -1,9 +1,5 @@
 <resources>
-    <string name="app_name">shoppi-android</string>
-    <string name="title_product_detail_image">상품설명</string>
-
-    <string name="unit_discount_rate">%d%%</string>
-    <string name="unit_discount_currency">%s 원</string>
+    <string name="app_name">trAvelZ</string>
 
     <!-- Navigation -->
     <string name="label_category">trAvelZ</string>
@@ -14,20 +10,19 @@
 
 
     <!-- Image Description -->
-    <string name="description_product_thumbnail">상품 상세 대표 이미지</string>
-    <string name="description_product_detail_image">상품 상세 이미지</string>
     <string name="description_category_thumbnail">카테고리 썸네일</string>
     <string name="applogo">appLogo</string>
     <string name="cdbannerimage">cdBannerImage</string>
     <string name="cdthumbnail">cdThumbnail</string>
     <string name="description_product_representative_image">centered_desc_img</string>
+    <string name="upload_desc">ClickThisToUpload</string>
 
     <!-- Category -->
     <string name="label_category_new">NEW</string>
     <string name="label_category_n">N</string>
 
 
-    <!-- Sign Start Before -->
+    <!-- Sign Before Start -->
     <string name="suggest_without_login"><u>로그인 없이 둘러보기</u></string>
     <string name="bt_login_text_value">로그인</string>
     <string name="bt_join_text_value">회원가입</string>
@@ -37,25 +32,37 @@
     <string name="btn_forgot_first_step_submit_text">완료</string>
     <string name="tv_code_sent_request_check_message">인증메일이 발송되었습니다. 메일을 확인해주세요.</string>
     <string name="btn_resend_code_request_submit_value">재전송</string>
-    <string name="et_hint_location_value">장소 입력</string>
-    <string name="et_hint_memo_value">메모</string>
     <string name="please_set_your_pw">비밀번호를 입력하세요</string>
     <string name="pw_basic_condition_length_limit">영문자, 숫자, 특수문자를 포함하여 8자리 이상 16자리 미만</string>
     <string name="please_retype_pw_again">비밀번호를 재입력하세요</string>
     <string name="btn_simple_complete_submit">완료</string>
-    <string name="upload_desc">ClickThisToUpload</string>
-    <string name="hint_profile_name">프로필 이름</string>
-    <string name="hint_location">여행 장소</string>
-    <string name="hint_duration">여행 기간</string>
-    <string name="hint_schedule_name">일정 이름</string>
-    <string name="hint_location_search">장소 검색</string>
-    <string name="hint_schedule_time">일정 시간</string>
     <string name="tv_forgot_pw_start_reset">비밀번호 찾기</string>
     <string name="hint_email">이메일</string>
     <string name="hint_password">비밀번호</string>
+
+
+    <!-- Profile -->
+    <string name="hint_profile_name">프로필 이름</string>
+    <string name="hint_location">여행 장소</string>
+    <string name="hint_duration">여행 기간</string>
+
+    <!-- Schedule -->
+    <string name="hint_schedule_name">일정 이름</string>
+    <string name="hint_location_search">장소 검색</string>
+    <string name="hint_schedule_time">일정 시간</string>
+    <string name="et_hint_location_value">장소 입력</string>
+    <string name="et_hint_memo_value">메모</string>
+
+
+    <!-- Gallery select description message -->
     <string name="select_gallery_picture">갤러리사진선택</string>
 
-    <!-- Jetpack compose activity titles -->
+
+    <!-- Compose activity titles -->
     <string name="title_activity_main_compose">MainComposeActivity</string>
+
+    <!-- Utils -->
+    <string name="unit_discount_rate">%d%%</string>
+    <string name="unit_discount_currency">%s 원</string>
 
 </resources>
