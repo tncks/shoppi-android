@@ -20,7 +20,7 @@ class VideosRepository(private val database: VideosDatabase) {
     suspend fun refreshVideos() {
         withContext(Dispatchers.IO) {
 
-        val playlist = DevByteNetwork.devbytes.getPlaylist()
+            val playlist = DevByteNetwork.devbytes.getPlaylist()
             database.videoDao.insertAll(playlist.asDatabaseModel())
         }
     }

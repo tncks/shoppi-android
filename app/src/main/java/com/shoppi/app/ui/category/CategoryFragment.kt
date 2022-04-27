@@ -15,17 +15,22 @@ import com.shoppi.app.databinding.FragmentCategoryBinding
 import com.shoppi.app.ui.common.EventObserver
 import com.shoppi.app.ui.common.ViewModelFactory
 
+
 class CategoryFragment : Fragment() {
 
     private val viewModel: CategoryViewModel by viewModels { ViewModelFactory(requireContext()) }
     private lateinit var binding: FragmentCategoryBinding
+    private var flag: Boolean = false
 
     /*---------------------------------------------*/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
+
+
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,17 +40,25 @@ class CategoryFragment : Fragment() {
 
         viewModel.items.observe(viewLifecycleOwner) {
             categoryAdapter.submitList(it)
-
         }
+
 
         viewModel.openCategoryEvent.observe(viewLifecycleOwner, EventObserver {
             openCategoryDetail(it.categoryId, it.label)
         })
 
-//        setFABClickEvent()
+        viewModel.openCategoryEvent2.observe(viewLifecycleOwner, EventObserver {
+            // do something
+        })
+
+        if (flag == true) {
+            binding.rvCategoryList.adapter?.notifyDataSetChanged()
+            flag = false
+        }
     }
 
     /*---------------------------------------------*/
+
 
     private fun openCategoryDetail(categoryId: String, categoryLabel: String) {
 
@@ -57,19 +70,9 @@ class CategoryFragment : Fragment() {
         )
     }
 
-//    private fun setFABClickEvent() {
-//
-//
-//
-//        binding.fabMain.setOnClickListener {
-//            openToCart()
-//        }
-//    }
-//
-//    private fun openToCart() {
-//
-//        findNavController().navigate(R.id.action_category_to_cart, bundleOf())
-//
-//    }
+    fun refreshAdapter() {
+        flag = true
+    }
+
 
 }

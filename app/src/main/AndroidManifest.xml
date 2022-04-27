@@ -51,6 +51,7 @@
             android:exported="false"></activity>
         <activity
             android:name=".ui.ProfileAddEditActivity"
+            android:launchMode="singleTop"
             android:exported="false"></activity>
         <activity
             android:name=".ui.common.MoveToGalleryCameraPickOneActivity"

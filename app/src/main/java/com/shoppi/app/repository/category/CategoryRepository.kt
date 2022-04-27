@@ -7,7 +7,15 @@ class CategoryRepository(
 ) {
 
     suspend fun getCategories(): List<Category> {
+        val tmp: List<Category> = remoteDataSource.getCategories()
+        for (item in tmp) {
+            Supglobal.mSup += item.thumbnailImageUrl
+            Supglobal.mSup += " "
+        }
+        Supglobal.mSup = Supglobal.mSup.dropLast(1)
 
-        return remoteDataSource.getCategories()
+
+
+        return tmp
     }
 }

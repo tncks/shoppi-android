@@ -26,6 +26,9 @@ class LastingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lasting)
 
+        val mIntent: Intent = intent
+        val mPos: Int = mIntent.getIntExtra("mIndex", 0)
+
         /*------------------------------------------------------------*/
 
         val gridLayoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, true)
@@ -61,6 +64,7 @@ class LastingActivity : AppCompatActivity() {
                 fab.setOnClickListener {
                     Toast.makeText(this, "카메라를 실행합니다", Toast.LENGTH_SHORT).show()
                     val intent = Intent(applicationContext, GalleryActivity::class.java)
+                    intent.putExtra("mIndex", mPos)
                     startActivity(intent)
                 }
                 if (adapter.itemCount > 14) {

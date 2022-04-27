@@ -53,6 +53,10 @@ class AdapterPhotosFolder(context: Context, private val alMenu: ArrayList<ModelI
             viewHolder.tvFoldersize = convertView2.findViewById<TextView>(R.id.tv_folder2)
             viewHolder.ivImage = convertView2.findViewById<ImageView>(R.id.iv_image)
             convertView2.tag = viewHolder
+
+            retrieveAllMediaIFiles(viewHolder, position)
+
+            return convertView2
         } else {
 
             viewHolder = convertView.tag as ViewHolder
@@ -60,10 +64,7 @@ class AdapterPhotosFolder(context: Context, private val alMenu: ArrayList<ModelI
 
             return convertView
         }
-        retrieveAllMediaIFiles(viewHolder, position)
 
-
-        return convertView2
     }
 
     @Suppress("RemoveRedundantQualifierName")

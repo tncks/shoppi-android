@@ -89,6 +89,7 @@ class CartFragment : Fragment() {
 
     }
 
+
     // Getter of viewProfile
     private fun getViewProfile(): View? {
 

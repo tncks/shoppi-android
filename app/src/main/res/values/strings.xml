@@ -64,5 +64,8 @@
     <!-- Utils -->
     <string name="unit_discount_rate">%d%%</string>
     <string name="unit_discount_currency">%s 원</string>
+    <string name="m_edit_profile">프로필 수정</string>
+    <string name="m_pin_profile">프로필 고정</string>
+    <string name="m_move_profile_history_tab">여행기록으로 이동</string>
 
 </resources>

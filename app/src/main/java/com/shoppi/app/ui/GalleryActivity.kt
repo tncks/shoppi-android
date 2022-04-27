@@ -30,11 +30,15 @@ class GalleryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
 
+        val mIntent: Intent = intent
+        val mPos: Int = mIntent.getIntExtra("mIndex", 0)
+
 
         gvFolder = findViewById<GridView>(R.id.gv_folder)
         gvFolder?.onItemClickListener = OnItemClickListener { _, _, i, _ ->
             val intent = Intent(applicationContext, PhotosActivity::class.java)
             intent.putExtra("value", i)
+            intent.putExtra("mIndex", mPos)
             startActivity(intent)
         }
 
