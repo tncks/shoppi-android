@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.shoppi.app.R
+import com.shoppi.app.common.BFLAG
 import com.shoppi.app.common.DELIM
 import com.shoppi.app.repository.category.Supglobal
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +25,8 @@ import java.net.URL
 
 class ProfileAddEditActivity : AppCompatActivity() {
 
-    lateinit var bitmap: Bitmap
-    var preThumbnail: Int = 0
+    private lateinit var bitmap: Bitmap
+    private var preThumbnail: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -142,14 +143,16 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
 
     override fun onBackPressed() {
-        super.onBackPressed() // 만약에, 정말 만에 하나 만약에, 백버튼 눌렀을 시 debug problem 생기면
-        // 위 코드 한줄 있어서 안되는 거 일수 있으니 super 줄 지우고 그냥 finish 호출 한줄만 하는 걸로 수정
-        // 원래는 super 호출해줘야 되는게 맞음, override 니까.. 근데 만약에 앱실행시
-        // 저거땜에 잘 안될수도 있으니 그때는 일단 위에줄 삭제하고 다시 테스트해보셈 일시적으로라도.
+        BFLAG = true
+        super.onBackPressed()
         finish()
 
-        // need refresh adapter ex - notifydatasetchanged() of category
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        BFLAG = false
     }
 
 

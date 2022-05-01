@@ -100,6 +100,8 @@ class HomeFragment : Fragment() {
             val intent = Intent(activity, SignBeforeStartActivity::class.java)
             startActivity(intent)
         }
+        // for test usage edit this later
+        view.findViewById<Button>(R.id.btn_move_test_sign_start).visibility = View.INVISIBLE
     }
 
 

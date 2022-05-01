@@ -21,4 +21,10 @@ const val DELIM = " "
 
 const val ON_LONG_CLICK = "android:onLongClick"
 
+
+const val TAG = "TESTLIFECYCLE"
+
+
+var BFLAG = false
+
 // Add others here

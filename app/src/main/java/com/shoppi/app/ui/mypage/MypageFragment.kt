@@ -149,6 +149,13 @@ class MypageFragment : Fragment() {
         }
 
 
+
+        view.findViewById<Button>(R.id.btn_move_test_16).setOnClickListener {
+            val intent = Intent(activity, SignBeforeStartActivity::class.java)
+            startActivity(intent)
+        }
+
+
     }
 
 
