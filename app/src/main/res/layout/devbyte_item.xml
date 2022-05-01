@@ -93,7 +93,7 @@
                 android:contentDescription="@string/label_category"
                 android:cropToPadding="false"
                 android:scaleType="centerCrop"
-                app:imageUrllll="@{video.thumbnail}"
+                app:videoThumbnailUrl="@{video.thumbnail}"
                 app:layout_constraintDimensionRatio="h,4:3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

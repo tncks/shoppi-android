@@ -82,6 +82,8 @@ class HomeFragment : Fragment() {
             val intent = Intent(activity, LastingActivity::class.java)
             startActivity(intent)
         }
+        // for test usage edit this later
+        view.findViewById<Button>(R.id.btn_move_test_my_pictures).visibility = View.INVISIBLE
     }
 
     private fun setTestButtonEventSecond(view: View) {
@@ -89,6 +91,8 @@ class HomeFragment : Fragment() {
             val intent = Intent(activity, ProfileAddEditActivity::class.java)
             startActivity(intent)
         }
+        // for test usage edit this later
+        view.findViewById<Button>(R.id.btn_move_test_profile_edit).visibility = View.INVISIBLE
     }
 
     private fun setTestButtonEventThird(view: View) {

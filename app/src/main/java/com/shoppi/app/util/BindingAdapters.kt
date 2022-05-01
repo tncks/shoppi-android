@@ -15,7 +15,7 @@ fun hideIfNetworkError(view: View, isNetWorkError: Boolean, playlist: Any?) {
 }
 
 
-@BindingAdapter("imageUrllll")
+@BindingAdapter("videoThumbnailUrl")
 fun setImageUrl(imageView: ImageView, url: String) {
     Glide.with(imageView.context).load(url).into(imageView)
 }

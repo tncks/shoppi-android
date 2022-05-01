@@ -3,12 +3,19 @@ package com.shoppi.app.ui.common
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.shoppi.app.R
 
 @BindingAdapter("imageUrl")
 fun loadImage(view: ImageView, imageUrl: String?) {
     if (!imageUrl.isNullOrEmpty()) {
 
         Glide.with(view)
+            .applyDefaultRequestOptions(
+                RequestOptions()
+                    .placeholder(R.drawable.ic_traran)
+                    .error(R.drawable.ic_traran)
+            )
             .load(imageUrl)
             .into(view)
     }
@@ -19,6 +26,11 @@ fun loadImage(view: ImageView, imageUrl: String?) {
 fun loadCircleImage(view: ImageView, imageUrl: String?) {
     if (!imageUrl.isNullOrEmpty()) {
         Glide.with(view)
+            .applyDefaultRequestOptions(
+                RequestOptions()
+                    .placeholder(R.drawable.ic_traran)
+                    .error(R.drawable.ic_traran)
+            )
             .load(imageUrl)
             .circleCrop()
             .into(view)

@@ -4,14 +4,17 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.shoppi.app.R
 import com.shoppi.app.common.DELIM
 import com.shoppi.app.repository.category.Supglobal
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -35,9 +38,16 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
         val tmpLs = Supglobal.mSup.split(DELIM)
 
+        findViewById<ImageView>(R.id.imageView_profile).setOnClickListener {
+            val intent = Intent(applicationContext, LastingActivity::class.java)
+            intent.putExtra("mIndex", mIntent.getIntExtra("mIndex", 0))
+            startActivity(intent)
+        }
 
-        val mThread: Thread = object : Thread() {
-            override fun run() {
+        lifecycleScope.launch {
+            delay(1000L)
+
+            withContext(Dispatchers.IO) {
                 try {
                     val url = URL(tmpLs[mPos])
                     val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
@@ -47,24 +57,28 @@ class ProfileAddEditActivity : AppCompatActivity() {
                     bitmap = BitmapFactory.decodeStream(iss)
                 } catch (e: MalformedURLException) {
                     e.printStackTrace()
+                    withContext(Dispatchers.Main) {
+                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    }
                 } catch (e: IOException) {
                     e.printStackTrace()
+                    withContext(Dispatchers.Main) {
+                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    }
+                }
+                withContext(Dispatchers.Main) {
+                    try {
+                        if (this@ProfileAddEditActivity::bitmap.isInitialized) {
+                            findViewById<ImageView>(R.id.imageView_profile).setImageBitmap(bitmap)
+                        } else {
+                            throw InterruptedException()
+                        }
+                    } catch (e: InterruptedException) {
+                        e.printStackTrace()
+                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    }
                 }
             }
-        }
-
-        mThread.start()
-        try {
-            mThread.join()
-            findViewById<ImageView>(R.id.imageView_profile).setImageBitmap(bitmap)
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
-
-        findViewById<ImageView>(R.id.imageView_profile).setOnClickListener {
-            val intent = Intent(applicationContext, LastingActivity::class.java)
-            intent.putExtra("mIndex", mIntent.getIntExtra("mIndex", 0))
-            startActivity(intent)
         }
 
     }
@@ -74,32 +88,50 @@ class ProfileAddEditActivity : AppCompatActivity() {
         super.onRestart()
 
         Glide.with(this).load(R.raw.movingcircular).into(findViewById<ImageView>(R.id.imageView_profile))
-        Handler(Looper.getMainLooper()).postDelayed({
-            Glide.with(this).load(R.raw.movingcircular).into(findViewById<ImageView>(R.id.imageView_profile))
-            val mThread: Thread = object : Thread() {
-                override fun run() {
+
+        lifecycleScope.launch {
+            delay(1500L)
+
+            withContext(Dispatchers.Main) {
+                Glide.with(applicationContext).load(R.raw.movingcircular)
+                    .into(findViewById<ImageView>(R.id.imageView_profile))
+            }
+
+            withContext(Dispatchers.IO) {
+                try {
+                    val url = URL(Supglobal.mSup.split(DELIM)[preThumbnail])
+                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                    conn.doInput = true
+                    conn.connect()
+                    val iss: InputStream = conn.inputStream
+                    bitmap = BitmapFactory.decodeStream(iss)
+                } catch (e: MalformedURLException) {
+                    e.printStackTrace()
+                    withContext(Dispatchers.Main) {
+                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    withContext(Dispatchers.Main) {
+                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    }
+                }
+                withContext(Dispatchers.Main) {
                     try {
-                        val url = URL(Supglobal.mSup.split(DELIM)[preThumbnail])
-                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-                        conn.doInput = true
-                        conn.connect()
-                        val iss: InputStream = conn.inputStream
-                        bitmap = BitmapFactory.decodeStream(iss)
-                    } catch (e: MalformedURLException) {
+                        if (this@ProfileAddEditActivity::bitmap.isInitialized) {
+                            findViewById<ImageView>(R.id.imageView_profile).setImageBitmap(bitmap)
+                        } else {
+                            throw InterruptedException()
+                        }
+                    } catch (e: InterruptedException) {
                         e.printStackTrace()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
+                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
                     }
                 }
             }
-            mThread.start()
-            try {
-                mThread.join()
-                findViewById<ImageView>(R.id.imageView_profile).setImageBitmap(bitmap)
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
-            }
-        }, 1500)
+        }
+
+
     }
 
 
@@ -131,70 +163,3 @@ class ProfileAddEditActivity : AppCompatActivity() {
     */
 
 }
-
-
-// Reference
-// For Coroutines Foor Coroutines Four Coroutines Fuor Coroutines For Coroutines
-/*
-
-
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import androidx.lifecycle.lifecycleScope
-
-
-class ProfileAddEditActivity : AppCompatActivity() {
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile_add_edit)
-
-        findViewById<ImageView>(R.id.imageView_profile).setOnClickListener {
-            val intent = Intent(applicationContext, LastingActivity::class.java)
-            intent.putExtra("mIndex", intent.getIntExtra("mIndex", 0))
-            startActivity(intent)
-        }
-
-    }
-
-// 코루틴 사용법 Example, 이거보고 참고해서 위 코드에 적용하면 됨. Thread looper 방식 -> 코루틴 방식으로 변경
-    override fun onResume() {
-        super.onResume()
-
-        lifecycleScope.launch {
-            delay(1500L)
-
-            withContext(Dispatchers.IO) {
-
-                try {
-                    val url = URL(Supglobal.mSup.split(DELIM)[intent.getIntExtra("mIndex", 0)])
-                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-                    conn.doInput = true
-                    conn.connect()
-                    val iss: InputStream = conn.inputStream
-                    val cbitmap = BitmapFactory.decodeStream(iss)
-                    withContext(Dispatchers.Main) {
-                        try {
-                            val cbitmaq = cbitmap
-                            findViewById<ImageView>(R.id.imageView_profile).setImageBitmap(cbitmaq)
-                        } catch (e: InterruptedException) {
-                            e.printStackTrace()
-                        }
-                    }
-                } catch (e: MalformedURLException) {
-                    e.printStackTrace()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-
-            }
-        }
-    } // End of onResume fun
-
-}
-
-
-*/

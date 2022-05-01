@@ -18,4 +18,7 @@ const val REQUEST_PERMISSIONS = 100
 
 const val DELIM = " "
 
+
+const val ON_LONG_CLICK = "android:onLongClick"
+
 // Add others here

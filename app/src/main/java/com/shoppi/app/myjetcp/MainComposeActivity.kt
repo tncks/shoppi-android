@@ -6,6 +6,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -70,7 +71,7 @@ fun MainContent() {
                     permissionStates.launchMultiplePermissionRequest()
                 }
                 else -> {
-                    val summy = 0
+                    Log.i("dummy", "dummy")
                 }
             }
         }

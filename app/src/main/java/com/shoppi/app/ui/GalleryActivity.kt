@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.AdapterView
 import android.widget.GridView
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -32,6 +33,7 @@ class GalleryActivity : AppCompatActivity() {
 
         val mPos: Int = intent.getIntExtra("mIndex", 0)
         setPhotoClickListener(mPos)
+        setCameraIconClickListener()
 
 
         if (isValidWithCheckStepOne()) {
@@ -58,6 +60,14 @@ class GalleryActivity : AppCompatActivity() {
             intent.putExtra("value", i)
             intent.putExtra("mIndex", mPos)
             startActivity(intent)
+        }
+
+    }
+
+    private fun setCameraIconClickListener() {
+
+        findViewById<ImageView>(R.id.iv_open_camera)?.setOnClickListener {
+            Toast.makeText(applicationContext, "사진 촬영 모드", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -146,7 +156,7 @@ class GalleryActivity : AppCompatActivity() {
             REQUEST_PERMISSIONS -> {
                 var i = 0
                 while (numCountOfGrantResults != null && i < numCountOfGrantResults) {
-                    if (numCountOfGrantResults != null && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                         myimagespath()
                     } else {
                         Toast.makeText(

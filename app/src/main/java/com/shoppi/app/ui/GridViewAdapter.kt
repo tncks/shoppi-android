@@ -115,7 +115,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
             )
             val fullFileName = createdTmpFile.name
             UploadUtility2().uploadFile(createdTmpFile)
-            val prePathNameURL = "https://agile-savannah-32015.herokuapp.com/images/$fullFileName"
+            val prePathNameURL = "https://agile-savannah.azurewebsites.net/web/images/$fullFileName"
 
 
             reviseMethod(prePathNameURL, mmIndex)

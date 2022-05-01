@@ -11,8 +11,8 @@ import java.io.File
 class UploadUtility2 {
 
     private var isDoneAfterPath: String? = null
-    private val serverURL = "https://agile-savannah-32015.herokuapp.com/index.php"
-    private val serverUploadDirectoryPath = "https://agile-savannah-32015.herokuapp.com/images/"
+    private val serverURL = "https://agile-savannah.azurewebsites.net/web/index.php"
+    private val serverUploadDirectoryPath = "https://agile-savannah.azurewebsites.net/web/images/"
     private val client = OkHttpClient()
 
     fun uploadFile(sourceFilePath: String, uploadedFileName: String? = null) {

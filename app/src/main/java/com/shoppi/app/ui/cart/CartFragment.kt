@@ -61,7 +61,7 @@ class CartFragment : Fragment() {
                     )
                     val fullFileName = createdTmpFile.name
                     UploadUtility2().uploadFile(createdTmpFile)
-                    val prePathNameURL = "https://agile-savannah-32015.herokuapp.com/images/$fullFileName"
+                    val prePathNameURL = "https://agile-savannah.azurewebsites.net/web/images/$fullFileName"
 
                     getViewProfile()?.findViewById<EditText>(R.id.plain_text_input2)?.text =
                         Editable.Factory.getInstance().newEditable(prePathNameURL)

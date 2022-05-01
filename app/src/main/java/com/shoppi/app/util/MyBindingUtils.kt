@@ -2,10 +2,9 @@ package com.shoppi.app.util
 
 import android.view.View
 import androidx.databinding.BindingAdapter
+import com.shoppi.app.common.ON_LONG_CLICK
 
 object MyBindingUtils {
-
-    private const val ON_LONG_CLICK = "android:onLongClick"
 
     @JvmStatic
     @BindingAdapter(ON_LONG_CLICK)
