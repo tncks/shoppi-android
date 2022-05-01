@@ -15,4 +15,7 @@ const val MY_HEIGHT_INTERVAL_TOP_BOTTOM = 340
 const val FILE_PROTOCOL_PREFIX_STRING = "file://"
 const val REQUEST_PERMISSIONS = 100
 
+
+const val DELIM = " "
+
 // Add others here

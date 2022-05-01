@@ -43,12 +43,11 @@ class AdapterPhotosFolder(context: Context, private val alMenu: ArrayList<ModelI
 
     @Suppress("DuplicatedCode")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val convertView2: View
+
         if (convertView == null) {
 
+            val convertView2 = LayoutInflater.from(context).inflate(R.layout.adapter_photosfolder, parent, false)
             viewHolder = ViewHolder()
-
-            convertView2 = LayoutInflater.from(context).inflate(R.layout.adapter_photosfolder, parent, false)
             viewHolder.tvFoldern = convertView2.findViewById<TextView>(R.id.tv_folder)
             viewHolder.tvFoldersize = convertView2.findViewById<TextView>(R.id.tv_folder2)
             viewHolder.ivImage = convertView2.findViewById<ImageView>(R.id.iv_image)

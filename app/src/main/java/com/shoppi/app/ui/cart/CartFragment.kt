@@ -24,10 +24,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.storage.FirebaseStorage
 import com.shoppi.app.R
 import com.shoppi.app.common.FIRE_JSON_BASEURL
-import com.shoppi.app.common.UploadUtility
+import com.shoppi.app.common.TempFileIOUtility
+import com.shoppi.app.common.UploadUtility2
 import com.shoppi.app.petwork.ApiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +35,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.apache.commons.io.FileUtils
 import org.json.JSONObject
 import retrofit2.Retrofit
 import java.io.File
@@ -43,7 +42,6 @@ import java.io.File
 class CartFragment : Fragment() {
 
     private var viewProfile: View? = null
-    private var fbStorage: FirebaseStorage? = null
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK && validAccessAvailablePermission()) {
@@ -51,43 +49,28 @@ class CartFragment : Fragment() {
                 val intent: Intent? = result.data
                 val tmpPreview = intent?.data
 
-                getViewProfile()?.findViewById<ImageView>(R.id.imageView)?.setImageURI(tmpPreview)
 
-
-                if (tmpPreview == null) {
-                    val noDummy = 0
-                    Log.i("dummy", noDummy.toString())
-                } else {
+                if (tmpPreview != null) {
+                    getViewProfile()?.findViewById<ImageView>(R.id.imageView)?.setImageURI(tmpPreview)
                     val tmpPreview2: Uri = tmpPreview
                     val nameStartWith = "imgFile"
-                    val createdTmpFile: File = createFileFromUri(
+                    val createdTmpFile: File = TempFileIOUtility().createFileFromUri(
+                        context,
                         nameStartWith,
                         tmpPreview2
                     )
                     val fullFileName = createdTmpFile.name
-                    UploadUtility(requireActivity()).uploadFile(createdTmpFile)
+                    UploadUtility2().uploadFile(createdTmpFile)
                     val prePathNameURL = "https://agile-savannah-32015.herokuapp.com/images/$fullFileName"
 
                     getViewProfile()?.findViewById<EditText>(R.id.plain_text_input2)?.text =
                         Editable.Factory.getInstance().newEditable(prePathNameURL)
-
                 }
 
             }
         } // End of Register Start For Result
 
     /*-------------------------------------------------------------------*/
-
-    private fun createFileFromUri(name: String, uri: Uri): File {
-
-        val stream = context?.contentResolver?.openInputStream(uri)
-        val formatSuffix = ".jpg"  // only support jpg format
-        val file = File.createTempFile(name, formatSuffix, context?.cacheDir)
-        FileUtils.copyInputStreamToFile(stream, file)
-
-        return file
-
-    }
 
 
     // Getter of viewProfile
@@ -101,7 +84,7 @@ class CartFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         viewProfile = inflater.inflate(R.layout.fragment_cart, container, false)
-        fbStorage = FirebaseStorage.getInstance()
+
 
         return viewProfile
     }
@@ -182,8 +165,8 @@ class CartFragment : Fragment() {
             val string2: String = (view.findViewById<EditText>(R.id.plain_text_input2)).text.toString()
 
             if (string0 == "" || string1 == "" || string2 == "") {
-                val emptyDummy = 0
-                Log.i("dummy", emptyDummy.toString())
+
+                Log.i("dummy", "dummy")
 
             } else {
                 val preferences: SharedPreferences? = activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
@@ -249,7 +232,7 @@ class CartFragment : Fragment() {
             val response = service.updateCategories(resultParamStringValue, requestBody)
 
             withContext(Dispatchers.Main) {
-                makeLogWithResponseResult(response.isSuccessful)
+                Log.i("dummy", response.isSuccessful.toString())
             }
         }
     }
@@ -266,12 +249,6 @@ class CartFragment : Fragment() {
         return jsonObject.toString()
     }
 
-    private fun makeLogWithResponseResult(successOrFail: Boolean) {
-        if (successOrFail) {
-            val yesDummy = 0
-            Log.i("dummy", yesDummy.toString())
-        }
-    }
 
     /*-------------------------------------------------------------------*/
 

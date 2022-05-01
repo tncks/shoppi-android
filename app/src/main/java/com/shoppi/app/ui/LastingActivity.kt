@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,12 +21,23 @@ import com.shoppi.app.common.MY_HEIGHT_INTERVAL_TOP_BOTTOM
 @Suppress("RemoveRedundantQualifierName")
 class LastingActivity : AppCompatActivity() {
 
+    private var mNum: Int = 0
+    private lateinit var mMM: MutableList<String>
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lasting)
 
         val mIntent: Intent = intent
         val mPos: Int = mIntent.getIntExtra("mIndex", 0)
+
+        // this.mNum = SpUtility(applicationContext).myInitSup()
+        // this.mMM = SpUtility(applicationContext).myInitSup2()
+
+
+        // val mPos: Int = intent.getIntExtra("mIndex", 0)
+
 
         /*------------------------------------------------------------*/
 
@@ -42,7 +52,6 @@ class LastingActivity : AppCompatActivity() {
         recycler.adapter = adapter
 
         /*------------------------------------------------------------*/
-
 
         if (adapter.itemCount <= 14) {
             fab.visibility = View.VISIBLE
@@ -62,7 +71,6 @@ class LastingActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             runOnUiThread {
                 fab.setOnClickListener {
-                    Toast.makeText(this, "카메라를 실행합니다", Toast.LENGTH_SHORT).show()
                     val intent = Intent(applicationContext, GalleryActivity::class.java)
                     intent.putExtra("mIndex", mPos)
                     startActivity(intent)
@@ -88,11 +96,40 @@ class LastingActivity : AppCompatActivity() {
                         super.onScrollStateChanged(recyclerView, newState)
                     }
                 })
+
+
             }
-        }, 1000)
+        }, 500)
         // End Of Handler
 
     }
+/*
+    override fun onStop() { // this is possible error many code onStop and onResume, so I deprecated it temporarily.
+        super.onStop()
+        val preferences: SharedPreferences? =
+            applicationContext.getSharedPreferences("imagesNumByUserPicked", Context.MODE_PRIVATE)
+
+        preferences?.edit {
+            putInt("imagesNumByUserPicked", mNum)
+            putStringSet("myMutables", mMM.toSet())
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Log.d("onResume", "onResume")
+        val prePathNameURL: String? = intent.getStringExtra("prePathNameURL")
+        if (prePathNameURL != null) {
+            this.mNum = SpUtility(applicationContext).myInitSup()
+            this.mMM = SpUtility(applicationContext).myInitSup2()
+            mMM[mNum] = prePathNameURL
+            Log.d("mNum", mNum.toString())
+            (mNum)++
+        }
+    }
+*/
+
 
     /*------------------------------------------------------------*/
 
@@ -114,7 +151,8 @@ class LastingActivity : AppCompatActivity() {
 
     /*------------------------------------------------------------*/
 
-    private class MyAdapter : RecyclerView.Adapter<LastingActivity.MyViewHolder>() {
+    private class MyAdapter :
+        RecyclerView.Adapter<LastingActivity.MyViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LastingActivity.MyViewHolder {
             val inflater = LayoutInflater.from(parent.context)
             val itemView: View = inflater.inflate(R.layout.item_view, parent, false)
@@ -125,7 +163,10 @@ class LastingActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: LastingActivity.MyViewHolder, position: Int) {
-            // holder.photoView.text = (position).toString()
+
+            // Glide.with(holder.photoView.context).load(mMM[position]).into(holder.photoView) // possible error
+
+
         }
 
 
@@ -135,6 +176,33 @@ class LastingActivity : AppCompatActivity() {
         override fun getItemCount(): Int {
 
             val n = 9
+/*
+            val k: Int = mNum / 3
+
+            var n = 0
+
+            if (mNum == 1 && mNum != 0) {
+                n = 0
+            }
+            if (mNum == 2 && mNum != 0) {
+                n = 0
+            }
+            if (k == 0) {
+                val dummy: Int? = null
+            } else {
+                var cnt = 1
+                while (cnt < 1000) {
+                    if (k == cnt) {
+                        n = 3 * k + 2
+                        break
+                    }
+                    cnt++
+                }
+
+            }
+*/
+
+
             if (n <= 14) {
                 return if (checkEmptyOrOnlyOneOrTwo(n)) {
                     matchIsEmptyOrOnlyOneOrTwoResult(n)

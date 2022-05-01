@@ -29,7 +29,17 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.setupWithNavController(it)
         }
 
-    } // End of fun
+    }
+
+
+    override fun onRestart() {
+        super.onRestart()
+
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            CategoryFragment().refreshAdapter()
+        }, 1000)
+    }
 
 
     /*---------------------------------------------*/
@@ -47,11 +57,5 @@ class MainActivity : AppCompatActivity() {
 
     /*---------------------------------------------*/
 
-    override fun onRestart() {
-        super.onRestart()
-        Handler(Looper.getMainLooper()).postDelayed({
-            CategoryFragment().refreshAdapter()
-        }, 1000)
-    }
 
 }

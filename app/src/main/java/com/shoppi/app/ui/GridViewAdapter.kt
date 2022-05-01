@@ -9,13 +9,10 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.shoppi.app.R
-import com.shoppi.app.common.FILE_PROTOCOL_PREFIX_STRING
-import com.shoppi.app.common.FIRE_JSON_BASEURL
-import com.shoppi.app.common.UploadUtility2
+import com.shoppi.app.common.*
 import com.shoppi.app.model.ModelImages
 import com.shoppi.app.model.getAlImagepath
 import com.shoppi.app.petwork.ApiService
@@ -26,7 +23,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.apache.commons.io.FileUtils
 import org.json.JSONObject
 import retrofit2.Retrofit
 import java.io.File
@@ -68,33 +64,26 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
 
     @Suppress("DuplicatedCode")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val convertView2: View
+
         if (convertView == null) {
 
             viewHolder = ViewHolder()
 
-            convertView2 = LayoutInflater.from(context).inflate(R.layout.adapter_photosfolder, parent, false)
-
+            val convertView2 = LayoutInflater.from(context).inflate(R.layout.adapter_photosfolder, parent, false)
             viewHolder.tvFoldern = convertView2.findViewById<TextView>(R.id.tv_folder)
             viewHolder.tvFoldersize = convertView2.findViewById<TextView>(R.id.tv_folder2)
             viewHolder.ivImage = convertView2.findViewById<ImageView>(R.id.iv_image)
             convertView2.tag = viewHolder
 
             retrieveAllMediaIFiles(viewHolder, position)
-
-
             changeThumbnailAndNavigateToPrevScreen(viewHolder, position)
-
 
             return convertView2
         } else {
 
             viewHolder = convertView.tag as ViewHolder
             retrieveAllMediaIFiles(viewHolder, position)
-
-
             changeThumbnailAndNavigateToPrevScreen(viewHolder, position)
-
 
             return convertView
         }
@@ -116,11 +105,11 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
     @Suppress("RemoveRedundantQualifierName")
     private fun changeThumbnailAndNavigateToPrevScreen(vH: GridViewAdapter.ViewHolder, ps: Int) {
         vH.ivImage?.setOnClickListener {
-            Toast.makeText(context, ps.toString(), Toast.LENGTH_SHORT).show()
 
 
             val nameStartWith = "imgFile"
-            val createdTmpFile: File = createFileFromUri2(
+            val createdTmpFile: File = TempFileIOUtility().createFileFromAbsPath(
+                context,
                 nameStartWith,
                 alMenu[nPos2].getAlImagepath()[ps]
             )
@@ -129,27 +118,13 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
             val prePathNameURL = "https://agile-savannah-32015.herokuapp.com/images/$fullFileName"
 
 
-            // 0 => firebase json PATCH only thumbnail value
             reviseMethod(prePathNameURL, mmIndex)
 
-            // 1 => data 처리 with sup global
-            val delim = " "
-            val tmpLs = Supglobal.mSup.split(delim)
-            var revisedString: String = ""
-            for (i in 0 until mmIndex) {
-                revisedString += tmpLs[i]
-                revisedString += " "
-            }
-            revisedString += prePathNameURL
-            revisedString += " "
-            for (i in mmIndex + 1 until tmpLs.size) {
-                revisedString += tmpLs[i]
-                revisedString += " "
-            }
-            revisedString.dropLast(1)
-            Supglobal.mSup = revisedString
+            resetSupG(prePathNameURL)
 
-            // 2 => Back to Prev Screen here code write ex, finish activity or navigate
+            // val intent = Intent(context, LastingActivity::class.java)
+            // intent.putExtra("prePathNameURL", prePathNameURL)
+            // intent.putExtra("mIndex", 0)
             val intent = Intent(context, ProfileAddEditActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             context.startActivity(intent)
@@ -157,18 +132,8 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
         }
     }
 
-    private fun createFileFromUri2(name: String, absolutePath: String): File {
 
-        val stream = File(absolutePath).inputStream()
-        val formatSuffix = ".jpg"  // only support jpg format
-        val file = File.createTempFile(name, formatSuffix, context.cacheDir)
-        FileUtils.copyInputStreamToFile(stream, file)
-
-        return file
-
-    }
-
-    private fun reviseMethod(one: String, resultParam: Int) {
+    private fun reviseMethod(thumbPhpFilePath: String, resultParam: Int) {
 
         val retrofit = Retrofit.Builder()
             .baseUrl(FIRE_JSON_BASEURL)
@@ -178,7 +143,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
         val service = retrofit.create(ApiService::class.java)
 
 
-        val jsonObjectString: String = prepareSmallJson(one)
+        val jsonObjectString: String = prepareSmallJson(thumbPhpFilePath)
 
 
         val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
@@ -191,18 +156,36 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
             val response = service.updateItemProfileStyle(resultParamStringValue, requestBody)
 
             withContext(Dispatchers.Main) {
-                Log.d("glo", response.isSuccessful.toString())
+                Log.i("dummy", response.isSuccessful.toString())
             }
         }
     }
 
-    private fun prepareSmallJson(one: String): String {
+    private fun prepareSmallJson(thumbPhpFilePath: String): String {
         val jsonObject = JSONObject()
 
-        jsonObject.put("thumbnail_image_url", one)
+        jsonObject.put("thumbnail_image_url", thumbPhpFilePath)
 
 
         return jsonObject.toString()
+    }
+
+
+    private fun resetSupG(prePathNameURL: String) {
+        val tmpLs = Supglobal.mSup.split(DELIM)
+        var revisedString = ""
+        for (i in 0 until mmIndex) {
+            revisedString += tmpLs[i]
+            revisedString += " "
+        }
+        revisedString += prePathNameURL
+        revisedString += " "
+        for (i in mmIndex + 1 until tmpLs.size) {
+            revisedString += tmpLs[i]
+            revisedString += " "
+        }
+        revisedString.dropLast(1)
+        Supglobal.mSup = revisedString
     }
 
 
