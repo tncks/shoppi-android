@@ -1,21 +1,28 @@
 package com.shoppi.app.ui
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.shoppi.app.R
 import com.shoppi.app.common.BFLAG
 import com.shoppi.app.common.DELIM
+import com.shoppi.app.common.FIRE_JSON_BASEURL
+import com.shoppi.app.common.PrepareJsonHelper
+import com.shoppi.app.petwork.ApiService
 import com.shoppi.app.repository.category.Supglobal
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Retrofit
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -27,24 +34,60 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
     private lateinit var bitmap: Bitmap
     private var preThumbnail: Int = 0
+    private lateinit var ivBack: ImageView
+    private lateinit var tvSubmitFinish: TextView
+    private lateinit var originalURL: String
 
+    /*---------------------------------------------*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_add_edit)
 
+
+        ivBack = findViewById<ImageView>(R.id.iv_unreal_back_simple)
+        tvSubmitFinish = findViewById<TextView>(R.id.tv_simple_complete_edit_submit)
+        originalURL = Supglobal.mSup.split(DELIM)[intent.getIntExtra("mIndex", 0)]
+
+        /*---------------------------------------------*/
+
+        ivBack.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("작성중인 내용이 있습니다.")
+                .setMessage("나가시겠습니까?")
+                .setPositiveButton("나가기",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        if (this@ProfileAddEditActivity::originalURL.isInitialized) {
+                            reviseMethod(originalURL, intent.getIntExtra("mIndex", 0))
+                            resetSupG(originalURL, intent.getIntExtra("mIndex", 0))
+                        }
+                        finish()
+                    })
+                .setNegativeButton("취소",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        Log.i("dummy", "dummy")
+                    })
+
+            builder.show()
+        }
+        tvSubmitFinish.setOnClickListener {
+            BFLAG = true
+            finish()
+        }
+
+        /*---------------------------------------------*/
+
         val mIntent: Intent = intent
         val mPos: Int = mIntent.getIntExtra("mIndex", 0)
         preThumbnail = mPos
-
         val tmpLs = Supglobal.mSup.split(DELIM)
-
         findViewById<ImageView>(R.id.imageView_profile).setOnClickListener {
             val intent = Intent(applicationContext, LastingActivity::class.java)
             intent.putExtra("mIndex", mIntent.getIntExtra("mIndex", 0))
             startActivity(intent)
         }
 
+        /*---------------------------------------------*/
         lifecycleScope.launch {
             delay(1000L)
 
@@ -81,14 +124,17 @@ class ProfileAddEditActivity : AppCompatActivity() {
                 }
             }
         }
+        /*---------------------------------------------*/
 
     }
-
 
     override fun onRestart() {
         super.onRestart()
 
+
         Glide.with(this).load(R.raw.movingcircular).into(findViewById<ImageView>(R.id.imageView_profile))
+
+        /*---------------------------------------------*/
 
         lifecycleScope.launch {
             delay(1500L)
@@ -132,37 +178,86 @@ class ProfileAddEditActivity : AppCompatActivity() {
             }
         }
 
-
     }
-
 
     override fun onPause() {
         super.onPause()
+
+
         Glide.with(this).load(R.raw.movingcircular).into(findViewById<ImageView>(R.id.imageView_profile))
     }
 
-
     override fun onBackPressed() {
-        BFLAG = true
-        super.onBackPressed()
-        finish()
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("작성중인 내용이 있습니다.")
+            .setMessage("나가시겠습니까?")
+            .setPositiveButton("나가기",
+                DialogInterface.OnClickListener { dialog, id ->
+                    if (this@ProfileAddEditActivity::originalURL.isInitialized) {
+                        reviseMethod(originalURL, intent.getIntExtra("mIndex", 0))
+                        resetSupG(originalURL, intent.getIntExtra("mIndex", 0))
+                    }
+                    super.onBackPressed()
+                    finish()
+                })
+            .setNegativeButton("취소",
+                DialogInterface.OnClickListener { dialog, id ->
+                    Log.i("dummy", "dummy")
+                })
 
-
+        builder.show()
     }
 
     override fun onResume() {
         super.onResume()
+
+
         BFLAG = false
     }
 
+    /*---------------------------------------------*/
+    private fun reviseMethod(FilePath: String, resultParam: Int) {
 
-    /*
-    private fun refre(prePathNameURL: String, mIndex: Int): List<String> {
-        val mutaTmpLs = Supglobal.mSup.split(DELIM).toMutableList()
-        mutaTmpLs[mIndex] = prePathNameURL
-        return mutaTmpLs.toList()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(FIRE_JSON_BASEURL)
+            .build()
 
+
+        val service = retrofit.create(ApiService::class.java)
+
+
+        val jsonObjectString: String = PrepareJsonHelper().prepareSmallJson(FilePath)
+
+
+        val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val resultParamStringValue: String = resultParam.toString()
+
+            val response = service.updateItemProfileStyle(resultParamStringValue, requestBody)
+
+
+        }
     }
-    */
+
+    private fun resetSupG(URL: String, index: Int) {
+        val tmpData = Supglobal.mSup.split(DELIM)
+        var revisedString = ""
+        for (i in 0 until index) {
+            revisedString += tmpData[i]
+            revisedString += " "
+        }
+        revisedString += URL
+        revisedString += " "
+        for (i in index + 1 until tmpData.size) {
+            revisedString += tmpData[i]
+            revisedString += " "
+        }
+        revisedString.dropLast(1)
+        Supglobal.mSup = revisedString
+    }
+
 
 }

@@ -1,6 +1,5 @@
 package com.shoppi.app.ui.category
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -33,7 +32,7 @@ class CategoryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
 
-        Log.d(TAG, "onCreateView")
+        // Log.d(TAG, "onCreateView")
 
         return binding.root
     }
@@ -47,10 +46,10 @@ class CategoryFragment : Fragment() {
 
         viewModel.items.observe(viewLifecycleOwner) {
             categoryAdapter.submitList(it)
-            Log.d(TAG, "ssss submitList()")
+            // Log.d(TAG, "ssss submitList()")
         }
 
-        Log.d(TAG, "onViewCreated")
+        // Log.d(TAG, "onViewCreated")
 
         viewModel.openCategoryEvent.observe(viewLifecycleOwner, EventObserver {
             openCategoryDetail(it.categoryId, it.label)
@@ -60,11 +59,7 @@ class CategoryFragment : Fragment() {
             // do something
         })
 
-        if (flag == true) {
-            Log.i("dummy", "dummy")
-            // binding.rvCategoryList.adapter?.notifyDataSetChanged()
-            // flag = false
-        }
+
     }
 
     /*---------------------------------------------*/
@@ -80,13 +75,34 @@ class CategoryFragment : Fragment() {
         )
     }
 
-    fun refreshAdapter() {
-        Log.d(TAG, "flag = true")
-        flag = true
-        Log.d(TAG, "refreshAdapter called")
-    }
 
     /*-----------------------------------------------------*/
+
+
+    override fun onResume() {
+        Log.d(TAG, "onResume")
+        super.onResume()
+
+        if (BFLAG) {
+            this.flag = true
+            BFLAG = false
+        }
+        if (this.flag == true) {
+            this.flag = !this.flag
+            val mmIntent = Intent(requireContext(), MainComposeActivity::class.java)
+            startActivity(mmIntent)
+            activity?.finish()
+        }
+
+    }
+
+}
+
+
+/*-----------------------------------------------------*/
+/*-----------------------------------------------------*/
+/*-----------------------------------------------------*/
+/*
     override fun onAttach(context: Context) {
         Log.d(TAG, "onAttach")
         super.onAttach(context)
@@ -105,23 +121,6 @@ class CategoryFragment : Fragment() {
     override fun onStart() {
         Log.d(TAG, "onStart")
         super.onStart()
-    }
-
-    override fun onResume() {
-        Log.d(TAG, "onResume")
-        super.onResume()
-        Log.d(TAG, "111 line: this.flag = " + this.flag.toString())
-        if (BFLAG) {
-            this.flag = true
-            BFLAG = false
-        }
-        if (this.flag == true) {
-            this.flag = !this.flag
-            val mmIntent: Intent = Intent(requireContext(), MainComposeActivity::class.java)
-            startActivity(mmIntent)
-            activity?.finish()
-        }
-
     }
 
     override fun onPause() {
@@ -153,7 +152,5 @@ class CategoryFragment : Fragment() {
         Log.d(TAG, "onDetach")
         super.onDetach()
     }
-
-
-}
+*/
 

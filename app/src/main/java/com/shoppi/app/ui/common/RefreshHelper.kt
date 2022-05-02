@@ -1,4 +1,4 @@
-package com.shoppi.app.ui
+package com.shoppi.app.ui.common
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
