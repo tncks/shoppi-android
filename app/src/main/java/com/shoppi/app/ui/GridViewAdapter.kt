@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import retrofit2.Retrofit
 import java.io.File
 
@@ -143,7 +142,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
         val service = retrofit.create(ApiService::class.java)
 
 
-        val jsonObjectString: String = prepareSmallJson(thumbPhpFilePath)
+        val jsonObjectString: String = PrepareJsonHelper().prepareSmallJson(thumbPhpFilePath)
 
 
         val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
@@ -161,14 +160,30 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
         }
     }
 
-    private fun prepareSmallJson(thumbPhpFilePath: String): String {
-        val jsonObject = JSONObject()
+//    private fun prepareSmallJson(thumbPhpFilePath: String): String {
+//        val jsonObject = JSONObject()
+//
+//        jsonObject.put("thumbnail_image_url", thumbPhpFilePath)
+//
+//
+//        return jsonObject.toString()
+//    }
 
-        jsonObject.put("thumbnail_image_url", thumbPhpFilePath)
+    /* private fun prepareSmallJson(thumbPhpFilePath: List<String>?): String {
+          val jsonObject = JSONObject()
 
+          val myMap = listOf<String>("label", "thumbnail_image_url", "location", "period", "memo")
+          var i = -1
+          for (ls in thumbPhpFilePath!!) {
+              i++
+              if (ls.isBlank() || ls.isEmpty()) {
+                  continue
+              }
+              jsonObject.put(myMap[i], ls)
+          }
 
-        return jsonObject.toString()
-    }
+          return jsonObject.toString()
+      } */
 
 
     private fun resetSupG(prePathNameURL: String) {

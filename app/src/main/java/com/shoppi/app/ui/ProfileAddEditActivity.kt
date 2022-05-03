@@ -65,12 +65,27 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
         /*---------------------------------------------*/
 
+        ediProfileName.setText(Supglobal.mLabel.split(DELIM)[intent.getIntExtra("mIndex", 0)])
+        ediLocationOfProfile.setText(Supglobal.mLocation.split(DELIM)[intent.getIntExtra("mIndex", 0)])
+        ediPeriodOfProfile.setText(Supglobal.mPeriod.split(DELIM)[intent.getIntExtra("mIndex", 0)])
+        ediProfileMemo.setText(Supglobal.mMemo.split(DELIM)[intent.getIntExtra("mIndex", 0)])
+
+        /*---------------------------------------------*/
+
         ivBack.setOnClickListener {
             val builder = AlertDialog.Builder(this, R.style.MDialogTheme)
             fillDialogContents(builder)
             setDialogLayoutStyleAndShow(builder)
         }
         tvSubmitFinish.setOnClickListener {
+            reviseWithAllPatches(
+                listOf(
+                    ediProfileName.text.toString(),
+                    ediLocationOfProfile.text.toString(),
+                    ediPeriodOfProfile.text.toString(),
+                    ediProfileMemo.text.toString()
+                ), intent.getIntExtra("mIndex", 0)
+            )
             BFLAG = true
             finish()
         }
@@ -128,6 +143,35 @@ class ProfileAddEditActivity : AppCompatActivity() {
             calltinOnCreate(tmpLs, mPos)
         }
         /*---------------------------------------------*/
+
+    }
+
+    private fun reviseWithAllPatches(dataTexts: List<String>, resultParam: Int) {
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(FIRE_JSON_BASEURL)
+            .build()
+
+
+        val service = retrofit.create(ApiService::class.java)
+
+
+        val jsonObjectString: String = PrepareJsonHelper().prepareAllJson(dataTexts)
+
+
+        val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val resultParamStringValue: String = resultParam.toString()
+
+            val response = service.updateItemProfileStyle(resultParamStringValue, requestBody)
+
+            withContext(Dispatchers.Main) {
+                Log.i("dummy", response.isSuccessful.toString())
+            }
+        }
 
     }
 

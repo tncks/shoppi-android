@@ -22,7 +22,6 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/background_bluegrey_r20"
-
         android:onClick="@{() -> viewModel.openCategoryDetail(category)}">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -57,18 +56,31 @@
 
         <TextView
             android:id="@+id/tv_category_title"
-            style="@style/TextSubtitle1.White.Bold"
+            style="@style/TextMedium.White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:paddingStart="60dp"
+            android:fontFamily="@font/t_font"
             android:paddingEnd="10dp"
-            android:paddingBottom="30dp"
+            android:paddingStart="30dp"
             android:text="@{category.label}"
-            app:layout_constraintBottom_toBottomOf="@id/iv_category_thumbnail"
+            android:paddingTop="50dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/iv_category_thumbnail"
-            tools:text="여성패션" />
+            tools:text="독일여행" />
+
+        <TextView
+            android:id="@+id/tv_category_period"
+            style="@style/TextCaption1.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/t_font"
+            android:paddingStart="30dp"
+            android:paddingEnd="5dp"
+            android:text="@{category.period}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_category_title"
+            tools:text="22. 1. 20. ~ 22. 1. 31." />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
