@@ -8,13 +8,16 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.shoppi.app.R
 import com.shoppi.app.common.*
 import com.shoppi.app.petwork.ApiService
@@ -29,6 +32,7 @@ import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
+import java.util.*
 
 
 class ProfileAddEditActivity : AppCompatActivity() {
@@ -38,6 +42,10 @@ class ProfileAddEditActivity : AppCompatActivity() {
     private lateinit var ivBack: ImageView
     private lateinit var tvSubmitFinish: TextView
     private lateinit var originalURL: String
+    private lateinit var ediProfileName: EditText
+    private lateinit var ediLocationOfProfile: EditText
+    private lateinit var ediPeriodOfProfile: EditText
+    private lateinit var ediProfileMemo: EditText
 
     /*---------------------------------------------*/
 
@@ -49,6 +57,11 @@ class ProfileAddEditActivity : AppCompatActivity() {
         ivBack = findViewById<ImageView>(R.id.iv_unreal_back_simple)
         tvSubmitFinish = findViewById<TextView>(R.id.tv_simple_complete_edit_submit)
         originalURL = Supglobal.mSup.split(DELIM)[intent.getIntExtra("mIndex", 0)]
+        // TODO here
+        ediProfileName = findViewById<EditText>(R.id.et_profile_name)
+        ediLocationOfProfile = findViewById<EditText>(R.id.et_location_of_profile)
+        ediPeriodOfProfile = findViewById<EditText>(R.id.et_period_of_profile)
+        ediProfileMemo = findViewById<EditText>(R.id.et_profile_memo)
 
         /*---------------------------------------------*/
 
@@ -61,6 +74,40 @@ class ProfileAddEditActivity : AppCompatActivity() {
             BFLAG = true
             finish()
         }
+
+
+        ediPeriodOfProfile.inputType = 0
+        ediPeriodOfProfile.setOnFocusChangeListener { view, b ->
+            if (b) {
+
+                var dateResultStr = ""
+                val datePicker = MaterialDatePicker.Builder.dateRangePicker().build()
+                datePicker.show(supportFragmentManager, "DatePicker")
+
+                datePicker.addOnPositiveButtonClickListener {
+                    dateResultStr = datePicker.headerText
+
+                    val date = it
+                    val dateString = (DateFormat.format("yy. M. d.", Date(date.first)).toString())
+                    val dateStringEnd = DateFormat.format("yy. M. d.", Date(date.second)).toString()
+                    dateResultStr = "$dateString ~ $dateStringEnd"
+
+                    ediPeriodOfProfile.setText(dateResultStr)
+                }
+
+//                datePicker.addOnNegativeButtonClickListener {
+//                    Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                datePicker.addOnCancelListener {
+//                    Toast.makeText(this, "여행기간 수정이 취소되었습니다.", Toast.LENGTH_LONG).show()
+//                }
+            }
+        }
+
+//        ediPeriodOfProfile.setOnTouchListener {
+//
+//        }
 
         /*---------------------------------------------*/
 

@@ -15,7 +15,7 @@ class PrepareJsonHelper {
 
     fun prepareJson(one: String, two: String, three: String): String {
         val jsonObject = JSONObject()
-        val first = "tplan_$one"
+        val first = one
 
         jsonObject.put("category_id", first)
         jsonObject.put("label", two)
