@@ -19,8 +19,6 @@ class CategoryViewModel(
     private val _openCategoryEvent = MutableLiveData<Event<Category>>()
     val openCategoryEvent: LiveData<Event<Category>> = _openCategoryEvent
 
-    private val _openCategoryEvent2 = MutableLiveData<Event<Category>>()
-    val openCategoryEvent2: LiveData<Event<Category>> = _openCategoryEvent2
 
     init {
         loadCategory()
@@ -30,9 +28,6 @@ class CategoryViewModel(
         _openCategoryEvent.value = Event(category)
     }
 
-    fun onLongClick(category: Category) {
-        _openCategoryEvent2.value = Event(category)
-    }
 
     private fun loadCategory() {
         viewModelScope.launch {
@@ -41,3 +36,14 @@ class CategoryViewModel(
         }
     }
 }
+
+
+/*--------------------------------------------------------------*/
+/*--------------------------------------------------------------*/
+/*
+             for future use, like gesture condition flow, when need use this
+
+    fun onLongClick(category: Category) {
+        _openCategoryEvent2.value = Event(category)
+    }
+*/

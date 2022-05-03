@@ -1,3 +1,5 @@
+@file:Suppress("DuplicatedCode")
+
 package com.shoppi.app.ui
 
 import android.app.AlertDialog
@@ -14,10 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.shoppi.app.R
-import com.shoppi.app.common.BFLAG
-import com.shoppi.app.common.DELIM
-import com.shoppi.app.common.FIRE_JSON_BASEURL
-import com.shoppi.app.common.PrepareJsonHelper
+import com.shoppi.app.common.*
 import com.shoppi.app.petwork.ApiService
 import com.shoppi.app.repository.category.Supglobal
 import kotlinx.coroutines.*
@@ -292,19 +291,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
     private fun resetSupG(URL: String, index: Int) {
         val tmpData = Supglobal.mSup.split(DELIM)
-        var revisedString = ""
-        for (i in 0 until index) {
-            revisedString += tmpData[i]
-            revisedString += " "
-        }
-        revisedString += URL
-        revisedString += " "
-        for (i in index + 1 until tmpData.size) {
-            revisedString += tmpData[i]
-            revisedString += " "
-        }
-        revisedString.dropLast(1)
-        Supglobal.mSup = revisedString
+        Supglobal.mSup = PatchHelperUtility().reviseHelperUtil(tmpData, index, URL)
     }
 
 

@@ -11,8 +11,8 @@ import java.io.File
 class UploadUtility2 {
 
     private var isDoneAfterPath: String? = null
-    private val serverURL = "https://agile-savannah.azurewebsites.net/web/index.php"
-    private val serverUploadDirectoryPath = "https://agile-savannah.azurewebsites.net/web/images/"
+    private val serverURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_URL
+    private val serverUploadDirectoryPath = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI
     private val client = OkHttpClient()
 
     fun uploadFile(sourceFilePath: String, uploadedFileName: String? = null) {
@@ -21,11 +21,11 @@ class UploadUtility2 {
 
 
     fun uploadFile(sourceFile: File, uploadedFileName: String? = null) {
+        // Coroutine Scope launch Dispatchers.IO 로 수정하고 적용, 테스트 및 디버그해서 동작하는지까지 확인 Bad Thread
         Thread {
             val mimeType = getMimeType(sourceFile)
             if (mimeType == null) {
-                val typeDummy = 0
-                Log.i("dummy", typeDummy.toString())
+                Log.i("dummy", "dummy")
                 return@Thread
             }
             val fileName: String = (uploadedFileName ?: sourceFile.name)
@@ -48,16 +48,10 @@ class UploadUtility2 {
                     isDoneAfterPath = "$serverUploadDirectoryPath$fileName"
 
                 } else {
-                    val realDummy = 0
-                    Log.i("dummy", realDummy.toString())
-
-
+                    Log.i("dummy", "dummy")
                 }
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-                val errorDummy = 0
-                Log.i("dummy", errorDummy.toString())
-
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
 
         }.start()

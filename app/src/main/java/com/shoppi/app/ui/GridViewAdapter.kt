@@ -115,7 +115,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
             )
             val fullFileName = createdTmpFile.name
             UploadUtility2().uploadFile(createdTmpFile)
-            val prePathNameURL = "https://agile-savannah.azurewebsites.net/web/images/$fullFileName"
+            val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + fullFileName
 
 
             reviseMethod(prePathNameURL, mmIndex)
@@ -173,19 +173,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
 
     private fun resetSupG(prePathNameURL: String) {
         val tmpLs = Supglobal.mSup.split(DELIM)
-        var revisedString = ""
-        for (i in 0 until mmIndex) {
-            revisedString += tmpLs[i]
-            revisedString += " "
-        }
-        revisedString += prePathNameURL
-        revisedString += " "
-        for (i in mmIndex + 1 until tmpLs.size) {
-            revisedString += tmpLs[i]
-            revisedString += " "
-        }
-        revisedString.dropLast(1)
-        Supglobal.mSup = revisedString
+        Supglobal.mSup = PatchHelperUtility().reviseHelperUtil(tmpLs, mmIndex, prePathNameURL)
     }
 
 

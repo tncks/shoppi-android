@@ -25,9 +25,7 @@ import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.shoppi.app.R
-import com.shoppi.app.common.FIRE_JSON_BASEURL
-import com.shoppi.app.common.TempFileIOUtility
-import com.shoppi.app.common.UploadUtility2
+import com.shoppi.app.common.*
 import com.shoppi.app.petwork.ApiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +33,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import retrofit2.Retrofit
 import java.io.File
 
@@ -61,7 +58,7 @@ class CartFragment : Fragment() {
                     )
                     val fullFileName = createdTmpFile.name
                     UploadUtility2().uploadFile(createdTmpFile)
-                    val prePathNameURL = "https://agile-savannah.azurewebsites.net/web/images/$fullFileName"
+                    val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + fullFileName
 
                     getViewProfile()?.findViewById<EditText>(R.id.plain_text_input2)?.text =
                         Editable.Factory.getInstance().newEditable(prePathNameURL)
@@ -219,7 +216,7 @@ class CartFragment : Fragment() {
         val service = retrofit.create(ApiService::class.java)
 
 
-        val jsonObjectString: String = prepareJson(one, two, three)
+        val jsonObjectString: String = PrepareJsonHelper().prepareJson(one, two, three)
 
 
         val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
@@ -235,18 +232,6 @@ class CartFragment : Fragment() {
                 Log.i("dummy", response.isSuccessful.toString())
             }
         }
-    }
-
-    private fun prepareJson(one: String, two: String, three: String): String {
-        val jsonObject = JSONObject()
-        val first = "tplan_$one"
-
-        jsonObject.put("category_id", first)
-        jsonObject.put("label", two)
-        jsonObject.put("thumbnail_image_url", three)
-        jsonObject.put("updated", false)
-
-        return jsonObject.toString()
     }
 
 

@@ -1,3 +1,8 @@
+@file:Suppress(
+    "RemoveExplicitTypeArguments", "RemoveExplicitTypeArguments", "RemoveExplicitTypeArguments",
+    "RemoveExplicitTypeArguments", "RemoveExplicitTypeArguments", "RemoveExplicitTypeArguments"
+)
+
 package com.shoppi.app.ui
 
 import android.content.Context

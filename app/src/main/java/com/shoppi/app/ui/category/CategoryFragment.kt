@@ -2,7 +2,6 @@ package com.shoppi.app.ui.category
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.shoppi.app.R
 import com.shoppi.app.common.BFLAG
 import com.shoppi.app.common.KEY_CATEGORY_ID
 import com.shoppi.app.common.KEY_CATEGORY_LABEL
-import com.shoppi.app.common.TAG
 import com.shoppi.app.databinding.FragmentCategoryBinding
 import com.shoppi.app.myjetcp.MainComposeActivity
 import com.shoppi.app.ui.common.EventObserver
@@ -32,8 +30,6 @@ class CategoryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
 
-        // Log.d(TAG, "onCreateView")
-
         return binding.root
     }
 
@@ -46,17 +42,11 @@ class CategoryFragment : Fragment() {
 
         viewModel.items.observe(viewLifecycleOwner) {
             categoryAdapter.submitList(it)
-            // Log.d(TAG, "ssss submitList()")
-        }
 
-        // Log.d(TAG, "onViewCreated")
+        }
 
         viewModel.openCategoryEvent.observe(viewLifecycleOwner, EventObserver {
             openCategoryDetail(it.categoryId, it.label)
-        })
-
-        viewModel.openCategoryEvent2.observe(viewLifecycleOwner, EventObserver {
-            // do something
         })
 
 
@@ -80,7 +70,6 @@ class CategoryFragment : Fragment() {
 
 
     override fun onResume() {
-        Log.d(TAG, "onResume")
         super.onResume()
 
         if (BFLAG) {
@@ -152,5 +141,11 @@ class CategoryFragment : Fragment() {
         Log.d(TAG, "onDetach")
         super.onDetach()
     }
+
+    // Log.d(TAG, "onCreateView")
+    // Log.d(TAG, "ssss submitList()")
+    // Log.d(TAG, "onViewCreated")
+    // Log.d(TAG, "onResume")
+
 */
 
