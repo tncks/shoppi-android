@@ -146,5 +146,16 @@
         <item name="android:textColor">@color/shoppi_grey_04</item>
     </style>
 
+    <!-- Dialog Style, Modal Theme -->
+    <style name="MDialogTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/wwhitegrey</item>
+        <item name="android:background">@color/wwhitegrey</item>
+        <item name="android:backgroundTint">@color/wwhitegrey</item>
+        <item name="android:textColor">@color/bblack</item>
+        <item name="colorAccent">@color/wwhitegrey</item>
+        <item name="android:textColorPrimary">@color/shoppi_black_01</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
 
 </resources>

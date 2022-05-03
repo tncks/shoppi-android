@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,7 @@ import kotlinx.coroutines.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Retrofit
+import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -52,23 +54,9 @@ class ProfileAddEditActivity : AppCompatActivity() {
         /*---------------------------------------------*/
 
         ivBack.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("작성중인 내용이 있습니다.")
-                .setMessage("나가시겠습니까?")
-                .setPositiveButton("나가기",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        if (this@ProfileAddEditActivity::originalURL.isInitialized) {
-                            reviseMethod(originalURL, intent.getIntExtra("mIndex", 0))
-                            resetSupG(originalURL, intent.getIntExtra("mIndex", 0))
-                        }
-                        finish()
-                    })
-                .setNegativeButton("취소",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        Log.i("dummy", "dummy")
-                    })
-
-            builder.show()
+            val builder = AlertDialog.Builder(this, R.style.MDialogTheme)
+            fillDialogContents(builder)
+            setDialogLayoutStyleAndShow(builder)
         }
         tvSubmitFinish.setOnClickListener {
             BFLAG = true
@@ -91,93 +79,148 @@ class ProfileAddEditActivity : AppCompatActivity() {
         lifecycleScope.launch {
             delay(1000L)
 
-            withContext(Dispatchers.IO) {
-                try {
-                    val url = URL(tmpLs[mPos])
-                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-                    conn.doInput = true
-                    conn.connect()
-                    val iss: InputStream = conn.inputStream
-                    bitmap = BitmapFactory.decodeStream(iss)
-                } catch (e: MalformedURLException) {
-                    e.printStackTrace()
-                    withContext(Dispatchers.Main) {
-                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
-                    }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    withContext(Dispatchers.Main) {
-                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
-                    }
-                }
-                withContext(Dispatchers.Main) {
-                    try {
-                        if (this@ProfileAddEditActivity::bitmap.isInitialized) {
-                            findViewById<ImageView>(R.id.imageView_profile).setImageBitmap(bitmap)
-                        } else {
-                            throw InterruptedException()
-                        }
-                    } catch (e: InterruptedException) {
-                        e.printStackTrace()
-                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
-                    }
-                }
-            }
+            calltinOnCreate(tmpLs, mPos)
         }
         /*---------------------------------------------*/
 
     }
 
+    private suspend fun calltinOnCreate(tmpLs: List<String>, mPos: Int) {
+        withContext(Dispatchers.IO) {
+            try {
+                val url = URL(tmpLs[mPos])
+                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                conn.doInput = true
+                conn.connect()
+                val iss: InputStream = conn.inputStream
+                bitmap = BitmapFactory.decodeStream(iss)
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                }
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                }
+            }
+            withContext(Dispatchers.Main) {
+                try {
+                    if (this@ProfileAddEditActivity::bitmap.isInitialized) {
+                        findViewById<ImageView>(R.id.imageView_profile).setImageBitmap(bitmap)
+                    } else {
+                        throw InterruptedException()
+                    }
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                }
+            }
+        }
+    }
+
+    /*---------------------------------------------*/
+
+    private fun fillDialogContents(builder: AlertDialog.Builder) {
+        builder.setTitle(
+            "작성 중인 내용이 있습니다." + "\n" +
+                    "나가시겠습니까?"
+        )
+            .setMessage("지금까지 작성한 내용이 사라집니다.")
+            .setPositiveButton("나가기",
+                DialogInterface.OnClickListener { dialog, id ->
+                    if (this@ProfileAddEditActivity::originalURL.isInitialized) {
+                        reviseMethod(originalURL, intent.getIntExtra("mIndex", 0))
+                        resetSupG(originalURL, intent.getIntExtra("mIndex", 0))
+                    }
+                    finish()
+                })
+            .setNegativeButton("취소",
+                DialogInterface.OnClickListener { dialog, id ->
+                    Log.i("dummy", "dummy")
+                })
+    }
+
+    private fun setDialogLayoutStyleAndShow(builder: AlertDialog.Builder) {
+        val aD = builder.show()
+        /*--------------------*/
+        val btnPositive = aD.getButton(AlertDialog.BUTTON_POSITIVE)
+        val btnNegative = aD.getButton(AlertDialog.BUTTON_NEGATIVE)
+        val layoutParams = btnPositive.layoutParams as LinearLayout.LayoutParams
+        layoutParams.marginEnd = 40
+        btnNegative.layoutParams = layoutParams
+    }
+
+
+    /*---------------------------------------------*/
+
     override fun onRestart() {
         super.onRestart()
 
 
+        // Do not remove this one line code for stability
         Glide.with(this).load(R.raw.movingcircular).into(findViewById<ImageView>(R.id.imageView_profile))
 
         /*---------------------------------------------*/
-
         lifecycleScope.launch {
-            delay(1500L)
+            delay(2000L)
 
+            // Do not remove four lines code for stability
             withContext(Dispatchers.Main) {
                 Glide.with(applicationContext).load(R.raw.movingcircular)
                     .into(findViewById<ImageView>(R.id.imageView_profile))
             }
 
-            withContext(Dispatchers.IO) {
-                try {
-                    val url = URL(Supglobal.mSup.split(DELIM)[preThumbnail])
-                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-                    conn.doInput = true
-                    conn.connect()
-                    val iss: InputStream = conn.inputStream
-                    bitmap = BitmapFactory.decodeStream(iss)
-                } catch (e: MalformedURLException) {
-                    e.printStackTrace()
-                    withContext(Dispatchers.Main) {
-                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
-                    }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    withContext(Dispatchers.Main) {
-                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
-                    }
-                }
+            calltinOnRestart()
+        }
+        /*---------------------------------------------*/
+
+    }
+
+    private suspend fun calltinOnRestart() {
+        withContext(Dispatchers.IO) {
+            try {
+                val url = URL(Supglobal.mSup.split(DELIM)[preThumbnail])
+                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                conn.doInput = true
+                conn.connect()
+                val iss: InputStream = conn.inputStream
+                bitmap = BitmapFactory.decodeStream(iss)
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    try {
-                        if (this@ProfileAddEditActivity::bitmap.isInitialized) {
-                            findViewById<ImageView>(R.id.imageView_profile).setImageBitmap(bitmap)
-                        } else {
-                            throw InterruptedException()
-                        }
-                    } catch (e: InterruptedException) {
-                        e.printStackTrace()
-                        findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                }
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_refresh)
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                }
+            }
+            withContext(Dispatchers.Main) {
+                try {
+                    if (this@ProfileAddEditActivity::bitmap.isInitialized) {
+                        findViewById<ImageView>(R.id.imageView_profile).setImageBitmap(bitmap)
+                    } else {
+                        throw InterruptedException()
                     }
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
                 }
             }
         }
-
     }
 
     override fun onPause() {
@@ -188,9 +231,13 @@ class ProfileAddEditActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("작성중인 내용이 있습니다.")
-            .setMessage("나가시겠습니까?")
+        val builder = AlertDialog.Builder(this, R.style.MDialogTheme)
+        // Do not change below code block with function call fillDialogContents
+        builder.setTitle(
+            "작성 중인 내용이 있습니다." + "\n" +
+                    "나가시겠습니까?"
+        )
+            .setMessage("지금까지 작성한 내용이 사라집니다.")
             .setPositiveButton("나가기",
                 DialogInterface.OnClickListener { dialog, id ->
                     if (this@ProfileAddEditActivity::originalURL.isInitialized) {
@@ -200,12 +247,13 @@ class ProfileAddEditActivity : AppCompatActivity() {
                     super.onBackPressed()
                     finish()
                 })
-            .setNegativeButton("취소",
+            .setNegativeButton(
+                "취소",
                 DialogInterface.OnClickListener { dialog, id ->
                     Log.i("dummy", "dummy")
                 })
 
-        builder.show()
+        setDialogLayoutStyleAndShow(builder)
     }
 
     override fun onResume() {

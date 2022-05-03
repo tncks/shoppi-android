@@ -30,4 +30,6 @@
     <color name="text_light">#ff666666</color>
     <color name="text_black">#ff222222</color>
     <color name="mytransparent" tools:ignore="UnusedResources">#00000000</color>
+    <color name="bblack">#FF000000</color>
+    <color name="wwhitegrey">#FFF2F2F2</color>
 </resources>
