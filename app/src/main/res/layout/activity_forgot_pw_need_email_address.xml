@@ -24,6 +24,7 @@
         android:layout_marginStart="46dp"
         android:layout_marginTop="65dp"
         android:text="@string/tv_require_email_step_value"
+        android:fontFamily="@font/t_font_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_back_unreal_previous_like_toolbar"
         tools:text="이메일 주소를 입력하세요" />
@@ -39,6 +40,7 @@
         android:textColor="@color/shoppi_sky"
         android:textColorHint="@color/shoppi_sky"
         android:textSize="14sp"
+        android:fontFamily="@font/t_font_medium"
         app:cornerRadius="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

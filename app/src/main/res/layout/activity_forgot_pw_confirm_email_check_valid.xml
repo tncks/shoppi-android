@@ -24,6 +24,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="65dp"
         android:textSize="16sp"
+        android:fontFamily="@font/t_font_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_back_unreal_previous_like_toolbar"
         tools:text="example@naver.com" />
@@ -37,6 +38,7 @@
         android:text="@string/tv_code_sent_request_check_message"
         android:textColor="@color/shoppi_sky"
         android:textSize="12sp"
+        android:fontFamily="@font/t_font_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_user_email_address_to_resetpw"
@@ -50,6 +52,7 @@
         android:backgroundTint="@color/shoppi_white"
         android:enabled="false"
         android:text="@string/btn_resend_code_request_submit_value"
+        android:fontFamily="@font/t_font_medium"
         android:textColor="@color/shoppi_sky"
         android:textColorHint="@color/shoppi_sky"
         android:textSize="14sp"

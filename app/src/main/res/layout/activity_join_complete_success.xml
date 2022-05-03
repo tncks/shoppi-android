@@ -16,7 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/image_border" />
+        android:src="@drawable/ic_checkmark3_purple"
+        tools:srcCompat="@drawable/ic_checkmark3_purple" />
 
 
     <TextView
@@ -26,6 +27,8 @@
         android:layout_marginTop="10dp"
         android:text="@string/tv_join_complete_message"
         android:textSize="22sp"
+        android:fontFamily="@font/t_font_medium"
+        android:textColor="@color/shoppi_black_01"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_complete_notice_check" />
@@ -42,6 +45,7 @@
         android:text="@string/bt_finish_end_text_value"
         android:textColor="@color/shoppi_sky"
         android:textSize="14sp"
+        android:fontFamily="@font/t_font_medium"
         app:cornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

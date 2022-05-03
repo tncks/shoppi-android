@@ -29,8 +29,10 @@
         android:inputType="textEmailAddress|textNoSuggestions"
         android:textColor="@color/shoppi_grey_05"
         android:textSize="16sp"
+        android:fontFamily="@font/t_font_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/hint_email"
         tools:ignore="LabelFor"
         tools:text="이메일" />
 
@@ -43,6 +45,7 @@
         android:layout_marginBottom="3dp"
         android:textColor="@color/shoppi_sky"
         android:textSize="11sp"
+        android:fontFamily="@font/t_font_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_email_normal_user"
         tools:text="정확한 주소를 입력하세요" />
@@ -56,6 +59,7 @@
         android:layout_marginBottom="20dp"
         android:textColor="@color/shoppi_sky"
         android:textSize="11sp"
+        android:fontFamily="@font/t_font_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_notice_email_exact_important"
         tools:text="비밀번호 분실 시 재발급 등 중요한 공지전달에 사용됩니다." />
@@ -72,6 +76,8 @@
         android:inputType="textEmailAddress|textNoSuggestions"
         android:textColor="@color/shoppi_grey_05"
         android:textSize="16sp"
+        android:fontFamily="@font/t_font_light"
+        android:text="@string/hint_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_notice_email_exact_important_extra"
         tools:ignore="LabelFor"
@@ -85,7 +91,8 @@
         android:contentDescription="@string/label_category"
         app:layout_constraintStart_toStartOf="@id/tv_pw_normal_user"
         app:layout_constraintTop_toTopOf="@id/tv_pw_normal_user"
-        tools:srcCompat="@drawable/image_border" />
+        android:src="@drawable/ic_closed_eye"
+        tools:srcCompat="@drawable/ic_closed_eye" />
 
 
     <TextView
@@ -97,6 +104,7 @@
         android:layout_marginBottom="30dp"
         android:textColor="@color/shoppi_sky"
         android:textSize="11sp"
+        android:fontFamily="@font/t_font_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_pw_normal_user"
         tools:text="영문자, 숫자, 특수문자를 포함하여 8자리 이상 16자리 미만" />
@@ -113,6 +121,8 @@
         android:inputType="textEmailAddress|textNoSuggestions"
         android:textColor="@color/shoppi_grey_05"
         android:textSize="16sp"
+        android:fontFamily="@font/t_font_light"
+        android:text="@string/hint_password_re"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_pw_notice_important_level_degree"
         tools:ignore="LabelFor"
@@ -126,7 +136,8 @@
         android:contentDescription="@string/label_category"
         app:layout_constraintStart_toStartOf="@id/tv_pw_retype_again"
         app:layout_constraintTop_toTopOf="@id/tv_pw_retype_again"
-        tools:srcCompat="@drawable/image_border" />
+        android:src="@drawable/ic_closed_eye"
+        tools:srcCompat="@drawable/ic_closed_eye" />
 
     <EditText
         android:id="@+id/tv_nickname_normal_user"
@@ -136,12 +147,14 @@
         android:layout_marginTop="35dp"
         android:layout_marginBottom="10dp"
         android:autofillHints="username"
+        android:fontFamily="@font/t_font_light"
         android:background="@null"
         android:inputType="textEmailAddress|textNoSuggestions"
         android:textColor="@color/shoppi_grey_05"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_pw_retype_again"
+        android:text="@string/hint_nickname"
         tools:ignore="LabelFor"
         tools:text="닉네임" />
 
@@ -153,6 +166,8 @@
         android:layout_marginTop="90dp"
         android:textColor="@color/shoppi_grey_03"
         android:textSize="16sp"
+        android:fontFamily="@font/t_font_light"
+        android:text="@string/tvterms"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_nickname_normal_user"
         tools:text="약관" />
@@ -168,6 +183,7 @@
         android:textColor="@color/shoppi_white"
         android:textColorHint="@color/shoppi_white"
         android:textSize="14sp"
+        android:fontFamily="@font/t_font_medium"
         app:cornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

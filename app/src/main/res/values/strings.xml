@@ -39,6 +39,9 @@
     <string name="tv_forgot_pw_start_reset">비밀번호 찾기</string>
     <string name="hint_email">이메일</string>
     <string name="hint_password">비밀번호</string>
+    <string name="hint_password_re">비밀번호 확인</string>
+    <string name="hint_nickname">닉네임</string>
+    <string name="tvterms">약관</string>
 
 
     <!-- Profile -->
@@ -67,5 +70,11 @@
     <string name="m_edit_profile">프로필 수정</string>
     <string name="m_pin_profile">프로필 고정</string>
     <string name="m_move_profile_history_tab">여행기록으로 이동</string>
+    <string name="tvjoinfail">회원가입 실패</string>
+    <string name="tvretry">처음으로</string>
+    <string name="tvfailmessagejoin">회원가입 과정에서 오류가 발생하였습니다.</string>
+    <string name="tvfailmessagejoinre">회원가입을 다시 진행해주세요.</string>
+    <string name="tvtermsaccept">확인</string>
+
 
 </resources>
