@@ -93,7 +93,7 @@
         android:layout_marginTop="4dp"
         android:backgroundTint="@color/shoppi_white"
         android:fontFamily="@font/t_font_medium"
-        android:enabled="false"
+        android:enabled="true"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         android:text="@string/bt_join_text_value"

@@ -1,9 +1,11 @@
 package com.shoppi.app.ui.category
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shoppi.app.common.SAFEUID
 import com.shoppi.app.model.Category
 import com.shoppi.app.repository.category.CategoryRepository
 import com.shoppi.app.ui.common.Event
@@ -19,6 +21,8 @@ class CategoryViewModel(
     private val _openCategoryEvent = MutableLiveData<Event<Category>>()
     val openCategoryEvent: LiveData<Event<Category>> = _openCategoryEvent
 
+    var isNothingToShow: Boolean = false
+
 
     init {
         loadCategory()
@@ -31,8 +35,20 @@ class CategoryViewModel(
 
     private fun loadCategory() {
         viewModelScope.launch {
-            val categories = categoryRepository.getCategories()
-            _items.value = categories
+            val categories: List<Category>? = categoryRepository.getCategories(SAFEUID)
+            // change this line null sentence to isNotEmpty() when need
+            if (categories == null) {
+                Log.i("dummy", "dummy")
+            } else {
+                Log.i("dummy", "dummy")
+                _items.value = categories
+
+                if (categories.isEmpty()) {
+                    isNothingToShow = true
+                }
+            }
+
+
         }
     }
 }

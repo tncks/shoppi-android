@@ -39,6 +39,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
     private lateinit var bitmap: Bitmap
     private var preThumbnail: Int = 0
+    private lateinit var ivProfileThumbnail: ImageView
     private lateinit var ivBack: ImageView
     private lateinit var tvSubmitFinish: TextView
     private lateinit var originalURL: String
@@ -54,10 +55,10 @@ class ProfileAddEditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile_add_edit)
 
 
+        ivProfileThumbnail = findViewById<ImageView>(R.id.imageView_profile)
         ivBack = findViewById<ImageView>(R.id.iv_unreal_back_simple)
         tvSubmitFinish = findViewById<TextView>(R.id.tv_simple_complete_edit_submit)
         originalURL = Supglobal.mSup.split(DELIM)[intent.getIntExtra("mIndex", 0)]
-        // TODO here
         ediProfileName = findViewById<EditText>(R.id.et_profile_name)
         ediLocationOfProfile = findViewById<EditText>(R.id.et_location_of_profile)
         ediPeriodOfProfile = findViewById<EditText>(R.id.et_period_of_profile)
@@ -130,7 +131,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
         val mPos: Int = mIntent.getIntExtra("mIndex", 0)
         preThumbnail = mPos
         val tmpLs = Supglobal.mSup.split(DELIM)
-        findViewById<ImageView>(R.id.imageView_profile).setOnClickListener {
+        ivProfileThumbnail.setOnClickListener {
             val intent = Intent(applicationContext, LastingActivity::class.java)
             intent.putExtra("mIndex", mIntent.getIntExtra("mIndex", 0))
             startActivity(intent)
@@ -166,7 +167,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
             val resultParamStringValue: String = resultParam.toString()
 
-            val response = service.updateItemProfileStyle(resultParamStringValue, requestBody)
+            val response = service.updateItemProfileStyle(SAFEUID, resultParamStringValue, requestBody)
 
             withContext(Dispatchers.Main) {
                 Log.i("dummy", response.isSuccessful.toString())
@@ -187,29 +188,29 @@ class ProfileAddEditActivity : AppCompatActivity() {
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
                 }
             } catch (e: MalformedURLException) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
                 }
             }
             withContext(Dispatchers.Main) {
                 try {
                     if (this@ProfileAddEditActivity::bitmap.isInitialized) {
-                        findViewById<ImageView>(R.id.imageView_profile).setImageBitmap(bitmap)
+                        ivProfileThumbnail.setImageBitmap(bitmap)
                     } else {
                         throw InterruptedException()
                     }
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
-                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
                 }
             }
         }
@@ -255,7 +256,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
 
         // Do not remove this one line code for stability
-        Glide.with(this).load(R.raw.movingcircular).into(findViewById<ImageView>(R.id.imageView_profile))
+        Glide.with(this).load(R.raw.movingcircular).into(ivProfileThumbnail)
 
         /*---------------------------------------------*/
         lifecycleScope.launch {
@@ -264,7 +265,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
             // Do not remove four lines code for stability
             withContext(Dispatchers.Main) {
                 Glide.with(applicationContext).load(R.raw.movingcircular)
-                    .into(findViewById<ImageView>(R.id.imageView_profile))
+                    .into(ivProfileThumbnail)
             }
 
             calltinOnRestart()
@@ -285,29 +286,29 @@ class ProfileAddEditActivity : AppCompatActivity() {
             } catch (e: MalformedURLException) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
                 }
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_refresh)
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_refresh)
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
                 }
             }
             withContext(Dispatchers.Main) {
                 try {
                     if (this@ProfileAddEditActivity::bitmap.isInitialized) {
-                        findViewById<ImageView>(R.id.imageView_profile).setImageBitmap(bitmap)
+                        ivProfileThumbnail.setImageBitmap(bitmap)
                     } else {
                         throw InterruptedException()
                     }
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
-                    findViewById<ImageView>(R.id.imageView_profile).setImageResource(R.drawable.ic_placeholder_add)
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
                 }
             }
         }
@@ -317,7 +318,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
         super.onPause()
 
 
-        Glide.with(this).load(R.raw.movingcircular).into(findViewById<ImageView>(R.id.imageView_profile))
+        Glide.with(this).load(R.raw.movingcircular).into(ivProfileThumbnail)
     }
 
     override fun onBackPressed() {
@@ -374,8 +375,9 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
             val resultParamStringValue: String = resultParam.toString()
 
-            val response = service.updateItemProfileStyle(resultParamStringValue, requestBody)
+            val response = service.updateItemProfileStyle(SAFEUID, resultParamStringValue, requestBody)
 
+            // when response isSuccessful boolean handle here write true or false
 
         }
     }

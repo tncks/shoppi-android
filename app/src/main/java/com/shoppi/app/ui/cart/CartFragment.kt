@@ -226,7 +226,7 @@ class CartFragment : Fragment() {
 
             val resultParamStringValue: String = resultParam.toString()
 
-            val response = service.updateCategories(resultParamStringValue, requestBody)
+            val response = service.updateCategories(SAFEUID, resultParamStringValue, requestBody)
 
             withContext(Dispatchers.Main) {
                 Log.i("dummy", response.isSuccessful.toString())

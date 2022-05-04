@@ -107,6 +107,9 @@
             android:noHistory="true"
             android:label="@string/title_activity_main_compose"
             android:theme="@style/Theme.Shoppiandroid.NoActionBar"></activity>
+        <activity
+            android:name=".ui.UserPrivacyAndSignOutActivity"
+            android:exported="false"></activity>
     </application>
 
 </manifest>

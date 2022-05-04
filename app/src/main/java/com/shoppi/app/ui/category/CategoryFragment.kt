@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,6 +18,7 @@ import com.shoppi.app.databinding.FragmentCategoryBinding
 import com.shoppi.app.myjetcp.MainComposeActivity
 import com.shoppi.app.ui.common.EventObserver
 import com.shoppi.app.ui.common.ViewModelFactory
+import kotlinx.coroutines.*
 
 
 class CategoryFragment : Fragment() {
@@ -36,6 +38,28 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(2000L)
+            if (viewModel.isNothingToShow) {
+                withContext(Dispatchers.Main) {
+                    binding.showonnothing.visibility = View.VISIBLE
+                    binding.showonnothing.setOnClickListener {
+                        // 일단은 임시 토스트 생성만, 나중에 다시 변경 -> intent ProfileNewFirstActivity start
+                        Toast.makeText(context, "임시 토스트, 코드변경시까지 사용", Toast.LENGTH_SHORT).show()
+//                        val smallIntentForFirstProfileAdd = Intent(context, ProfileAddEditActivity::class.java)
+//                        smallIntentForFirstProfileAdd.putExtra("mIndex", 0)
+//                        startActivity(smallIntentForFirstProfileAdd)
+                        // 지금 그대로 액티비티 실행시, 해당 액티비티에서 MalformedException and IException 발생하는 문제 존재
+                    }
+                }
+            } else {
+                withContext(Dispatchers.Main) {
+                    binding.showonnothing.visibility = View.GONE
+                }
+
+            }
+        }
 
         val categoryAdapter = CategoryAdapter(viewModel)
         binding.rvCategoryList.adapter = categoryAdapter

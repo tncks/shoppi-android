@@ -152,7 +152,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
 
             val resultParamStringValue: String = resultParam.toString()
 
-            val response = service.updateItemProfileStyle(resultParamStringValue, requestBody)
+            val response = service.updateItemProfileStyle(SAFEUID, resultParamStringValue, requestBody)
 
             withContext(Dispatchers.Main) {
                 Log.i("dummy", response.isSuccessful.toString())

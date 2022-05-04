@@ -47,4 +47,26 @@ class PrepareJsonHelper {
 
         return jsonObject.toString()
     }
+
+    fun prepareAccountJson(datas: List<String>, resultParamStringValue: String): String {
+        val jsonObject = JSONObject()
+
+        val email = datas[0]
+        val password = datas[1]
+        val nickname = datas[2]
+
+
+        jsonObject.put(
+            "uid",
+            resultParamStringValue
+        ) // auto increment value, string parsed from int value, change this later
+        jsonObject.put("email", email)
+        jsonObject.put("password", password)
+        jsonObject.put("nickname", nickname)
+        jsonObject.put("point", "0") // this is fixed value, 0
+
+        return jsonObject.toString()
+    }
+
+
 }

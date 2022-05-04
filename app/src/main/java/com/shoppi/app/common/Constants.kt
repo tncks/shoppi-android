@@ -34,4 +34,8 @@ const val TAG = "TESTLIFECYCLE"
 
 var BFLAG = false
 
+
+var GLOBALUID: String? = null
+var SAFEUID: String = "0"
+
 // Add others here
