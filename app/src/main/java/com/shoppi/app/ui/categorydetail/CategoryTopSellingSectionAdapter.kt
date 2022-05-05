@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.shoppi.app.databinding.ItemCategoryTopSellingSectionBinding
+import com.shoppi.app.model.Category
 import com.shoppi.app.model.TopSelling
 
 class CategoryTopSellingSectionAdapter :
@@ -32,7 +33,12 @@ class CategoryTopSellingSectionAdapter :
         fun bind(topSelling: TopSelling) {
             binding.title = topSelling.title
             binding.executePendingBindings()
-            nestedAdapter.submitList(topSelling.categories)
+            val mydummyc = Category("", "", "", false, "", "", "")
+            val appended = listOf<Category>(mydummyc)
+            val joinedList: MutableList<Category> = ArrayList()
+            joinedList.addAll(topSelling.categories)
+            joinedList.addAll(appended)
+            nestedAdapter.submitList(joinedList.toList())
         }
 
     }

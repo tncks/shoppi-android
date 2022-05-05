@@ -13,22 +13,21 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:minWidth="48dp"
-        android:minHeight="50dp"
         android:layout_height="wrap_content"
-        android:paddingStart="6dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="6dp"
+        android:paddingStart="8dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="8dp"
         android:paddingBottom="16dp">
 
         <ImageView
             android:id="@+id/iv_category_top_selling_image"
-            circleImageUrl="@{category.thumbnailImageUrl}"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@drawable/background_circle_gradient"
             android:contentDescription="@string/description_category_thumbnail"
+            android:padding="4dp"
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_plus"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +35,7 @@
         <TextView
             android:id="@+id/tv_category_top_selling_badge"
             style="@style/TextCaption2.White.Bold"
-            android:visibility="invisible"
+            isVisible="@{category.updated}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_purple_r24"
@@ -53,37 +52,14 @@
             style="@style/TextCaption2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:gravity="center"
             android:maxLines="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="n일차" />
-
-        <TextView
-            android:id="@+id/tv_category_date_period"
-            style="@style/TextCaption2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:gravity="center"
-            android:maxLines="1"
-            android:text="1. 10."
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_category_top_selling_label"
-            tools:text="1. 10." />
-
-        <!--        <View-->
-        <!--            android:id="@+id/selectionline"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="2dp"-->
-        <!--            isVisible="@{category.updated}"-->
-        <!--            android:background="@color/shoppi_sky"-->
-        <!--            android:orientation="horizontal"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent" />-->
+            android:text="@{category.label}"
+            app:layout_constraintEnd_toEndOf="@id/iv_category_top_selling_image"
+            app:layout_constraintStart_toStartOf="@id/iv_category_top_selling_image"
+            app:layout_constraintTop_toBottomOf="@id/iv_category_top_selling_image"
+            tools:text="자켓" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

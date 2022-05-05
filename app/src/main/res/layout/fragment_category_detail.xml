@@ -13,7 +13,9 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:translationZ="0.1dp"
+            app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_category_detail"
@@ -23,7 +25,7 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationIcon="@drawable/ic_gnb_back"
                 app:titleTextAppearance="@style/TextMedium.Bold"
-                tools:title="여성패션" />
+                tools:title="독일여행" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -34,6 +36,17 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+        <!-- change this rv with other component later, below is original code -->
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/rv_category_detail"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:orientation="vertical"-->
+        <!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+        <!--            app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
+        <!-- temporarily commented, I don't want to show this rv right now -->
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

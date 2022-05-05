@@ -7,19 +7,19 @@
       "categories": [
         {
           "category_id": "fashion_jacket",
-          "label": "자켓",
+          "label": "1",
           "thumbnail_image_url": "https://user-images.githubusercontent.com/26240553/163524343-15069cb2-183a-451e-a650-e7183c008f96.png",
           "updated": true
         },
         {
           "category_id": "fashion_sweater",
-          "label": "스웨터",
+          "label": "2",
           "thumbnail_image_url": "https://user-images.githubusercontent.com/26240553/163524350-2e0ff56c-767b-41d3-9369-0a8598c96331.png",
           "updated": false
         },
         {
           "category_id": "fashion_cap",
-          "label": "캡모자",
+          "label": "3",
           "thumbnail_image_url": "https://user-images.githubusercontent.com/26240553/163524341-2f143e7b-0459-4021-936b-bfb8395d6e96.png",
           "updated": false
         },

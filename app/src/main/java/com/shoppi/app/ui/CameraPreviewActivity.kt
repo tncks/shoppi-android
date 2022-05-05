@@ -9,28 +9,25 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.shoppi.app.R
+import com.shoppi.app.common.PERMISSION_CAMERA
 import java.util.*
 
 class CameraPreviewActivity : AppCompatActivity() {
 
-    val PERMISSION_CAMERA = 321
-    // val PERMISSION_MANAGE_EX = 4321
-
     private val startCameraForResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK && validAccessAvailablePermission()) {
-
-                val intent: Intent? = result.data
-                findViewById<ImageView>(R.id.imagePreview)?.setImageURI(intent?.data)
-
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK && validAccessAvailablePermission()) {
+                // Toast or snackbar -> notice user for 사진 ~에 저장됨
+                finish()
+            } else {
+                // different Toast or snackbar -> notice user for ERROR or throw exception and catch print
+                finish()
             }
         }
 
@@ -40,11 +37,30 @@ class CameraPreviewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera_preview)
 
         requirePermissions(
-            arrayOf(Manifest.permission.MANAGE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            ),
             PERMISSION_CAMERA
         )
-
     }
+
+    // layout xml revised
+    /*
+    <ImageView
+        android:id="@+id/imagePreview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/label_category"
+        android:maxWidth="200dp"
+        android:maxHeight="200dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+     */
 
 
     private fun requirePermissions(permissions: Array<String>, requestCode: Int) {
@@ -82,44 +98,38 @@ class CameraPreviewActivity : AppCompatActivity() {
     private fun permissionGranted(requestCode: Int) {
         when (requestCode) {
             PERMISSION_CAMERA -> openCamera()
+            else -> finish()
         }
     }
 
     private fun permissionDenied(requestCode: Int) {
         when (requestCode) {
-            PERMISSION_CAMERA -> Toast.makeText(
-                this,
-                "카메라 권한을 승인해야 카메라를 사용할 수 있습니다.",
-                Toast.LENGTH_LONG
-            ).show()
+            PERMISSION_CAMERA -> {
+                // change to    bb can not openCamera() dd
+                Toast.makeText(
+                    this,
+                    "권한이 필요합니다. 권한을 다시 확인해주세요.",
+                    Toast.LENGTH_LONG
+                ).show()
+                finish()
+            }
         }
     }
 
     private fun openCamera() {
-        var realUri: Uri
-        createImageUri(newFileName(), "image/jpg")?.let { uri ->
-            realUri = uri
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, realUri)
-
-            startCameraForResult.launch(
-                intent
-            )
+        try {
+            var realUri: Uri
+            createImageUri(newFileName(), "image/jpg")?.let { uri ->
+                realUri = uri
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, realUri)
+                startCameraForResult.launch(intent)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            finish()
         }
     }
-
-
-    private fun validAccessAvailablePermission(): Boolean {
-        return (ContextCompat.checkSelfPermission(
-            this@CameraPreviewActivity,
-            Manifest.permission.CAMERA
-        )) == PackageManager.PERMISSION_GRANTED &&
-                (ContextCompat.checkSelfPermission(
-                    this@CameraPreviewActivity,
-                    Manifest.permission.MANAGE_EXTERNAL_STORAGE
-                )) == PackageManager.PERMISSION_GRANTED
-    }
-
 
     private fun newFileName(): String {
         val rand = Random()
@@ -133,6 +143,14 @@ class CameraPreviewActivity : AppCompatActivity() {
         values.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
         values.put(MediaStore.Images.Media.MIME_TYPE, mimeType)
         return this.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+    }
+
+
+    private fun validAccessAvailablePermission(): Boolean {
+        return (ContextCompat.checkSelfPermission(
+            this@CameraPreviewActivity,
+            Manifest.permission.CAMERA
+        )) == PackageManager.PERMISSION_GRANTED
     }
 
 

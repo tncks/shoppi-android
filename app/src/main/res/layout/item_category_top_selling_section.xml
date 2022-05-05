@@ -18,14 +18,14 @@
             android:id="@+id/tv_category_section_title"
             style="@style/TextMedium.Bold"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="@{title.text}"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="인기상품" />
+            tools:text="" /> <!-- android:text="@{title.text}" -->
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_category_section"
@@ -40,14 +40,14 @@
             app:layout_constraintTop_toBottomOf="@id/tv_category_section_title"
             tools:listitem="@layout/item_category_top_selling" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="4dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/shoppi_bluegrey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_category_section" />
+        <!--        <View-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="4dp"-->
+        <!--            android:layout_marginTop="16dp"-->
+        <!--            android:background="@color/shoppi_bluegrey"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/rv_category_section" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

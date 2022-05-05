@@ -8,7 +8,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ConcatAdapter
 import com.shoppi.app.R
 import com.shoppi.app.common.KEY_CATEGORY_LABEL
 import com.shoppi.app.databinding.FragmentCategoryDetailBinding
@@ -36,6 +35,7 @@ class CategoryDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         setToolbar()
+        // temporarily disabled, but not removed.
         setListAdapter()
     }
 
@@ -48,10 +48,12 @@ class CategoryDetailFragment : Fragment() {
     }
 
     private fun setListAdapter() {
+        // these codes are for reference for studying, it would be better to not remove this block of lines
         val topSellingSectionAdapter = CategoryTopSellingSectionAdapter()
-        val titleAdapter = CategorySectionTitleAdapter()
-        val promotionAdapter = CategoryPromotionAdapter()
-        binding.rvCategoryDetail.adapter = ConcatAdapter(topSellingSectionAdapter, titleAdapter, promotionAdapter)
+        binding.rvCategoryDetail.adapter = topSellingSectionAdapter
+//        val titleAdapter = CategorySectionTitleAdapter()
+//        val promotionAdapter = CategoryPromotionAdapter()
+//        binding.rvCategoryDetail.adapter = ConcatAdapter(topSellingSectionAdapter, titleAdapter, promotionAdapter)
 
         /*---Detect1------------------------------------------*/
 
@@ -61,22 +63,29 @@ class CategoryDetailFragment : Fragment() {
 
         }
 
+//        viewModel.topSelling.observe(viewLifecycleOwner) { topSelling ->
+//
+//            topSellingSectionAdapter.submitList(listOf(topSelling))
+//
+//        }
+
         /*----Also-----------------------------------------*/
 
-        viewModel.promotions.observe(viewLifecycleOwner) {
-            val promotionsDotTitle = getTempDummyDataTitle()   // Dummy Code for Dev
-            val promotionsDotItems = getTempDummyDataItems()   // Dummy Code for Dev
-
-            titleAdapter.submitList(listOf(promotionsDotTitle))
-            promotionAdapter.submitList(promotionsDotItems)
-
-        }
+//        viewModel.promotions.observe(viewLifecycleOwner) {
+//            val promotionsDotTitle = getTempDummyDataTitle()   // Dummy Code for Dev
+//            val promotionsDotItems = getTempDummyDataItems()   // Dummy Code for Dev
+//
+//            titleAdapter.submitList(listOf(promotionsDotTitle))
+//            promotionAdapter.submitList(promotionsDotItems)
+//
+//        }
 
         /*---------------------------------------------*/
     }
 
 
-    // Dummy Code for Dev
+    // Remove below codes after production stable version made and completed.
+    // Dummy Code for Dev, only for testing concat adapters, but I'm not using this for production version now
     private fun getTempDummyDataTitle(): Title {
 
         return Title("추천상품", null)
@@ -123,7 +132,6 @@ class CategoryDetailFragment : Fragment() {
             )
         )
     }
-    // End of Fun Dummy Code for Dev
 
 
 }

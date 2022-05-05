@@ -38,4 +38,11 @@ var BFLAG = false
 var GLOBALUID: String? = null
 var SAFEUID: String = "0"
 
+
+const val PERMISSION_CAMERA = 323
+
+
+const val CONTENT_TYPE = 10
+const val BUTTON_TYPE = 20
+
 // Add others here
