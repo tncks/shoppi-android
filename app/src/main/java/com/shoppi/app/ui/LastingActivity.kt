@@ -103,32 +103,6 @@ class LastingActivity : AppCompatActivity() {
         // End Of Handler
 
     }
-/*
-    override fun onStop() { // this is possible error many code onStop and onResume, so I deprecated it temporarily.
-        super.onStop()
-        val preferences: SharedPreferences? =
-            applicationContext.getSharedPreferences("imagesNumByUserPicked", Context.MODE_PRIVATE)
-
-        preferences?.edit {
-            putInt("imagesNumByUserPicked", mNum)
-            putStringSet("myMutables", mMM.toSet())
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        Log.d("onResume", "onResume")
-        val prePathNameURL: String? = intent.getStringExtra("prePathNameURL")
-        if (prePathNameURL != null) {
-            this.mNum = SpUtility(applicationContext).myInitSup()
-            this.mMM = SpUtility(applicationContext).myInitSup2()
-            mMM[mNum] = prePathNameURL
-            Log.d("mNum", mNum.toString())
-            (mNum)++
-        }
-    }
-*/
 
 
     /*------------------------------------------------------------*/
@@ -175,7 +149,7 @@ class LastingActivity : AppCompatActivity() {
         @Suppress("LiftReturnOrAssignment")
         override fun getItemCount(): Int {
 
-            val n = 9
+            val n = 0
 /*
             val k: Int = mNum / 3
 

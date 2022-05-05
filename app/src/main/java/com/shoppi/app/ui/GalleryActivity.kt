@@ -68,6 +68,7 @@ class GalleryActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.iv_open_camera)?.setOnClickListener {
             Toast.makeText(applicationContext, "사진 촬영 모드", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this@GalleryActivity, CameraPreviewActivity::class.java))
         }
 
     }
