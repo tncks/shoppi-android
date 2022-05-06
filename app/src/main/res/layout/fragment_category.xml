@@ -16,8 +16,9 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_category"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="50dp"
             android:layout_marginStart="150dp"
+            app:menu="@menu/menu_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,6 +34,7 @@
             android:layout_height="0dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
+            android:layout_marginTop="20dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

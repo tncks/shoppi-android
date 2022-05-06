@@ -27,6 +27,17 @@ class CategoryAdapter(private val viewModel: CategoryViewModel) :
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.bind(getItem(position))
 
+        setUpShowPopUpMenuPerEveryItemOnLongClickOneSecond(holder, position)
+    }
+
+
+    /*-----------------------------------------------------------------*/
+
+    private fun setUpShowPopUpMenuPerEveryItemOnLongClickOneSecond(
+        holder: CategoryAdapter.CategoryViewHolder,
+        position: Int
+    ) {
+
         holder.itemView.setOnLongClickListener {
 
             val popup =
@@ -60,7 +71,10 @@ class CategoryAdapter(private val viewModel: CategoryViewModel) :
             popup.show()
             true
         }
+
     }
+
+    /*-----------------------------------------------------------------*/
 
     inner class CategoryViewHolder(val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -71,6 +85,7 @@ class CategoryAdapter(private val viewModel: CategoryViewModel) :
         }
     }
 
+    /*-----------------------------------------------------------------*/
+
 
 }
-

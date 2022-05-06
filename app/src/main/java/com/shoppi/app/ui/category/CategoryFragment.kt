@@ -2,10 +2,9 @@ package com.shoppi.app.ui.category
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -31,13 +30,18 @@ class CategoryFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
-
+        setHasOptionsMenu(true) // 이 줄은 있어도 그만, 없어도 그만인데 일단은 있어도 잘 되니까 손 안대고 그대로 감
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val myMenu = binding.toolbarCategory
+        // myMenu.inflateMenu(R.menu.menu_list) 하거나 xml app menu 속성 이용하거나 둘 중 하나, 나는 xml 사용중이라 코드 주석
+        setToggleMenuInFragment(myMenu)
+
 
         CoroutineScope(Dispatchers.IO).launch {
             delay(2000L)
@@ -66,7 +70,6 @@ class CategoryFragment : Fragment() {
 
         viewModel.items.observe(viewLifecycleOwner) {
             categoryAdapter.submitList(it)
-
         }
 
         viewModel.openCategoryEvent.observe(viewLifecycleOwner, EventObserver {
@@ -76,7 +79,28 @@ class CategoryFragment : Fragment() {
 
     }
 
+    private fun setToggleMenuInFragment(myMToolbar: Toolbar) {
+
+        myMToolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+//              val smallIntentForFirstProfileAdd = Intent(context, ProfileAddEditActivity::class.java)
+//              smallIntentForFirstProfileAdd.putExtra("mIndex", 0)
+//              startActivity(smallIntentForFirstProfileAdd)
+                R.id.menu_add -> Toast.makeText(requireContext(), "추가", Toast.LENGTH_SHORT).show()
+                R.id.menu_delete -> Toast.makeText(requireContext(), "삭제", Toast.LENGTH_SHORT).show()
+                R.id.menu_move -> Toast.makeText(requireContext(), "이동", Toast.LENGTH_SHORT).show()
+            }
+            true
+        }
+
+    }
+
     /*---------------------------------------------*/
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
 
     private fun openCategoryDetail(categoryId: String, categoryLabel: String) {
@@ -112,6 +136,7 @@ class CategoryFragment : Fragment() {
 }
 
 
+// Reference for studying
 /*-----------------------------------------------------*/
 /*-----------------------------------------------------*/
 /*-----------------------------------------------------*/
