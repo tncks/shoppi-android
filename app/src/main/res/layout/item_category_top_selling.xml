@@ -72,6 +72,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_category_top_selling_label"
+            tools:ignore="HardcodedText"
             tools:text="1. 10." />
 
         <!--        <View-->

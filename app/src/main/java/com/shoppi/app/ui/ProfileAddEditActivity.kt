@@ -35,6 +35,7 @@ import java.net.URL
 import java.util.*
 
 
+@Suppress("RemoveExplicitTypeArguments")
 class ProfileAddEditActivity : AppCompatActivity() {
 
     private lateinit var bitmap: Bitmap
@@ -147,6 +148,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
     }
 
+    @Suppress("DuplicatedCode")
     private fun reviseWithAllPatches(dataTexts: List<String>, resultParam: Int) {
 
         val retrofit = Retrofit.Builder()

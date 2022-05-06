@@ -1,5 +1,6 @@
 package com.shoppi.app.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -10,6 +11,7 @@ import com.shoppi.app.R
 import com.shoppi.app.ui.signstep.SignBeforeStartActivity
 
 class UserPrivacyAndSignOutActivity : AppCompatActivity() {
+    @SuppressLint("ApplySharedPref")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_privacy_and_sign_out)

@@ -20,6 +20,7 @@ import com.shoppi.app.ui.common.ViewModelFactory
 import kotlinx.coroutines.*
 
 
+@Suppress("DuplicatedCode")
 class CategoryFragment : Fragment() {
 
     private val viewModel: CategoryViewModel by viewModels { ViewModelFactory(requireContext()) }
@@ -98,6 +99,7 @@ class CategoryFragment : Fragment() {
     /*---------------------------------------------*/
 
 
+    @Suppress("RedundantOverride")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -124,7 +126,7 @@ class CategoryFragment : Fragment() {
             this.flag = true
             BFLAG = false
         }
-        if (this.flag == true) {
+        if (this.flag) {
             this.flag = !this.flag
             val mmIntent = Intent(requireContext(), MainComposeActivity::class.java)
             startActivity(mmIntent)

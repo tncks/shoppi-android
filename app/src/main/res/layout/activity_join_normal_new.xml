@@ -48,7 +48,7 @@
         android:fontFamily="@font/t_font_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_email_normal_user"
-        android:text="정확한 주소를 입력하세요" />
+        android:text="@string/inputcorrectlyexactly" />
 
     <TextView
         android:id="@+id/tv_notice_email_exact_important_extra"
@@ -62,7 +62,7 @@
         android:fontFamily="@font/t_font_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_notice_email_exact_important"
-        android:text="비밀번호 분실 시 재발급 등 중요한 공지전달에 사용됩니다." />
+        android:text="@string/inputcorrectlyadditionalmessage" />
 
     <EditText
         android:id="@+id/tv_pw_normal_user"
@@ -107,7 +107,7 @@
         android:fontFamily="@font/t_font_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_pw_normal_user"
-        android:text="영문자, 숫자, 특수문자를 포함하여 8자리 이상 16자리 미만" />
+        android:text="@string/inputpasswordvalidly" />
 
     <EditText
         android:id="@+id/tv_pw_retype_again"

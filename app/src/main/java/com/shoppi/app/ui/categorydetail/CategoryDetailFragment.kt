@@ -14,6 +14,7 @@ import com.shoppi.app.common.KEY_CATEGORY_LABEL
 import com.shoppi.app.databinding.FragmentCategoryDetailBinding
 import com.shoppi.app.ui.common.ViewModelFactory
 
+@Suppress("DuplicatedCode")
 class CategoryDetailFragment : Fragment() {
 
     private val viewModel: CategoryDetailViewModel by viewModels { ViewModelFactory(requireContext()) }

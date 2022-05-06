@@ -1,11 +1,9 @@
-@file:Suppress(
-    "RemoveExplicitTypeArguments", "RemoveExplicitTypeArguments", "RemoveExplicitTypeArguments",
-    "RemoveExplicitTypeArguments", "RemoveExplicitTypeArguments", "RemoveExplicitTypeArguments"
-)
+@file:Suppress("RemoveExplicitTypeArguments")
 
 package com.shoppi.app.ui
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +13,12 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.shoppi.app.R
-import com.shoppi.app.common.FILE_PROTOCOL_PREFIX_STRING
-import com.shoppi.app.model.ModelImages
-import com.shoppi.app.model.getAlImagepath
+import com.shoppi.app.model.ModelContents
+import com.shoppi.app.model.getAlImageuri
 import com.shoppi.app.model.getStrFolder
 
-class AdapterPhotosFolder(context: Context, private val alMenu: ArrayList<ModelImages>) :
-    ArrayAdapter<ModelImages>(context, R.layout.adapter_photosfolder, alMenu) {
+class AdapterPhotosFolder(context: Context, private val alMenu: ArrayList<ModelContents>) :
+    ArrayAdapter<ModelContents>(context, R.layout.adapter_photosfolder, alMenu) {
 
     private lateinit var viewHolder: ViewHolder
 
@@ -75,8 +72,19 @@ class AdapterPhotosFolder(context: Context, private val alMenu: ArrayList<ModelI
     private fun retrieveAllMediaIFiles(vH: AdapterPhotosFolder.ViewHolder, ps: Int) {
 
         vH.tvFoldern?.text = (alMenu[ps].getStrFolder())
-        vH.tvFoldersize?.text = (alMenu[ps].getAlImagepath().size).toString()
-        Glide.with(context).load(FILE_PROTOCOL_PREFIX_STRING + alMenu[ps].getAlImagepath()[0])
+        vH.tvFoldersize?.text = (alMenu[ps].getAlImageuri().size).toString()
+        var decodedBit: Bitmap? = null
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//            decodedBit = ImageDecoder.decodeBitmap(
+//                ImageDecoder.createSource(
+//                    context.contentResolver,
+//                    alMenu[ps].getAlImageuri()[0]
+//                )
+//            )
+//        } else {
+//            decodedBit = MediaStore.Images.Media.getBitmap(context.contentResolver, alMenu[ps].getAlImageuri()[0])
+//        }
+        Glide.with(context).asBitmap().load(alMenu[ps].getAlImageuri()[0])
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(vH.ivImage!!)

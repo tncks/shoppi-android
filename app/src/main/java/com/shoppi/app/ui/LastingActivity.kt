@@ -224,6 +224,7 @@ class LastingActivity : AppCompatActivity() {
     }
 
 
+    @Suppress("RemoveExplicitTypeArguments")
     private class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var photoView: ImageView
 

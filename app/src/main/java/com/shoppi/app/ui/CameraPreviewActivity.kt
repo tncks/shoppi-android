@@ -18,6 +18,7 @@ import com.shoppi.app.R
 import com.shoppi.app.common.PERMISSION_CAMERA
 import java.util.*
 
+@Suppress("SameParameterValue")
 class CameraPreviewActivity : AppCompatActivity() {
 
     private val startCameraForResult =

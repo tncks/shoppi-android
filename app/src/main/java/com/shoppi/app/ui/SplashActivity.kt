@@ -17,6 +17,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         val prefs: SharedPreferences = getSharedPreferences("UID", Context.MODE_PRIVATE)
         GLOBALUID = prefs.getString("UID", "-10")
         if (GLOBALUID == "-10") {

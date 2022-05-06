@@ -19,7 +19,7 @@ class PhotosActivity : AppCompatActivity() {
         val gridView = findViewById<GridView>(R.id.gv_folder)
         val nPos = intent.getIntExtra("value", 0)
         val mmIndex = intent.getIntExtra("mIndex", 0)
-        val adapter = GridViewAdapter(this, GalleryActivity.alImages, nPos, mmIndex)
+        val adapter = GridViewAdapter(this, GalleryActivity.alImages2, nPos, mmIndex)
         gridView?.adapter = adapter
     }
 

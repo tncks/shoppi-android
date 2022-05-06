@@ -49,10 +49,10 @@ class CategoryTopSellingItemAdapter :
             return 404
         }
 
-        if (position == itemCount - 1) {
-            return BUTTON_TYPE
+        return if (position == itemCount - 1) {
+            BUTTON_TYPE
         } else {
-            return CONTENT_TYPE
+            CONTENT_TYPE
         }
 
     }

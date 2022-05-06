@@ -13,8 +13,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.shoppi.app.R
 import com.shoppi.app.common.*
-import com.shoppi.app.model.ModelImages
-import com.shoppi.app.model.getAlImagepath
+import com.shoppi.app.model.ModelContents
+import com.shoppi.app.model.getAlImageuri
 import com.shoppi.app.petwork.ApiService
 import com.shoppi.app.repository.category.Supglobal
 import kotlinx.coroutines.CoroutineScope
@@ -27,8 +27,8 @@ import retrofit2.Retrofit
 import java.io.File
 
 
-class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImages>, nPos2: Int, mmIndex: Int) :
-    ArrayAdapter<ModelImages>(context, R.layout.adapter_photosfolder, alMenu) {
+class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelContents>, nPos2: Int, mmIndex: Int) :
+    ArrayAdapter<ModelContents>(context, R.layout.adapter_photosfolder, alMenu) {
     private lateinit var viewHolder: ViewHolder
     private var nPos: Int = 0
     private val nPos2: Int
@@ -42,7 +42,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
 
 
     override fun getCount(): Int {
-        return alMenu[nPos].getAlImagepath().size
+        return alMenu[nPos].getAlImageuri().size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -50,8 +50,8 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
     }
 
     override fun getViewTypeCount(): Int {
-        return if (alMenu[nPos].getAlImagepath().size > 0) {
-            alMenu[nPos].getAlImagepath().size
+        return if (alMenu[nPos].getAlImageuri().size > 0) {
+            alMenu[nPos].getAlImageuri().size
         } else {
             1
         }
@@ -61,7 +61,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
         return position.toLong()
     }
 
-    @Suppress("DuplicatedCode")
+    @Suppress("DuplicatedCode", "RemoveExplicitTypeArguments")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         if (convertView == null) {
@@ -94,7 +94,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
 
         vH.tvFoldern?.visibility = View.GONE
         vH.tvFoldersize?.visibility = View.GONE
-        Glide.with(context).load(FILE_PROTOCOL_PREFIX_STRING + alMenu[nPos].getAlImagepath()[ps])
+        Glide.with(context).load(alMenu[nPos].getAlImageuri()[ps])
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(vH.ivImage!!)
@@ -107,10 +107,10 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
 
 
             val nameStartWith = "imgFile"
-            val createdTmpFile: File = TempFileIOUtility().createFileFromAbsPath(
+            val createdTmpFile: File = TempFileIOUtility().createFileFromUri(
                 context,
                 nameStartWith,
-                alMenu[nPos2].getAlImagepath()[ps]
+                alMenu[nPos2].getAlImageuri()[ps]
             )
             val fullFileName = createdTmpFile.name
             UploadUtility2().uploadFile(createdTmpFile)
@@ -132,6 +132,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelImage
     }
 
 
+    @Suppress("DuplicatedCode")
     private fun reviseMethod(thumbPhpFilePath: String, resultParam: Int) {
 
         val retrofit = Retrofit.Builder()

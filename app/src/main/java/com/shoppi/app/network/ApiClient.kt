@@ -1,3 +1,5 @@
+@file:Suppress("UnnecessaryVariable", "ConvertTryFinallyToUseCall")
+
 package com.shoppi.app.network
 
 import com.google.gson.Gson

@@ -12,7 +12,7 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- 05/05 added for camera feature -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
 
     <application

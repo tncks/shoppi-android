@@ -14,7 +14,7 @@ class PrepareJsonHelper {
     }
 
 
-    fun prepareJson(one: String, two: String, three: String): String {
+    fun prepareJson(two: String, three: String): String {
         val jsonObject = JSONObject()
         val rand = Random()
         val randValue = rand.nextInt(10000)

@@ -44,7 +44,6 @@ class MainComposeActivity : ComponentActivity() {
 fun MainContent() {
 
     var flagOne = false
-    var flagTwo = false
     /*-----------------------------------------------*/
     Scaffold(
         topBar = {
@@ -114,8 +113,7 @@ fun MainContent() {
                     when {
                         it.hasPermission -> {
 
-                            flagTwo = true
-                            if (flagOne && flagTwo) {
+                            if (flagOne) {
                                 LocalContext.current.startActivity(
                                     Intent(
                                         LocalContext.current,
@@ -127,12 +125,12 @@ fun MainContent() {
                         }
                         it.shouldShowRationale -> {
 
-                            flagTwo = false
+                            Log.i("dummy", "dummy")
 
                         }
                         !it.hasPermission && !it.shouldShowRationale -> {
 
-                            flagTwo = false
+                            Log.i("dummy", "dummy")
 
                         }
                     }

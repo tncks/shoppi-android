@@ -11,6 +11,7 @@ import com.shoppi.app.common.GLOBALUID
 import com.shoppi.app.common.SAFEUID
 import com.shoppi.app.myjetcp.MainComposeActivity
 
+@Suppress("DuplicatedCode")
 class SignBeforeStartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

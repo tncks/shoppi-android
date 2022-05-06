@@ -20,6 +20,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Retrofit
 import java.net.URL
 
+@Suppress("RemoveExplicitTypeArguments")
 class JoinNormalNewActivity : AppCompatActivity() {
 
     private lateinit var ediEmail: EditText

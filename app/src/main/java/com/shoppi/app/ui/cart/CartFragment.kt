@@ -138,10 +138,13 @@ class CartFragment : Fragment() {
                 }
 
 
+                else -> Log.i("dummy", "dummy")
+                /*
                 else -> requestPermissions(
                     arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
                     1000
                 )
+                 */
             }
 
         }
@@ -161,33 +164,40 @@ class CartFragment : Fragment() {
             val string1: String = (view.findViewById<EditText>(R.id.plain_text_input1)).text.toString()
             val string2: String = (view.findViewById<EditText>(R.id.plain_text_input2)).text.toString()
 
-            if (string0 == "" || string1 == "" || string2 == "") {
+            if (!(string0.isBlank() || string1.isBlank() || string2.isBlank())) {
 
-                Log.i("dummy", "dummy")
+                val tmpFlag: Boolean? = null
+                if (tmpFlag == null) {
+                    Toast.makeText(this.context, "개발을 위해 일시적으로 비활성화된 기능입니다", Toast.LENGTH_SHORT).show()
+                } else {
+                    // this block has original code for put method but temporarily disabled..
+                    val preferences: SharedPreferences? = activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
+                    val resultI: Int? = preferences?.getInt("pref", 0)
+                    var resultParam = 0
 
-            } else {
-                val preferences: SharedPreferences? = activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
-                val resultI: Int? = preferences?.getInt("pref", 0) // 최초 가져올때 아무것도없을때 저장값이 없으므로 두번째인자 0
-                var resultParam = 0
-
-                if (resultI != null) {
-                    resultParam = resultI
-                }
-
-                putMethod(string0, string1, getUrlPathFromInputIfExistOrGetDefault(string2), resultParam)
-
-
-                if (resultI != null) {
-                    val resultP: Int = resultI
-
-                    preferences.edit {
-                        putInt("pref", resultP + 1)
+                    if (resultI != null) {
+                        resultParam = resultI
                     }
 
+                    putMethod(string1, getUrlPathFromInputIfExistOrGetDefault(string2), resultParam)
+
+
+                    if (resultI != null) {
+                        val resultP: Int = resultI
+
+                        preferences.edit {
+                            putInt("pref", resultP + 1)
+                        }
+
+                    }
+
+                    Toast.makeText(this.context, "새로운 여행계획이 생성되었어요!", Toast.LENGTH_SHORT).show()
                 }
 
-                Toast.makeText(this.context, "새로운 여행계획이 생성되었어요!", Toast.LENGTH_SHORT).show()
-            } // End of else
+
+            } else {
+                Toast.makeText(this.context, "빈칸이 있습니다", Toast.LENGTH_SHORT).show()
+            }
 
         }
 
@@ -206,7 +216,7 @@ class CartFragment : Fragment() {
         }
     }
 
-    private fun putMethod(one: String, two: String, three: String, resultParam: Int) {
+    private fun putMethod(two: String, three: String, resultParam: Int) {
 
         val retrofit = Retrofit.Builder()
             .baseUrl(FIRE_JSON_BASEURL)
@@ -216,7 +226,7 @@ class CartFragment : Fragment() {
         val service = retrofit.create(ApiService::class.java)
 
 
-        val jsonObjectString: String = PrepareJsonHelper().prepareJson(one, two, three)
+        val jsonObjectString: String = PrepareJsonHelper().prepareJson(two, three)
 
 
         val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
@@ -242,7 +252,8 @@ class CartFragment : Fragment() {
             .setTitle("권한이 필요합니다.")
             .setMessage("프로필 이미지를 바꾸기 위해서는 갤러리 접근 권한이 필요합니다.")
             .setPositiveButton("동의하기") { _, _ ->
-                requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1000)
+                Log.i("dummy", "dummy")
+                // requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1000)
             }
             .setNegativeButton("취소하기") { _, _ -> }
             .create()

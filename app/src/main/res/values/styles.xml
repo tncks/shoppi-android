@@ -29,7 +29,6 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-
     <style name="TextSubtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textColor">@color/shoppi_black_01</item>
     </style>
@@ -51,11 +50,11 @@
         <item name="android:textColor">@color/shoppi_black_01</item>
     </style>
 
-    <style name="TextSubtitle2.Black02">
-        <item name="android:textColor">@color/shoppi_black_02</item>
+    <style name="TextSubtitle2.Travelzsky">
+        <item name="android:textColor">@color/shoppi_sky</item>
     </style>
 
-    <style name="TextSubtitle2.Black02.Bold">
+    <style name="TextSubtitle2.Travelzsky.Bold">
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -108,11 +107,11 @@
         <item name="android:textColor">@color/shoppi_grey_05</item>
     </style>
 
-    <style name="TextHeadline5.Black02" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="android:textColor">@color/shoppi_black_02</item>
+    <style name="TextHeadline5.Travelsky" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/shoppi_sky</item>
     </style>
 
-    <style name="TextHeadline5.Black02.Bold">
+    <style name="TextHeadline5.Travelsky.Bold">
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -137,11 +136,9 @@
         <item name="android:textSize">11sp</item>
     </style>
 
-
     <style name="TextCaption2.White">
         <item name="android:textColor">@color/shoppi_white</item>
     </style>
-
 
     <style name="TextCaption2.White.Bold">
         <item name="android:textStyle">bold</item>
@@ -150,6 +147,7 @@
     <style name="TextCaption2.Grey04">
         <item name="android:textColor">@color/shoppi_grey_04</item>
     </style>
+
 
     <!-- Dialog Style, Modal Theme -->
     <style name="MDialogTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
