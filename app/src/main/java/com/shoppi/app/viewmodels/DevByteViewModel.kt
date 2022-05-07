@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 
 
+@Suppress("RemoveExplicitTypeArguments")
 class DevByteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val videosRepository = VideosRepository(getDatabase(application))
@@ -41,9 +42,12 @@ class DevByteViewModel(application: Application) : AndroidViewModel(application)
                 videosRepository.refreshVideos()
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
-
             } catch (networkError: IOException) {
-
+                networkError.printStackTrace()
+                if (playlist.value.isNullOrEmpty())
+                    _eventNetworkError.value = true
+            } catch (e: Exception) {
+                e.printStackTrace()
                 if (playlist.value.isNullOrEmpty())
                     _eventNetworkError.value = true
             }
@@ -58,11 +62,16 @@ class DevByteViewModel(application: Application) : AndroidViewModel(application)
 
     class Factory(private val cont: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(DevByteViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return DevByteViewModel(cont) as T
+            return when {
+                modelClass.isAssignableFrom(DevByteViewModel::class.java) -> {
+                    @Suppress("UNCHECKED_CAST")
+                    DevByteViewModel(cont) as T
+                }
+                else -> {
+                    throw IllegalArgumentException("Fail unable to construct viewmodel: ${modelClass.name}")
+                }
             }
-            throw IllegalArgumentException("Fail unable to construct viewmodel: ${modelClass.name}")
+
         }
     }
 }

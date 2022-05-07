@@ -1,6 +1,5 @@
 package com.shoppi.app.common
 
-import android.util.Log
 import android.webkit.MimeTypeMap
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -10,24 +9,24 @@ import java.io.File
 
 class UploadUtility2 {
 
-    private var isDoneAfterPath: String? = null
     private val serverURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_URL
-    private val serverUploadDirectoryPath = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI
-    private val client = OkHttpClient()
-    var isSuccess = false
 
+    // private val serverUploadDirectoryPath = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI
+    private val client = OkHttpClient()
+    private var isSuccess: Boolean = false
+
+    @Suppress("unused")
     fun uploadFile(sourceFilePath: String, uploadedFileName: String? = null): Boolean {
         return uploadFile(File(sourceFilePath), uploadedFileName)
     }
 
 
+    @Suppress("FoldInitializerAndIfToElvis", "RedundantExplicitType")
     fun uploadFile(sourceFile: File, uploadedFileName: String? = null): Boolean {
-        var isUploadedSuccessfully = false
-        // Coroutine Scope launch Dispatchers.IO 로 수정하고 적용, 테스트 및 디버그해서 동작하는지까지 확인 Bad Thread
+
         val t = Thread {
-            val mimeType = getMimeType(sourceFile)
+            val mimeType: String? = getMimeType(sourceFile)
             if (mimeType == null) {
-                Log.i("dummy", "dummy")
                 return@Thread
             }
             val fileName: String = (uploadedFileName ?: sourceFile.name)
@@ -46,25 +45,22 @@ class UploadUtility2 {
 
                 val response: Response = client.newCall(request).execute()
 
-                Log.d("echoecho", response.code.toString())
                 if (response.isSuccessful) {
-                    Log.d("uploadutility", "uploadFile: response isSuccessful")
-                    // Log.d("echoecho", response.body.charStream())
-                    val abcd = response.body
-                    val abcde = abcd!!.string()
-                    val abcdef = abcde.split("<")[0]
-                    var lastnChars = abcdef
-                    if (lastnChars.length > 2) {
-                        lastnChars = lastnChars.substring(lastnChars.length - 2, lastnChars.length)
+
+                    val rawBodyData: ResponseBody? = response.body
+                    val translatedStringData = rawBodyData!!.string()
+                    val dataHeader: String = translatedStringData.split("<")[0]
+                    var lastnChars: String = ""
+                    if (dataHeader.length > 2) {
+                        lastnChars = dataHeader.substring(dataHeader.length - 2, dataHeader.length)
                     }
-                    Log.d("echoecho", lastnChars)
-                    isSuccess = if (lastnChars == "11") false else true
-
-
-                    // isDoneAfterPath = "$serverUploadDirectoryPath$fileName"
+                    isSuccess = when (lastnChars) {
+                        "11" -> false
+                        "00" -> true
+                        else -> false
+                    }
 
                 } else {
-                    Log.i("dummy", "dummy")
                     isSuccess = false
                 }
             } catch (e: Exception) {
@@ -74,8 +70,7 @@ class UploadUtility2 {
         }
         t.start()
         t.join()
-        val result = this.getterOfIsSuccess()
-        return result
+        return getterOfIsSuccess()
     }
 
 
@@ -89,7 +84,7 @@ class UploadUtility2 {
     }
 
 
-    fun getterOfIsSuccess(): Boolean {
+    private fun getterOfIsSuccess(): Boolean {
         return this.isSuccess
     }
 

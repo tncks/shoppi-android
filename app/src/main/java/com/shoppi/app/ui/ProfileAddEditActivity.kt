@@ -1,5 +1,3 @@
-@file:Suppress("DuplicatedCode")
-
 package com.shoppi.app.ui
 
 import android.app.AlertDialog
@@ -94,10 +92,10 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
 
         ediPeriodOfProfile.inputType = 0
-        ediPeriodOfProfile.setOnFocusChangeListener { view, b ->
+        ediPeriodOfProfile.setOnFocusChangeListener { _, b ->
             if (b) {
 
-                var dateResultStr = ""
+                var dateResultStr: String
                 val datePicker = MaterialDatePicker.Builder.dateRangePicker().build()
                 datePicker.show(supportFragmentManager, "DatePicker")
 
@@ -122,9 +120,6 @@ class ProfileAddEditActivity : AppCompatActivity() {
             }
         }
 
-//        ediPeriodOfProfile.setOnTouchListener {
-//
-//        }
 
         /*---------------------------------------------*/
 
@@ -148,7 +143,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
     }
 
-    @Suppress("DuplicatedCode")
+
     private fun reviseWithAllPatches(dataTexts: List<String>, resultParam: Int) {
 
         val retrofit = Retrofit.Builder()
@@ -167,13 +162,13 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val resultParamStringValue: String = resultParam.toString()
-
-            val response = service.updateItemProfileStyle(SAFEUID, resultParamStringValue, requestBody)
-
-            withContext(Dispatchers.Main) {
-                Log.i("dummy", response.isSuccessful.toString())
+            try {
+                val resultParamStringValue: String = resultParam.toString()
+                service.updateItemProfileStyle(SAFEUID, resultParamStringValue, requestBody)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+
         }
 
     }
@@ -188,7 +183,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
                 val iss: InputStream? = conn.inputStream
                 bitmap = BitmapFactory.decodeStream(iss)
             } catch (e: NullPointerException) {
-                val url = URL("https://i1.sndcdn.com/avatars-000674415227-wc7xjz-t500x500.jpg")
+                val url = URL(MY_NUPTR_JPG_URL_ON_LOAD_ERROR)
                 val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
                 conn.doInput = true
                 conn.connect()
@@ -240,6 +235,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
     }
 
     /*---------------------------------------------*/
+
 
     private fun fillDialogContents(builder: AlertDialog.Builder) {
         builder.setTitle(
@@ -307,7 +303,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
                 val iss: InputStream = conn.inputStream
                 bitmap = BitmapFactory.decodeStream(iss)
             } catch (e: NullPointerException) {
-                val url = URL("https://i1.sndcdn.com/avatars-000674415227-wc7xjz-t500x500.jpg")
+                val url = URL(MY_NUPTR_JPG_URL_ON_LOAD_ERROR)
                 val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
                 conn.doInput = true
                 conn.connect()
@@ -416,12 +412,12 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
 
         CoroutineScope(Dispatchers.IO).launch {
-
-            val resultParamStringValue: String = resultParam.toString()
-
-            val response = service.updateItemProfileStyle(SAFEUID, resultParamStringValue, requestBody)
-
-            // when response isSuccessful boolean handle here write true or false
+            try {
+                val resultParamStringValue: String = resultParam.toString()
+                service.updateItemProfileStyle(SAFEUID, resultParamStringValue, requestBody)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
         }
     }

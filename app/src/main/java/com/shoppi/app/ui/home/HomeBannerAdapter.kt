@@ -23,6 +23,8 @@ class HomeBannerAdapter : ListAdapter<Banner, HomeBannerAdapter.HomeBannerViewHo
         holder.bind(getItem(position))
     }
 
+    /*-------------------------------------------------------------------*/
+
     class HomeBannerViewHolder(private val binding: ItemHomeBannerBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(banner: Banner) {
@@ -31,8 +33,11 @@ class HomeBannerAdapter : ListAdapter<Banner, HomeBannerAdapter.HomeBannerViewHo
 
         }
     }
+    /*-------------------------------------------------------------------*/
 }
 
+
+/*-------------------------------------------------------------------*/
 class BannerDiffCallback : DiffUtil.ItemCallback<Banner>() {
     override fun areItemsTheSame(oldItem: Banner, newItem: Banner): Boolean {
         return oldItem.productDetail.productId == newItem.productDetail.productId

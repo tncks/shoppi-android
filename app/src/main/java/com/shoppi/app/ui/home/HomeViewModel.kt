@@ -21,9 +21,9 @@ class HomeViewModel(private val homeRepository: HomeRepository) : ViewModel() {
 
     private fun loadHomeData() {
         val homeData = homeRepository.getHomeData()
-        homeData?.let { homeData ->
-            _title.value = homeData.title
-            _topBanners.value = homeData.topBanners
+        homeData?.let { homeDataItSelf ->
+            _title.value = homeDataItSelf.title
+            _topBanners.value = homeDataItSelf.topBanners
         }
     }
 }

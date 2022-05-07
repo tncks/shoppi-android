@@ -20,7 +20,6 @@ import com.shoppi.app.ui.common.ViewModelFactory
 import kotlinx.coroutines.*
 
 
-@Suppress("DuplicatedCode")
 class CategoryFragment : Fragment() {
 
     private val viewModel: CategoryViewModel by viewModels { ViewModelFactory(requireContext()) }
@@ -31,7 +30,7 @@ class CategoryFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true) // 이 줄은 있어도 그만, 없어도 그만인데 일단은 있어도 잘 되니까 손 안대고 그대로 감
+        setHasOptionsMenu(true) // 이 줄은 있어도, 없어도 상관없음
         return binding.root
     }
 
@@ -40,7 +39,7 @@ class CategoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val myMenu = binding.toolbarCategory
-        // myMenu.inflateMenu(R.menu.menu_list) 하거나 xml app menu 속성 이용하거나 둘 중 하나, 나는 xml 사용중이라 코드 주석
+
         setToggleMenuInFragment(myMenu)
 
 
@@ -51,11 +50,12 @@ class CategoryFragment : Fragment() {
                     binding.showonnothing.visibility = View.VISIBLE
                     binding.showonnothing.setOnClickListener {
                         // 일단은 임시 토스트 생성만, 나중에 다시 변경 -> intent ProfileNewFirstActivity start
+                        // 아무것도 없는 화면에서 완전 처음 생성하는거는 따로 뷰 만들고 따로 처리해줘야될듯, not profileaddedit
                         Toast.makeText(context, "임시 토스트, 코드변경시까지 사용", Toast.LENGTH_SHORT).show()
 //                        val smallIntentForFirstProfileAdd = Intent(context, ProfileAddEditActivity::class.java)
 //                        smallIntentForFirstProfileAdd.putExtra("mIndex", 0)
 //                        startActivity(smallIntentForFirstProfileAdd)
-                        // 지금 그대로 액티비티 실행시, 해당 액티비티에서 MalformedException and IException 발생하는 문제 존재
+                        // 지금 그대로 액티비티 실행시, ProfileAddEdit 액티비티에서 Exception 발생하고 앱 종료되는 문제있
                     }
                 }
             } else {
@@ -80,6 +80,7 @@ class CategoryFragment : Fragment() {
 
     }
 
+    @Suppress("DuplicatedCode")
     private fun setToggleMenuInFragment(myMToolbar: Toolbar) {
 
         myMToolbar.setOnMenuItemClickListener {
@@ -142,6 +143,7 @@ class CategoryFragment : Fragment() {
 /*-----------------------------------------------------*/
 /*-----------------------------------------------------*/
 /*-----------------------------------------------------*/
+// myMenu.inflateMenu(R.menu.menu_list) 하거나 xml app menu 속성 이용하거나 둘 중 하나, 나는 xml 사용중이라 코드 주석
 /*
     override fun onAttach(context: Context) {
         Log.d(TAG, "onAttach")

@@ -184,7 +184,7 @@ class JoinNormalNewActivity : AppCompatActivity() {
     }
 
     private suspend fun urlRead() = withContext(Dispatchers.IO) {
-        val quickConnect = "https://shoppi-4d18d-default-rtdb.asia-southeast1.firebasedatabase.app/users.json"
+        val quickConnect = (FIRE_JSON_BASEURL + "users.json")
         try {
             URL(quickConnect).readText()
         } catch (e: Exception) {

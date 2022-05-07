@@ -16,11 +16,12 @@ class UserPrivacyAndSignOutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_privacy_and_sign_out)
 
+
         findViewById<TextView>(R.id.tv_logout).setOnClickListener {
             val prefs: SharedPreferences = getSharedPreferences("UID", Context.MODE_PRIVATE)
             val editor: SharedPreferences.Editor = prefs.edit()
             editor.remove("UID")
-            editor.commit() // do not use apply extension function
+            editor.commit() // do not use apply extension function, must use commit
 
             val clearingIntent = Intent(this, SignBeforeStartActivity::class.java)
             finishAffinity()

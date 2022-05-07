@@ -5,20 +5,19 @@ import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Log
+import com.shoppi.app.common.CONTENT_MEDIASTORE_PROTOCOL_PREFIX_STRING
 
+@Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
 object RealPathUtil {
-    /**
-     * @param context The context.
-     * @param uri     The Uri to query.
-     * @author Niks
-     */
+
     @SuppressLint("NewApi")
     fun getRealPath(context: Context, uri: Uri): String? {
 
+        var reValue: String? = null
 
         if (DocumentsContract.isDocumentUri(context, uri)) {
             if (isExternalStorageDocument(uri)) {
@@ -27,7 +26,8 @@ object RealPathUtil {
                 val type = split[0]
 
                 if (1 == 0 && "primary".equals(type, ignoreCase = true)) {
-                    return "dummy"
+                    reValue = "dummy"
+                    // return Environment.getExternalStorageDirectory().toString()
                 }
             } else if (isDownloadsDocument(uri)) {
                 var cursor: Cursor? = null
@@ -40,8 +40,9 @@ object RealPathUtil {
                         null
                     )
                     cursor!!.moveToNext()
-                    val fileName = cursor.getString(0)
-                    val path = Environment.getExternalStorageDirectory().toString() + "/Download/" + fileName
+                    // val fileName = cursor.getString(0)
+                    val path = ""
+                    // val path = Environment.getExternalStorageDirectory().toString() + "/Download/" + fileName
                     if (!TextUtils.isEmpty(path)) {
                         return path
                     }
@@ -53,9 +54,12 @@ object RealPathUtil {
                     return id.replaceFirst("raw:".toRegex(), "")
                 }
                 val contentUri =
-                    ContentUris.withAppendedId(Uri.parse("content://downloads"), java.lang.Long.valueOf(id))
+                    ContentUris.withAppendedId(
+                        Uri.parse(CONTENT_MEDIASTORE_PROTOCOL_PREFIX_STRING + "downloads"),
+                        java.lang.Long.valueOf(id)
+                    )
 
-                return getDataColumn(context, contentUri, null, null)
+                reValue = getDataColumn(context, contentUri, null, null)
             } else if (isMediaDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -66,41 +70,33 @@ object RealPathUtil {
                     "image" -> contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                     "video" -> contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
                     "audio" -> contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                    else -> Log.i("dummy", "dummy")
                 }
 
                 val selection = "_id=?"
                 val selectionArgs = arrayOf(split[1])
 
-                return getDataColumn(context, contentUri, selection, selectionArgs)
+                reValue = getDataColumn(context, contentUri, selection, selectionArgs)
             }
         } else if ("content".equals(uri.scheme!!, ignoreCase = true)) {
             return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(context, uri, null, null)
         } else if ("file".equals(uri.scheme!!, ignoreCase = true)) {
-            return uri.path
+            reValue = uri.path
+        } else {
+            reValue = "pathNotExistError"
         }
 
-        return null
+
+        return reValue!!
     }
 
 
-    /**
-     * Get the value of the data column for this Uri. This is useful for
-     * MediaStore Uris, and other file-based ContentProviders.
-     *
-     * @param context       The context.
-     * @param uri           The Uri to query.
-     * @param selection     (Optional) Filter used in the query.
-     * @param selectionArgs (Optional) Selection arguments used in the query.
-     * @return The value of the _data column, which is typically a file path.
-     * @author Niks
-     */
-    fun getDataColumn(
-        context: Context, uri: Uri?, selection: String?,
-        selectionArgs: Array<String>?
+    private fun getDataColumn(
+        context: Context, uri: Uri?, selection: String?, selectionArgs: Array<String>?
     ): String? {
 
         var cursor: Cursor? = null
-        val column = "_data"
+        val column = "_data"  // Media.String.DATA deprecated
         val projection = arrayOf(column)
 
         try {
@@ -109,40 +105,30 @@ object RealPathUtil {
                 val index = cursor.getColumnIndexOrThrow(column)
                 return cursor.getString(index)
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         } finally {
             cursor?.close()
         }
         return null
     }
 
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is ExternalStorageProvider.
-     */
+
     private fun isExternalStorageDocument(uri: Uri): Boolean {
         return "com.android.externalstorage.documents" == uri.authority
     }
 
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is DownloadsProvider.
-     */
+
     private fun isDownloadsDocument(uri: Uri): Boolean {
         return "com.android.providers.downloads.documents" == uri.authority
     }
 
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is MediaProvider.
-     */
+
     private fun isMediaDocument(uri: Uri): Boolean {
         return "com.android.providers.media.documents" == uri.authority
     }
 
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is Google Photos.
-     */
+
     private fun isGooglePhotosUri(uri: Uri): Boolean {
         return "com.google.android.apps.photos.content" == uri.authority
     }

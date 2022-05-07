@@ -1,9 +1,6 @@
-@file:Suppress("RemoveExplicitTypeArguments")
-
 package com.shoppi.app.ui
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +40,7 @@ class AdapterPhotosFolder(context: Context, private val alMenu: ArrayList<ModelC
         return position.toLong()
     }
 
-    @Suppress("DuplicatedCode")
+    @Suppress("DuplicatedCode", "RemoveExplicitTypeArguments")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         if (convertView == null) {
@@ -68,12 +65,13 @@ class AdapterPhotosFolder(context: Context, private val alMenu: ArrayList<ModelC
 
     }
 
+
     @Suppress("RemoveRedundantQualifierName")
     private fun retrieveAllMediaIFiles(vH: AdapterPhotosFolder.ViewHolder, ps: Int) {
 
         vH.tvFoldern?.text = (alMenu[ps].getStrFolder())
         vH.tvFoldersize?.text = (alMenu[ps].getAlImageuri().size).toString()
-        var decodedBit: Bitmap? = null
+//        var decodedBit: Bitmap? = null
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
 //            decodedBit = ImageDecoder.decodeBitmap(
 //                ImageDecoder.createSource(

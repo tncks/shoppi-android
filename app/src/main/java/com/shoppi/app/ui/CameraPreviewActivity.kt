@@ -18,7 +18,7 @@ import com.shoppi.app.R
 import com.shoppi.app.common.PERMISSION_CAMERA
 import java.util.*
 
-@Suppress("SameParameterValue")
+
 class CameraPreviewActivity : AppCompatActivity() {
 
     private val startCameraForResult =
@@ -47,23 +47,8 @@ class CameraPreviewActivity : AppCompatActivity() {
         )
     }
 
-    // layout xml revised
-    /*
-    <ImageView
-        android:id="@+id/imagePreview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription="@string/label_category"
-        android:maxWidth="200dp"
-        android:maxHeight="200dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-     */
 
-
+    @Suppress("SameParameterValue")
     private fun requirePermissions(permissions: Array<String>, requestCode: Int) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             permissionGranted(requestCode)
@@ -78,11 +63,7 @@ class CameraPreviewActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * @param requestCode 확인
-     * @param permissions 권한
-     * @param grantResults 승인
-     * */
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -106,7 +87,7 @@ class CameraPreviewActivity : AppCompatActivity() {
     private fun permissionDenied(requestCode: Int) {
         when (requestCode) {
             PERMISSION_CAMERA -> {
-                // change to    bb can not openCamera() dd
+                // change to failWithCamera()
                 Toast.makeText(
                     this,
                     "권한이 필요합니다. 권한을 다시 확인해주세요.",
@@ -139,6 +120,7 @@ class CameraPreviewActivity : AppCompatActivity() {
         return "$randValueString.jpg"
     }
 
+    @Suppress("SameParameterValue")
     private fun createImageUri(filename: String, mimeType: String): Uri? {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
@@ -156,3 +138,20 @@ class CameraPreviewActivity : AppCompatActivity() {
 
 
 }
+
+// Reference and revised history
+// layout xml revised
+/*
+<ImageView
+    android:id="@+id/imagePreview"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:contentDescription="@string/label_category"
+    android:maxWidth="200dp"
+    android:maxHeight="200dp"
+    android:scaleType="centerCrop"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+ */

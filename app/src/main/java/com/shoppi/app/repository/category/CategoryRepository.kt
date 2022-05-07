@@ -1,6 +1,6 @@
 package com.shoppi.app.repository.category
 
-import android.util.Log
+import com.shoppi.app.common.DELIM
 import com.shoppi.app.model.Category
 
 class CategoryRepository(
@@ -23,19 +23,19 @@ class CategoryRepository(
             if (tmp.isNotEmpty()) {
                 for (item in tmp) {
                     Supglobal.mSup += item.thumbnailImageUrl
-                    Supglobal.mSup += "|"
+                    Supglobal.mSup += DELIM
 
                     Supglobal.mLabel += item.label
-                    Supglobal.mLabel += "|"
+                    Supglobal.mLabel += DELIM
 
                     Supglobal.mLocation += item.location
-                    Supglobal.mLocation += "|"
+                    Supglobal.mLocation += DELIM
 
                     Supglobal.mPeriod += item.period
-                    Supglobal.mPeriod += "|"
+                    Supglobal.mPeriod += DELIM
 
                     Supglobal.mMemo += item.memo
-                    Supglobal.mMemo += "|"
+                    Supglobal.mMemo += DELIM
                 }
                 /*----------------------*/
                 Supglobal.mSup = Supglobal.mSup.dropLast(1)
@@ -43,8 +43,6 @@ class CategoryRepository(
                 Supglobal.mLocation = Supglobal.mLocation.dropLast(1)
                 Supglobal.mPeriod = Supglobal.mPeriod.dropLast(1)
                 Supglobal.mMemo = Supglobal.mMemo.dropLast(1)
-            } else {
-                Log.i("dummy", "dummy")
             }
         }
         /*------------------------------------------------------*/

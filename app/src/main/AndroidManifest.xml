@@ -15,6 +15,33 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- search and google ACCESS_MEDIA_LOCATION permission later -->
 
+    <queries>
+        <!-- Browser -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
+            <data android:scheme="https" />
+        </intent>
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <!-- Gallery -->
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+        </intent>
+        <!-- Email send -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="*" />
+        </intent>
+    </queries>
+
+    <!-- Camera Hardware Feature required -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"

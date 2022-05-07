@@ -1,5 +1,3 @@
-@file:Suppress("UnnecessaryVariable", "ConvertTryFinallyToUseCall")
-
 package com.shoppi.app.network
 
 import com.google.gson.Gson
@@ -28,8 +26,6 @@ interface ApiClient {
 
     companion object {
 
-        private const val baseUrl = FIRE_JSON_BASEURL
-
         fun create(): ApiClient {
             val logger = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BASIC
@@ -41,13 +37,12 @@ interface ApiClient {
 
 
             return Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(FIRE_JSON_BASEURL)
                 .client(client)
                 .addConverterFactory(NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiClient::class.java)
-
 
         }
 
@@ -63,13 +58,15 @@ interface ApiClient {
                 return object : Converter<ResponseBody, Any> {
                     override fun convert(body: ResponseBody): Any? {
                         try {
+                            // 4L eqaul to Null length str null
                             if (body.contentLength() == 4L) {
                                 return listOf<Category>()
                             }
                             val jsonReader = gson.newJsonReader(body.charStream())
-                            val result = adapter.read(jsonReader)
-
-                            return result
+                            return adapter.read(jsonReader)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            return listOf<Category>()
                         } finally {
                             body.close()
                         }

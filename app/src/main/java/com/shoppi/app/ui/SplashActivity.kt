@@ -16,7 +16,12 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // no set content view on splash create no layout xml set
 
+        doAutoLoginIfPossibleElseGoSignStartScreen()
+    }
+
+    private fun doAutoLoginIfPossibleElseGoSignStartScreen() {
 
         val prefs: SharedPreferences = getSharedPreferences("UID", Context.MODE_PRIVATE)
         GLOBALUID = prefs.getString("UID", "-10")

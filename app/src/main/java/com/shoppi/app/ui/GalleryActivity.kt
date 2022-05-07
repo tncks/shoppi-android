@@ -109,7 +109,7 @@ class GalleryActivity : AppCompatActivity() {
 //        val cursor: Cursor? = applicationContext.contentResolver.query(uri, projection, null, null, "$orderBy DESC")
 //        // val columnIndexData = cursor?.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
 //        val columnIndexFolderName = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-//        while (cursor!!.moveToNext()) {
+//        while (cursor != null && cursor.moveToNext()) {
 //            absolutePathOfImage = "" // cursor.getString(columnIndexData!!)
 //
 //            for (i in Companion.alImages.indices) {

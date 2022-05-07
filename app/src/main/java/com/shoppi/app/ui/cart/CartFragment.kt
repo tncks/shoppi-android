@@ -1,3 +1,5 @@
+@file:Suppress("KotlinConstantConditions")
+
 package com.shoppi.app.ui.cart
 
 import android.app.Activity

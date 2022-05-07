@@ -21,11 +21,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels { ViewModelFactory(requireContext()) }
     private lateinit var binding: FragmentHomeBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -42,6 +38,9 @@ class HomeFragment : Fragment() {
         setTestButtonEventThird(view)
 
     }
+
+
+    /*-------------------------------------------------------------------*/
 
     private fun setToolbar() {
         @Suppress("MoveLambdaOutsideParentheses")
@@ -77,6 +76,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    // Begin of TEST DUMMY CODE
     private fun setTestButtonEvent(view: View) {
         view.findViewById<Button>(R.id.btn_move_test_my_pictures).setOnClickListener {
             val intent = Intent(activity, LastingActivity::class.java)
@@ -103,6 +103,7 @@ class HomeFragment : Fragment() {
         // for test usage edit this later
         view.findViewById<Button>(R.id.btn_move_test_sign_start).visibility = View.INVISIBLE
     }
+    // End of TEST DUMMY CODE
 
 
 }

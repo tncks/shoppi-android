@@ -25,9 +25,6 @@ class MypageFragment : Fragment() {
     private var viewProfile: View? = null
 
 
-    /*-------------------------------------------------------------------*/
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         viewProfile = inflater.inflate(R.layout.fragment_mypage, container, false)
@@ -40,8 +37,9 @@ class MypageFragment : Fragment() {
 
 
         setTestRestEventsAtOnce(view)
-
     }
+
+    /*-------------------------------------------------------------------*/
 
     private fun setTestRestEventsAtOnce(view: View) {
 

@@ -1,9 +1,11 @@
+@file:Suppress("unused")
+
 package com.shoppi.app.ui
 
 import android.content.Context
 import android.net.Uri
 
-// Extension on intent
+/*------ Extension on intent ------*/
 
 //fun Intent?.getFilePath(context: Context): String {
 //    return this?.data?.let { data -> RealPathUtil.getRealPath(context, data) ?: "" } ?: ""

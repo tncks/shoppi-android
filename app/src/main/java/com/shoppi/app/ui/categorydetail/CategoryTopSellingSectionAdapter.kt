@@ -21,6 +21,9 @@ class CategoryTopSellingSectionAdapter :
         holder.bind(getItem(position))
     }
 
+
+    /*-------------------------------------------------------------------------*/
+
     class TopSellingSectionViewHolder(private val binding: ItemCategoryTopSellingSectionBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -30,6 +33,7 @@ class CategoryTopSellingSectionAdapter :
             binding.rvCategorySection.adapter = nestedAdapter
         }
 
+        @Suppress("RemoveExplicitTypeArguments")
         fun bind(topSelling: TopSelling) {
             binding.title = topSelling.title
             binding.executePendingBindings()
@@ -42,9 +46,13 @@ class CategoryTopSellingSectionAdapter :
         }
 
     }
+    /*-------------------------------------------------------------------------*/
 
 
 }
+
+
+/*-------------------------------------------------------------------------*/
 
 class TopSellingDiffCallback : DiffUtil.ItemCallback<TopSelling>() {
     override fun areItemsTheSame(oldItem: TopSelling, newItem: TopSelling): Boolean {

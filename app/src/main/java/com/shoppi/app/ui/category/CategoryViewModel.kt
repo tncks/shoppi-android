@@ -34,6 +34,7 @@ class CategoryViewModel(
 
 
     private fun loadCategory() {
+
         viewModelScope.launch {
             val categories: List<Category>? = categoryRepository.getCategories(SAFEUID)
             // change this line null sentence to isNotEmpty() when need
@@ -47,9 +48,8 @@ class CategoryViewModel(
                     isNothingToShow = true
                 }
             }
-
-
         }
+
     }
 }
 
@@ -58,7 +58,7 @@ class CategoryViewModel(
 /*--------------------------------------------------------------*/
 /*--------------------------------------------------------------*/
 /*
-             for future use, like gesture condition flow, when need use this
+    for future use, like gesture condition flow, when need use this
 
     fun onLongClick(category: Category) {
         _openCategoryEvent2.value = Event(category)

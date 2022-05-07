@@ -1,3 +1,5 @@
+@file:Suppress("SameParameterValue", "KotlinConstantConditions")
+
 package com.shoppi.app.ui
 
 
@@ -21,8 +23,8 @@ import com.shoppi.app.common.MY_HEIGHT_INTERVAL_TOP_BOTTOM
 @Suppress("RemoveRedundantQualifierName")
 class LastingActivity : AppCompatActivity() {
 
-    private var mNum: Int = 0
-    private lateinit var mMM: MutableList<String>
+    // private var mNum: Int = 0
+    // private lateinit var mMM: MutableList<String>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

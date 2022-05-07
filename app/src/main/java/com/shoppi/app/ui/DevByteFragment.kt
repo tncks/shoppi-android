@@ -1,17 +1,14 @@
-@file:Suppress(
-    "RemoveExplicitTypeArguments", "RemoveExplicitTypeArguments", "RemoveExplicitTypeArguments",
-    "RemoveExplicitTypeArguments"
-)
-
 package com.shoppi.app.ui
 
+import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -27,10 +24,9 @@ import com.shoppi.app.viewmodels.DevByteViewModel
 
 class DevByteFragment : Fragment() {
 
-
     private val viewModel: DevByteViewModel by lazy {
         val activity = requireNotNull(this.activity) {
-            "You can only access the viewModel after onActivityCreated()"
+            "travelz app 404 access lazy problem in process"
         }
         ViewModelProvider(this, DevByteViewModel.Factory(activity.application))[DevByteViewModel::class.java]
     }
@@ -39,16 +35,7 @@ class DevByteFragment : Fragment() {
     private var viewModelAdapter: DevByteAdapter? = null
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.playlist.observe(viewLifecycleOwner, Observer<List<DevByteVideo>> { videos ->
-            videos?.apply {
-                viewModelAdapter?.videos = videos
-            }
-        })
-    }
-
-
+    @Suppress("RemoveExplicitTypeArguments")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,11 +59,20 @@ class DevByteFragment : Fragment() {
 
             var intent = Intent(Intent.ACTION_VIEW, it.launchUri)
             if (intent.resolveActivity(packageManager) == null) {
-
                 intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.url))
             }
 
-            startActivity(intent)
+            try {
+                startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                e.printStackTrace()
+                startActivity(Intent(requireContext(), MainActivity::class.java))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                startActivity(Intent(requireContext(), MainActivity::class.java))
+            }
+
+
         })
 
         binding.root.findViewById<RecyclerView>(R.id.recycler_view).apply {
@@ -93,10 +89,20 @@ class DevByteFragment : Fragment() {
         return binding.root
     }
 
+    @Suppress("RemoveExplicitTypeArguments")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.playlist.observe(viewLifecycleOwner, Observer<List<DevByteVideo>> { videos ->
+            videos?.apply {
+                viewModelAdapter?.videos = videos
+            }
+        })
+    }
+
 
     private fun onNetworkError() {
         if (!viewModel.isNetworkErrorShown.value!!) {
-            Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
+            Log.d("NetworkError", "Network Error")
             viewModel.onNetworkErrorShown()
         }
     }
@@ -120,9 +126,9 @@ class DevByteAdapter(private val callback: VideoClick) : RecyclerView.Adapter<De
 
 
     var videos: List<DevByteVideo> = emptyList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
-
             notifyDataSetChanged()
         }
 

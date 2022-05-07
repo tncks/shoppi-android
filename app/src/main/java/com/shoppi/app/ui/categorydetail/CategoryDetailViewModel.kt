@@ -21,6 +21,7 @@ class CategoryDetailViewModel(
     }
 
     private fun loadCategoryDetail() {
+
         viewModelScope.launch {
             val categoryDetail = categoryDetailRepository.getCategoryDetail()
             _topSelling.value = categoryDetail.topSelling

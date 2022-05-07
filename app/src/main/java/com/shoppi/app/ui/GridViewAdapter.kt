@@ -135,7 +135,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
             } else {
                 // first upload fail FileNotFoundException or response body echo is 00/11 then do below
                 // re second upload try again in other ways and do same thing
-                var bitmap: Bitmap? = null
+                val bitmap: Bitmap?
                 if (Build.VERSION.SDK_INT >= 28) {
                     val source = ImageDecoder.createSource(context.contentResolver, alMenu[nPos2].getAlImageuri()[ps])
                     bitmap = ImageDecoder.decodeBitmap(source)

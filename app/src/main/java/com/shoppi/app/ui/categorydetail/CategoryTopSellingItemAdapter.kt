@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shoppi.app.R
 import com.shoppi.app.common.BUTTON_TYPE
 import com.shoppi.app.common.CONTENT_TYPE
+import com.shoppi.app.common.MY_BTN_JPG_URL_ADD_PLUS
 import com.shoppi.app.databinding.ItemCategoryTopSellingBinding
 import com.shoppi.app.model.Category
 import com.shoppi.app.ui.common.CategoryDiffCallback
@@ -24,7 +25,7 @@ class CategoryTopSellingItemAdapter :
     var prevSelectionPointer: View? = null
 
 
-    /*
+    /*  Description
     // in onCreateViewHolder block skip condition check because of same behavior
     // These comments are Description for condition
     // if   (viewType == CONTENT_TYPE) do same
@@ -125,7 +126,7 @@ class CategoryTopSellingItemAdapter :
 
         private fun doButtonTypeUiSetting() {
 
-            val btnThumbnailImageUrl = "https://icon-library.com/images/add-icon-png/add-icon-png-25.jpg"
+            val btnThumbnailImageUrl = MY_BTN_JPG_URL_ADD_PLUS
             setUpAddButtonImageAndUrl(btnThumbnailImageUrl)
 
             setStyleHideWithUnnecessaryTextView()
@@ -144,9 +145,9 @@ class CategoryTopSellingItemAdapter :
         private fun getIntegerBlackColorCode(): Int {
             return Color.parseColor("#000000")
         }
-
         // End of util
 
+        @Suppress("SameParameterValue")
         private fun setUpAddButtonImageAndUrl(btnThumbnailImageUrl: String) {
             binding.category = Category(
                 "dummy",

@@ -15,7 +15,7 @@ fun String.smartTruncate(length: Int): String {
         }
         builder.append(word)
         builder.append(" ")
-        added += 1
+        added++
     }
 
     PUNCTUATION.map {
@@ -29,3 +29,5 @@ fun String.smartTruncate(length: Int): String {
     }
     return builder.toString()
 }
+
+// Extension Function for String type

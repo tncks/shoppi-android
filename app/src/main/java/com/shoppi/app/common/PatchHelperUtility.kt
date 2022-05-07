@@ -5,13 +5,13 @@ class PatchHelperUtility {
         var revisedString = ""
         for (i in 0 until index) {
             revisedString += tmpParams[i]
-            revisedString += "|"
+            revisedString += DELIM
         }
         revisedString += URL
-        revisedString += "|"
+        revisedString += DELIM
         for (i in index + 1 until tmpParams.size) {
             revisedString += tmpParams[i]
-            revisedString += "|"
+            revisedString += DELIM
         }
         revisedString.dropLast(1)
         return revisedString
