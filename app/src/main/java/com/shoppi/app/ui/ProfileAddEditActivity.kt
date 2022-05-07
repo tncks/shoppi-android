@@ -185,8 +185,21 @@ class ProfileAddEditActivity : AppCompatActivity() {
                 val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
                 conn.doInput = true
                 conn.connect()
-                val iss: InputStream = conn.inputStream
+                val iss: InputStream? = conn.inputStream
                 bitmap = BitmapFactory.decodeStream(iss)
+            } catch (e: NullPointerException) {
+                val url = URL("https://i1.sndcdn.com/avatars-000674415227-wc7xjz-t500x500.jpg")
+                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                conn.doInput = true
+                conn.connect()
+                val iss: InputStream? = conn.inputStream
+                bitmap = BitmapFactory.decodeStream(iss)
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    if (this@ProfileAddEditActivity::bitmap.isInitialized) {
+                        ivProfileThumbnail.setImageBitmap(bitmap)
+                    }
+                }
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
@@ -202,6 +215,11 @@ class ProfileAddEditActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
+                }
             }
             withContext(Dispatchers.Main) {
                 try {
@@ -211,6 +229,9 @@ class ProfileAddEditActivity : AppCompatActivity() {
                         throw InterruptedException()
                     }
                 } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
+                } catch (e: Exception) {
                     e.printStackTrace()
                     ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
                 }
@@ -285,6 +306,19 @@ class ProfileAddEditActivity : AppCompatActivity() {
                 conn.connect()
                 val iss: InputStream = conn.inputStream
                 bitmap = BitmapFactory.decodeStream(iss)
+            } catch (e: NullPointerException) {
+                val url = URL("https://i1.sndcdn.com/avatars-000674415227-wc7xjz-t500x500.jpg")
+                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                conn.doInput = true
+                conn.connect()
+                val iss: InputStream? = conn.inputStream
+                bitmap = BitmapFactory.decodeStream(iss)
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    if (this@ProfileAddEditActivity::bitmap.isInitialized) {
+                        ivProfileThumbnail.setImageBitmap(bitmap)
+                    }
+                }
             } catch (e: MalformedURLException) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
@@ -300,6 +334,11 @@ class ProfileAddEditActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_refresh)
+                }
             }
             withContext(Dispatchers.Main) {
                 try {
@@ -309,6 +348,9 @@ class ProfileAddEditActivity : AppCompatActivity() {
                         throw InterruptedException()
                     }
                 } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
+                } catch (e: Exception) {
                     e.printStackTrace()
                     ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
                 }

@@ -2,6 +2,10 @@ package com.shoppi.app.ui
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +29,8 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Retrofit
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelContents>, nPos2: Int, mmIndex: Int) :
@@ -101,10 +107,10 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
 
     }
 
+
     @Suppress("RemoveRedundantQualifierName")
     private fun changeThumbnailAndNavigateToPrevScreen(vH: GridViewAdapter.ViewHolder, ps: Int) {
         vH.ivImage?.setOnClickListener {
-
 
             val nameStartWith = "imgFile"
             val createdTmpFile: File = TempFileIOUtility().createFileFromUri(
@@ -112,25 +118,67 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
                 nameStartWith,
                 alMenu[nPos2].getAlImageuri()[ps]
             )
-            val fullFileName = createdTmpFile.name
-            UploadUtility2().uploadFile(createdTmpFile)
-            val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + fullFileName
+            var fullFileName = createdTmpFile.name
+            val uploadResultFirst: Boolean = UploadUtility2().uploadFile(createdTmpFile)
+            if (uploadResultFirst) {
+                // first upload success then do below
+                val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + fullFileName
+
+                reviseMethod(prePathNameURL, mmIndex)
+
+                resetSupG(prePathNameURL)
+
+                val intent = Intent(context, ProfileAddEditActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                context.startActivity(intent)
+
+            } else {
+                // first upload fail FileNotFoundException or response body echo is 00/11 then do below
+                // re second upload try again in other ways and do same thing
+                var bitmap: Bitmap? = null
+                if (Build.VERSION.SDK_INT >= 28) {
+                    val source = ImageDecoder.createSource(context.contentResolver, alMenu[nPos2].getAlImageuri()[ps])
+                    bitmap = ImageDecoder.decodeBitmap(source)
+                } else {
+                    bitmap =
+                        MediaStore.Images.Media.getBitmap(context.contentResolver, alMenu[nPos2].getAlImageuri()[ps])
+                }
+                // then reviseMethod and resetSupG
+                if (bitmap != null) {
 
 
-            reviseMethod(prePathNameURL, mmIndex)
+                    val ttfile = File.createTempFile("imgFile", ".jpg", context.cacheDir)
+                    val outputStream = FileOutputStream(ttfile)
+                    try {
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream) // 70 값 수정하지마세요
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    } finally {
+                        try {
+                            outputStream.close()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
 
-            resetSupG(prePathNameURL)
+                    if (UploadUtility2().uploadFile(ttfile)) {
+                        val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + ttfile.name
 
-            // val intent = Intent(context, LastingActivity::class.java)
-            // intent.putExtra("prePathNameURL", prePathNameURL)
-            // intent.putExtra("mIndex", 0)
-            val intent = Intent(context, ProfileAddEditActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            context.startActivity(intent)
+                        reviseMethod(prePathNameURL, mmIndex)
+
+                        resetSupG(prePathNameURL)
+
+                        val intent = Intent(context, ProfileAddEditActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        context.startActivity(intent)
+                    } else {
+                        Log.w("FAIL", "GridViewAdapter FAIL")
+                    }
+                }
+            }
 
         }
     }
-
 
     @Suppress("DuplicatedCode")
     private fun reviseMethod(thumbPhpFilePath: String, resultParam: Int) {
@@ -161,31 +209,6 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
         }
     }
 
-//    private fun prepareSmallJson(thumbPhpFilePath: String): String {
-//        val jsonObject = JSONObject()
-//
-//        jsonObject.put("thumbnail_image_url", thumbPhpFilePath)
-//
-//
-//        return jsonObject.toString()
-//    }
-
-    /* private fun prepareSmallJson(thumbPhpFilePath: List<String>?): String {
-          val jsonObject = JSONObject()
-
-          val myMap = listOf<String>("label", "thumbnail_image_url", "location", "period", "memo")
-          var i = -1
-          for (ls in thumbPhpFilePath!!) {
-              i++
-              if (ls.isBlank() || ls.isEmpty()) {
-                  continue
-              }
-              jsonObject.put(myMap[i], ls)
-          }
-
-          return jsonObject.toString()
-      } */
-
 
     private fun resetSupG(prePathNameURL: String) {
         val tmpLs = Supglobal.mSup.split(DELIM)
@@ -199,3 +222,6 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
         var ivImage: ImageView? = null
     }
 }
+
+
+

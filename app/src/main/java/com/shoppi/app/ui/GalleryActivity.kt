@@ -23,7 +23,7 @@ import com.shoppi.app.model.*
 
 @Suppress("RedundantCompanionReference")
 class GalleryActivity : AppCompatActivity() {
-    private var booleanFolder = false
+    // private var booleanFolder = false
     private var booleanFolder2 = false
     private var objAdapter: AdapterPhotosFolder? = null
     private var gvFolder: GridView? = null
@@ -99,53 +99,53 @@ class GalleryActivity : AppCompatActivity() {
 
     }
 
-    private fun myimagespath() {
-        Companion.alImages.clear()
-        var nPos = 0
-        var absolutePathOfImage: String?
-        val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(/*MediaStore.MediaColumns.DATA, */MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-        val orderBy = MediaStore.Images.Media.DATE_TAKEN
-        val cursor: Cursor? = applicationContext.contentResolver.query(uri, projection, null, null, "$orderBy DESC")
-        // val columnIndexData = cursor?.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
-        val columnIndexFolderName = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-        while (cursor!!.moveToNext()) {
-            absolutePathOfImage = "" // cursor.getString(columnIndexData!!)
-
-            for (i in Companion.alImages.indices) {
-                if (Companion.alImages[i].getStrFolder() == cursor.getString(
-                        columnIndexFolderName!!
-                    )
-                ) {
-                    booleanFolder = true
-                    nPos = i
-                    break
-                } else {
-                    booleanFolder = false
-                }
-            }
-            if (booleanFolder) {
-                val alPath = ArrayList<String>()
-                alPath.addAll(Companion.alImages[nPos].getAlImagepath())
-                alPath.add(absolutePathOfImage)
-                Companion.alImages[nPos].setAlImagepath(alPath)
-            } else {
-                val alPath = ArrayList<String>()
-                alPath.add(absolutePathOfImage)
-                if (columnIndexFolderName != null) {
-                    val objModel = ModelImages(cursor.getString(columnIndexFolderName), alPath)
-                    objModel.setStrFolder(cursor.getString(columnIndexFolderName))
-                    objModel.setAlImagepath(alPath)
-                    Companion.alImages.add(objModel)
-                }
-
-            }
-        }
-
-        // objAdapter = AdapterPhotosFolder(applicationContext, Companion.alImages)
-        // gvFolder?.adapter = objAdapter
-
-    }
+//    private fun myimagespath() {
+//        Companion.alImages.clear()
+//        var nPos = 0
+//        var absolutePathOfImage: String?
+//        val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+//        val projection = arrayOf(/*MediaStore.MediaColumns.DATA, */MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+//        val orderBy = MediaStore.Images.Media.DATE_TAKEN
+//        val cursor: Cursor? = applicationContext.contentResolver.query(uri, projection, null, null, "$orderBy DESC")
+//        // val columnIndexData = cursor?.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+//        val columnIndexFolderName = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+//        while (cursor!!.moveToNext()) {
+//            absolutePathOfImage = "" // cursor.getString(columnIndexData!!)
+//
+//            for (i in Companion.alImages.indices) {
+//                if (Companion.alImages[i].getStrFolder() == cursor.getString(
+//                        columnIndexFolderName!!
+//                    )
+//                ) {
+//                    booleanFolder = true
+//                    nPos = i
+//                    break
+//                } else {
+//                    booleanFolder = false
+//                }
+//            }
+//            if (booleanFolder) {
+//                val alPath = ArrayList<String>()
+//                alPath.addAll(Companion.alImages[nPos].getAlImagepath())
+//                alPath.add(absolutePathOfImage)
+//                Companion.alImages[nPos].setAlImagepath(alPath)
+//            } else {
+//                val alPath = ArrayList<String>()
+//                alPath.add(absolutePathOfImage)
+//                if (columnIndexFolderName != null) {
+//                    val objModel = ModelImages(cursor.getString(columnIndexFolderName), alPath)
+//                    objModel.setStrFolder(cursor.getString(columnIndexFolderName))
+//                    objModel.setAlImagepath(alPath)
+//                    Companion.alImages.add(objModel)
+//                }
+//
+//            }
+//        }
+//
+//        // objAdapter = AdapterPhotosFolder(applicationContext, Companion.alImages)
+//        // gvFolder?.adapter = objAdapter
+//
+//    }
 
     private fun myimagespath2() {
         Companion.alImages2.clear()
@@ -285,7 +285,7 @@ class GalleryActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this,
-                            "권한을 확인해주세요. Need a permission to READ or WRITE to devices storage",
+                            "권한을 확인해주세요.",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -296,7 +296,7 @@ class GalleryActivity : AppCompatActivity() {
     }
 
     companion object {
-        var alImages: ArrayList<ModelImages> = ArrayList<ModelImages>()
+        // var alImages: ArrayList<ModelImages> = ArrayList<ModelImages>()
         var alImages2: ArrayList<ModelContents> = ArrayList<ModelContents>()
     }
 
