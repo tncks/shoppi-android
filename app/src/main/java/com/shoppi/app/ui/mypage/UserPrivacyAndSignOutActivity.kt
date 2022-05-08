@@ -1,4 +1,4 @@
-package com.shoppi.app.ui
+package com.shoppi.app.ui.mypage
 
 import android.annotation.SuppressLint
 import android.content.Context

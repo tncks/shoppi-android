@@ -73,7 +73,7 @@
         android:layout_marginBottom="10dp"
         android:autofillHints="password"
         android:background="@null"
-        android:inputType="textEmailAddress|textNoSuggestions"
+        android:inputType="textPassword"
         android:textColor="@color/shoppi_grey_05"
         android:textSize="16sp"
         android:fontFamily="@font/t_font_light"
@@ -118,7 +118,7 @@
         android:layout_marginBottom="35dp"
         android:autofillHints="password"
         android:background="@null"
-        android:inputType="textEmailAddress|textNoSuggestions"
+        android:inputType="textPassword"
         android:textColor="@color/shoppi_grey_05"
         android:textSize="16sp"
         android:fontFamily="@font/t_font_light"
@@ -174,10 +174,10 @@
 
     <Button
         android:id="@+id/bt_submit_join_form_btn"
+        style="@style/SubmitBtnStyle"
         android:layout_width="340dp"
         android:layout_height="46dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/shoppi_sky"
         android:enabled="true"
         android:text="@string/btn_simple_complete_submit"
         android:textColor="@color/shoppi_white"
@@ -187,7 +187,8 @@
         app:cornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:backgroundTint="@color/shoppi_sky" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

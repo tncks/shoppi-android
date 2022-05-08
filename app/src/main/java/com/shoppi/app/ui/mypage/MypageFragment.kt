@@ -10,7 +10,6 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.shoppi.app.R
 import com.shoppi.app.ui.DevByteActivity
-import com.shoppi.app.ui.UserPrivacyAndSignOutActivity
 import com.shoppi.app.ui.common.MoveToGalleryCameraPickOneActivity
 import com.shoppi.app.ui.common.MoveToGalleryCameraPickOneWithNextActivity
 import com.shoppi.app.ui.feed.MemoWithoutPictureActivity
@@ -144,6 +143,7 @@ class MypageFragment : Fragment() {
 
         view.findViewById<Button>(R.id.btn_move_test_15).setOnClickListener {
             val intent = Intent(activity, DevByteActivity::class.java)
+            // val intent = Intent(activity, DevByteActivity::class.java)
             startActivity(intent)
         }
 

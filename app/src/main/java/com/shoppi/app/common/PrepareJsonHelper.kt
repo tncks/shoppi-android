@@ -4,13 +4,14 @@ import org.json.JSONObject
 import java.util.*
 
 class PrepareJsonHelper {
-    fun prepareSmallJson(FilePath: String): String {
+
+    fun prepareFlexibleJson(FilePath: String): String {
         val jsonObject = JSONObject()
         jsonObject.put("thumbnail_image_url", FilePath)
         return jsonObject.toString()
     }
 
-    fun prepareAllJson(datas: List<String>): String {
+    fun prepareFlexibleJson(datas: List<String>): String {
         val jsonObject = JSONObject()
         val profileName = datas[0]
         val location = datas[1]
@@ -65,3 +66,29 @@ class PrepareJsonHelper {
     // End of deprecated description
 
 }
+
+
+// Reference for studying
+/*
+    fun prepareSmallJson(FilePath: String): String {
+        val jsonObject = JSONObject()
+        jsonObject.put("thumbnail_image_url", FilePath)
+        return jsonObject.toString()
+    }
+
+
+    fun prepareAllJson(datas: List<String>): String {
+        val jsonObject = JSONObject()
+        val profileName = datas[0]
+        val location = datas[1]
+        val period = datas[2]
+        val memo = datas[3]
+
+        jsonObject.put("label", profileName)
+        jsonObject.put("location", location)
+        jsonObject.put("period", period)
+        jsonObject.put("memo", memo)
+
+        return jsonObject.toString()
+    }
+    */

@@ -71,17 +71,7 @@ class AdapterPhotosFolder(context: Context, private val alMenu: ArrayList<ModelC
 
         vH.tvFoldern?.text = (alMenu[ps].getStrFolder())
         vH.tvFoldersize?.text = (alMenu[ps].getAlImageuri().size).toString()
-//        var decodedBit: Bitmap? = null
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//            decodedBit = ImageDecoder.decodeBitmap(
-//                ImageDecoder.createSource(
-//                    context.contentResolver,
-//                    alMenu[ps].getAlImageuri()[0]
-//                )
-//            )
-//        } else {
-//            decodedBit = MediaStore.Images.Media.getBitmap(context.contentResolver, alMenu[ps].getAlImageuri()[0])
-//        }
+
         Glide.with(context).asBitmap().load(alMenu[ps].getAlImageuri()[0])
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
@@ -94,3 +84,16 @@ class AdapterPhotosFolder(context: Context, private val alMenu: ArrayList<ModelC
         var ivImage: ImageView? = null
     }
 }
+
+// Reference for studying
+//        var decodedBit: Bitmap? = null
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//            decodedBit = ImageDecoder.decodeBitmap(
+//                ImageDecoder.createSource(
+//                    context.contentResolver,
+//                    alMenu[ps].getAlImageuri()[0]
+//                )
+//            )
+//        } else {
+//            decodedBit = MediaStore.Images.Media.getBitmap(context.contentResolver, alMenu[ps].getAlImageuri()[0])
+//        }

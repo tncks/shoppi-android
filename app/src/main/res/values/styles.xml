@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Button Style -->
+    <style name="SubmitBtnStyle">
+        <item name="android:backgroundTint">@color/btn_color</item>
+    </style>
+
     <!-- ImageView Style -->
     <style name="Circle">
         <item name="cornerSize">6%</item>

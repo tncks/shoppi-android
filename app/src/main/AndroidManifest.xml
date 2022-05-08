@@ -136,7 +136,7 @@
             android:label="@string/title_activity_main_compose"
             android:theme="@style/Theme.Shoppiandroid.NoActionBar"></activity>
         <activity
-            android:name=".ui.UserPrivacyAndSignOutActivity"
+            android:name=".ui.mypage.UserPrivacyAndSignOutActivity"
             android:exported="false"></activity>
         <activity
             android:name=".ui.CameraPreviewActivity"

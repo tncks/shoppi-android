@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.shoppi.app.ui
+package com.shoppi.app.util
 
 import android.content.Context
 import android.net.Uri

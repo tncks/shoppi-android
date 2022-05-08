@@ -95,6 +95,9 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
 
     }
 
+
+    /*---------------------------------------------------------------------*/
+
     @Suppress("RemoveRedundantQualifierName")
     private fun retrieveAllMediaIFiles(vH: GridViewAdapter.ViewHolder, ps: Int) {
 
@@ -108,7 +111,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
     }
 
 
-    @Suppress("RemoveRedundantQualifierName")
+    @Suppress("RemoveRedundantQualifierName", "LiftReturnOrAssignment")
     private fun changeThumbnailAndNavigateToPrevScreen(vH: GridViewAdapter.ViewHolder, ps: Int) {
         vH.ivImage?.setOnClickListener {
 
@@ -118,23 +121,10 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
                 nameStartWith,
                 alMenu[nPos2].getAlImageuri()[ps]
             )
-            var fullFileName = createdTmpFile.name
-            val uploadResultFirst: Boolean = UploadUtility2().uploadFile(createdTmpFile)
-            if (uploadResultFirst) {
-                // first upload success then do below
-                val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + fullFileName
-
-                reviseMethod(prePathNameURL, mmIndex)
-
-                resetSupG(prePathNameURL)
-
-                val intent = Intent(context, ProfileAddEditActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                context.startActivity(intent)
-
+            val uploadSuccessfulAtFirstTry: Boolean = UploadUtility2().uploadFile(createdTmpFile)
+            if (uploadSuccessfulAtFirstTry) {
+                doRestChoresAfterUpload(createdTmpFile.name)
             } else {
-                // first upload fail FileNotFoundException or response body echo is 00/11 then do below
-                // re second upload try again in other ways and do same thing
                 val bitmap: Bitmap?
                 if (Build.VERSION.SDK_INT >= 28) {
                     val source = ImageDecoder.createSource(context.contentResolver, alMenu[nPos2].getAlImageuri()[ps])
@@ -143,42 +133,52 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
                     bitmap =
                         MediaStore.Images.Media.getBitmap(context.contentResolver, alMenu[nPos2].getAlImageuri()[ps])
                 }
-                // then reviseMethod and resetSupG
+
                 if (bitmap != null) {
-
-
-                    val ttfile = File.createTempFile("imgFile", ".jpg", context.cacheDir)
-                    val outputStream = FileOutputStream(ttfile)
-                    try {
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream) // 70 값 수정하지마세요
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    } finally {
-                        try {
-                            outputStream.close()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                        }
-                    }
-
-                    if (UploadUtility2().uploadFile(ttfile)) {
-                        val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + ttfile.name
-
-                        reviseMethod(prePathNameURL, mmIndex)
-
-                        resetSupG(prePathNameURL)
-
-                        val intent = Intent(context, ProfileAddEditActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        context.startActivity(intent)
-                    } else {
-                        Log.w("FAIL", "GridViewAdapter FAIL")
-                    }
+                    secondTryToUpload(bitmap)
                 }
             }
 
         }
     }
+
+    /*---------------------------------------------------------------------*/
+
+    private fun secondTryToUpload(bitmap: Bitmap) {
+
+        val nameStartWith = "imgFile"
+        val directFile = File.createTempFile(nameStartWith, ".jpg", context.cacheDir)
+        val outputStream = FileOutputStream(directFile)
+        try {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream) // 70 값 수정 X !!
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                outputStream.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+
+        if (UploadUtility2().uploadFile(directFile)) {
+            doRestChoresAfterUpload(directFile.name)
+        } else {
+            Log.w("FAIL", "GridViewAdapter FAIL")
+        }
+
+    }
+
+    private fun doRestChoresAfterUpload(fullFileName: String) {
+        val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + fullFileName
+        reviseMethod(prePathNameURL, mmIndex)
+        resetSupG(prePathNameURL)
+        val intent = Intent(context, ProfileAddEditActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        context.startActivity(intent)
+    }
+
+    /*---------------------------------------------------------------------*/
 
     @Suppress("DuplicatedCode")
     private fun reviseMethod(thumbPhpFilePath: String, resultParam: Int) {
@@ -191,7 +191,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
         val service = retrofit.create(ApiService::class.java)
 
 
-        val jsonObjectString: String = PrepareJsonHelper().prepareSmallJson(thumbPhpFilePath)
+        val jsonObjectString: String = PrepareJsonHelper().prepareFlexibleJson(thumbPhpFilePath)
 
 
         val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
@@ -216,12 +216,11 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
     }
 
 
+    /*---------------------------------------------------------------------*/
     class ViewHolder {
         var tvFoldern: TextView? = null
         var tvFoldersize: TextView? = null
         var ivImage: ImageView? = null
     }
+    /*---------------------------------------------------------------------*/
 }
-
-
-

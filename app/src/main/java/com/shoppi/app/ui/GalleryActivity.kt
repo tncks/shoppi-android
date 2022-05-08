@@ -1,3 +1,5 @@
+@file:Suppress("RedundantCompanionReference", "RemoveExplicitTypeArguments")
+
 package com.shoppi.app.ui
 
 
@@ -21,9 +23,7 @@ import com.shoppi.app.common.REQUEST_PERMISSIONS
 import com.shoppi.app.model.*
 
 
-@Suppress("RedundantCompanionReference")
 class GalleryActivity : AppCompatActivity() {
-    // private var booleanFolder = false
     private var booleanFolder2 = false
     private var objAdapter: AdapterPhotosFolder? = null
     private var gvFolder: GridView? = null
@@ -33,14 +33,12 @@ class GalleryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_gallery)
 
 
-        val mPos: Int = intent.getIntExtra("mIndex", 0)
-        setPhotoClickListener(mPos)
+        val mIndex: Int = intent.getIntExtra("mIndex", 0)
+        setPhotoClickListener(mIndex)
         setCameraIconClickListener()
-
-
         if (isValidWithCheckStepOne()) {
             if (isValidWithCheckStepTwo()) {
-                Toast.makeText(this, "Checking permissions..", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "접근권한을 확인중입니다..", Toast.LENGTH_LONG).show()
             } else {
                 ActivityCompat.requestPermissions(
                     this,
@@ -49,19 +47,18 @@ class GalleryActivity : AppCompatActivity() {
                 )
             }
         } else {
-            // myimagespath()
             myimagespath2()
         }
 
     }
 
-    private fun setPhotoClickListener(mPos: Int) {
+    private fun setPhotoClickListener(mIndex: Int) {
 
         gvFolder = findViewById<GridView>(R.id.gv_folder)
         gvFolder?.onItemClickListener = AdapterView.OnItemClickListener { _, _, i, _ ->
             val intent = Intent(applicationContext, PhotosActivity::class.java)
             intent.putExtra("value", i)
-            intent.putExtra("mIndex", mPos)
+            intent.putExtra("mIndex", mIndex)
             startActivity(intent)
         }
 
@@ -70,7 +67,6 @@ class GalleryActivity : AppCompatActivity() {
     private fun setCameraIconClickListener() {
 
         findViewById<ImageView>(R.id.iv_open_camera)?.setOnClickListener {
-            Toast.makeText(applicationContext, "사진 촬영 모드", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this@GalleryActivity, CameraPreviewActivity::class.java))
         }
 
@@ -99,6 +95,106 @@ class GalleryActivity : AppCompatActivity() {
 
     }
 
+
+    private fun myimagespath2() {
+
+        try {
+            Companion.alImages2.clear()
+            var nPos = 0
+            var contentUri: Uri?
+            val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            val projection = arrayOf(MediaStore.MediaColumns._ID, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+            val orderBy = MediaStore.Images.Media.DATE_TAKEN
+            val cursor: Cursor? = applicationContext.contentResolver.query(uri, projection, null, null, "$orderBy DESC")
+            val columnIndexId: Int
+            val columnIndexFolderName = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+
+            if (cursor != null) {
+                columnIndexId = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+                while (cursor.moveToNext()) {
+
+                    contentUri = ContentUris.withAppendedId(uri, cursor.getLong(columnIndexId))
+
+                    for (i in Companion.alImages2.indices) {
+                        if (Companion.alImages2[i].getStrFolder() == cursor.getString(
+                                columnIndexFolderName!!
+                            )
+                        ) {
+                            booleanFolder2 = true
+                            nPos = i
+                            break
+                        } else {
+                            booleanFolder2 = false
+                        }
+                    }
+                    if (booleanFolder2) {
+                        val alUri = ArrayList<Uri>()
+                        alUri.addAll(Companion.alImages2[nPos].getAlImageuri())
+                        alUri.add(contentUri)
+                        Companion.alImages2[nPos].setAlImageuri(alUri)
+                    } else {
+                        val alUri = ArrayList<Uri>()
+                        alUri.add(contentUri)
+                        if (columnIndexFolderName != null) {
+                            val objModel = ModelContents(cursor.getString(columnIndexFolderName), alUri)
+                            objModel.setStrFolder(cursor.getString(columnIndexFolderName))
+                            objModel.setAlImageuri(alUri)
+                            Companion.alImages2.add(objModel)
+                        }
+
+                    }
+
+                }
+                cursor.close()
+            }
+
+            objAdapter = AdapterPhotosFolder(applicationContext, Companion.alImages2)
+            gvFolder?.adapter = objAdapter
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+
+        var numCountOfGrantResults: Int? = grantResults.size
+        if (grantResults.isEmpty()) {
+            numCountOfGrantResults = null
+        }
+
+        when (requestCode) {
+            REQUEST_PERMISSIONS -> {
+                var i = 0
+                while (numCountOfGrantResults != null && i < numCountOfGrantResults) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        myimagespath2()
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "권한을 확인해주세요.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    i++
+                }
+            }
+        }
+    }
+
+    companion object {
+        var alImages2: ArrayList<ModelContents> = ArrayList<ModelContents>()
+    }
+
+}
+
+
+/*--------------------------------------------------------------*/
+/*--------------------------------------------------------------*/
+// Reference for studying
 //    private fun myimagespath() {
 //        Companion.alImages.clear()
 //        var nPos = 0
@@ -147,67 +243,7 @@ class GalleryActivity : AppCompatActivity() {
 //
 //    }
 
-    private fun myimagespath2() {
-        Companion.alImages2.clear()
-        var nPos = 0
-        var contentUri: Uri?
-        val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(MediaStore.MediaColumns._ID, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-        val orderBy = MediaStore.Images.Media.DATE_TAKEN
-        val cursor: Cursor? = applicationContext.contentResolver.query(uri, projection, null, null, "$orderBy DESC")
-        val columnIndexId: Int
-        val columnIndexFolderName = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-        // val listOfAllImages = mutableListOf<AdapterImage>()
-
-        // val listOfAllConUris = mutableListOf<Uri>()
-
-
-        if (cursor != null) {
-            columnIndexId = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-            while (cursor.moveToNext()) {
-
-                contentUri = ContentUris.withAppendedId(uri, cursor.getLong(columnIndexId))
-
-                for (i in Companion.alImages2.indices) {
-                    if (Companion.alImages2[i].getStrFolder() == cursor.getString(
-                            columnIndexFolderName!!
-                        )
-                    ) {
-                        booleanFolder2 = true
-                        nPos = i
-                        break
-                    } else {
-                        booleanFolder2 = false
-                    }
-                }
-                if (booleanFolder2) {
-                    val alUri = ArrayList<Uri>()
-                    alUri.addAll(Companion.alImages2[nPos].getAlImageuri())
-                    alUri.add(contentUri)
-                    Companion.alImages2[nPos].setAlImageuri(alUri)
-                } else {
-                    val alUri = ArrayList<Uri>()
-                    alUri.add(contentUri)
-                    if (columnIndexFolderName != null) {
-                        val objModel = ModelContents(cursor.getString(columnIndexFolderName), alUri)
-                        objModel.setStrFolder(cursor.getString(columnIndexFolderName))
-                        objModel.setAlImageuri(alUri)
-                        Companion.alImages2.add(objModel)
-                    }
-
-                }
-
-
-            }
-            cursor.close()
-        }
-
-        objAdapter = AdapterPhotosFolder(applicationContext, Companion.alImages2)
-        gvFolder?.adapter = objAdapter
-
-    }
-
-    /*
+/*
         private fun myimagespath() {
             Companion.alImages.clear()
             var nPos = 0
@@ -266,38 +302,3 @@ class GalleryActivity : AppCompatActivity() {
 
         }
     */
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-
-        var numCountOfGrantResults: Int? = grantResults.size
-        if (grantResults.isEmpty()) {
-            numCountOfGrantResults = null
-        }
-
-        when (requestCode) {
-            REQUEST_PERMISSIONS -> {
-                var i = 0
-                while (numCountOfGrantResults != null && i < numCountOfGrantResults) {
-                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                        // myimagespath()
-                        myimagespath2()
-                    } else {
-                        Toast.makeText(
-                            this,
-                            "권한을 확인해주세요.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                    i++
-                }
-            }
-        }
-    }
-
-    companion object {
-        // var alImages: ArrayList<ModelImages> = ArrayList<ModelImages>()
-        var alImages2: ArrayList<ModelContents> = ArrayList<ModelContents>()
-    }
-
-}

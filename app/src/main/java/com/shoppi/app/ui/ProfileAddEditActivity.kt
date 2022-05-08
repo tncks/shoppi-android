@@ -65,6 +65,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
         /*---------------------------------------------*/
 
+        Glide.with(this).load(R.raw.movingcircular).into(ivProfileThumbnail)
         ediProfileName.setText(Supglobal.mLabel.split(DELIM)[intent.getIntExtra("mIndex", 0)])
         ediLocationOfProfile.setText(Supglobal.mLocation.split(DELIM)[intent.getIntExtra("mIndex", 0)])
         ediPeriodOfProfile.setText(Supglobal.mPeriod.split(DELIM)[intent.getIntExtra("mIndex", 0)])
@@ -77,8 +78,9 @@ class ProfileAddEditActivity : AppCompatActivity() {
             fillDialogContents(builder)
             setDialogLayoutStyleAndShow(builder)
         }
+
         tvSubmitFinish.setOnClickListener {
-            reviseWithAllPatches(
+            reviseMethod(
                 listOf(
                     ediProfileName.text.toString(),
                     ediLocationOfProfile.text.toString(),
@@ -144,131 +146,88 @@ class ProfileAddEditActivity : AppCompatActivity() {
     }
 
 
-    private fun reviseWithAllPatches(dataTexts: List<String>, resultParam: Int) {
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(FIRE_JSON_BASEURL)
-            .build()
-
-
-        val service = retrofit.create(ApiService::class.java)
-
-
-        val jsonObjectString: String = PrepareJsonHelper().prepareAllJson(dataTexts)
-
-
-        val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
-
-
-        CoroutineScope(Dispatchers.IO).launch {
-
-            try {
-                val resultParamStringValue: String = resultParam.toString()
-                service.updateItemProfileStyle(SAFEUID, resultParamStringValue, requestBody)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-        }
-
-    }
-
     private suspend fun calltinOnCreate(tmpLs: List<String>, mPos: Int) {
         withContext(Dispatchers.IO) {
             try {
-                val url = URL(tmpLs[mPos])
-                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-                conn.doInput = true
-                conn.connect()
-                val iss: InputStream? = conn.inputStream
+                val iss: InputStream? = connectServerAndGetStreamOfImage(tmpLs[mPos])
                 bitmap = BitmapFactory.decodeStream(iss)
             } catch (e: NullPointerException) {
-                val url = URL(MY_NUPTR_JPG_URL_ON_LOAD_ERROR)
-                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-                conn.doInput = true
-                conn.connect()
-                val iss: InputStream? = conn.inputStream
+                val iss: InputStream? = connectServerAndGetStreamOfImage(MY_NUPTR_JPG_URL_ON_LOAD_ERROR)
                 bitmap = BitmapFactory.decodeStream(iss)
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    if (this@ProfileAddEditActivity::bitmap.isInitialized) {
-                        ivProfileThumbnail.setImageBitmap(bitmap)
-                    }
-                }
+                setBitmapThumbnail()
             } catch (e: FileNotFoundException) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
-                }
+                setBasicDefaultThumbnail()
             } catch (e: MalformedURLException) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
-                }
+                setBasicDefaultThumbnail()
             } catch (e: IOException) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
-                }
+                setBasicDefaultThumbnail()
             } catch (e: Exception) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
-                }
+                setBasicDefaultThumbnail()
             }
-            withContext(Dispatchers.Main) {
-                try {
-                    if (this@ProfileAddEditActivity::bitmap.isInitialized) {
-                        ivProfileThumbnail.setImageBitmap(bitmap)
-                    } else {
-                        throw InterruptedException()
-                    }
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
-                }
-            }
+            afterConnection()
         }
     }
 
-    /*---------------------------------------------*/
-
-
-    private fun fillDialogContents(builder: AlertDialog.Builder) {
-        builder.setTitle(
-            "작성 중인 내용이 있습니다." + "\n" +
-                    "나가시겠습니까?"
-        )
-            .setMessage("지금까지 작성한 내용이 사라집니다.")
-            .setPositiveButton("나가기",
-                DialogInterface.OnClickListener { dialog, id ->
-                    if (this@ProfileAddEditActivity::originalURL.isInitialized) {
-                        reviseMethod(originalURL, intent.getIntExtra("mIndex", 0))
-                        resetSupG(originalURL, intent.getIntExtra("mIndex", 0))
-                    }
-                    finish()
-                })
-            .setNegativeButton("취소",
-                DialogInterface.OnClickListener { dialog, id ->
-                    Log.i("dummy", "dummy")
-                })
+    private fun connectServerAndGetStreamOfImage(serverPath: String): InputStream {
+        val url = URL(serverPath)
+        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+        conn.doInput = true
+        conn.connect()
+        return conn.inputStream
     }
 
-    private fun setDialogLayoutStyleAndShow(builder: AlertDialog.Builder) {
-        val aD = builder.show()
-        /*--------------------*/
-        val btnPositive = aD.getButton(AlertDialog.BUTTON_POSITIVE)
-        val btnNegative = aD.getButton(AlertDialog.BUTTON_NEGATIVE)
-        val layoutParams = btnPositive.layoutParams as LinearLayout.LayoutParams
-        layoutParams.marginEnd = 40
-        btnNegative.layoutParams = layoutParams
+    private suspend fun setBitmapThumbnail() {
+
+        withContext(Dispatchers.Main) {
+            if (this@ProfileAddEditActivity::bitmap.isInitialized) {
+                ivProfileThumbnail.setImageBitmap(bitmap)
+            }
+        }
+
     }
 
+    private suspend fun setBasicDefaultThumbnail() {
+
+        withContext(Dispatchers.Main) {
+            ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
+        }
+
+    }
+
+    private suspend fun setRefreshTouchThumbnail() {
+
+        withContext(Dispatchers.Main) {
+            ivProfileThumbnail.setImageResource(R.drawable.ic_refresh)
+        }
+
+    }
+
+    private fun setBasicDefaultThumbnailWithoutContext() {
+
+        ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
+
+    }
+
+    private suspend fun afterConnection() {
+
+        withContext(Dispatchers.Main) {
+            try {
+                if (this@ProfileAddEditActivity::bitmap.isInitialized) {
+                    ivProfileThumbnail.setImageBitmap(bitmap)
+                } else {
+                    throw InterruptedException()
+                }
+            } catch (e: InterruptedException) {
+                setBasicDefaultThumbnailWithoutContext()
+            } catch (e: Exception) {
+                setBasicDefaultThumbnailWithoutContext()
+            }
+        }
+
+    }
 
     /*---------------------------------------------*/
+
 
     override fun onRestart() {
         super.onRestart()
@@ -296,61 +255,22 @@ class ProfileAddEditActivity : AppCompatActivity() {
     private suspend fun calltinOnRestart() {
         withContext(Dispatchers.IO) {
             try {
-                val url = URL(Supglobal.mSup.split(DELIM)[preThumbnail])
-                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-                conn.doInput = true
-                conn.connect()
-                val iss: InputStream = conn.inputStream
+                val iss: InputStream? = connectServerAndGetStreamOfImage(Supglobal.mSup.split(DELIM)[preThumbnail])
                 bitmap = BitmapFactory.decodeStream(iss)
             } catch (e: NullPointerException) {
-                val url = URL(MY_NUPTR_JPG_URL_ON_LOAD_ERROR)
-                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-                conn.doInput = true
-                conn.connect()
-                val iss: InputStream? = conn.inputStream
+                val iss: InputStream? = connectServerAndGetStreamOfImage(MY_NUPTR_JPG_URL_ON_LOAD_ERROR)
                 bitmap = BitmapFactory.decodeStream(iss)
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    if (this@ProfileAddEditActivity::bitmap.isInitialized) {
-                        ivProfileThumbnail.setImageBitmap(bitmap)
-                    }
-                }
+                setBitmapThumbnail()
             } catch (e: MalformedURLException) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
-                }
+                setBasicDefaultThumbnail()
             } catch (e: FileNotFoundException) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_refresh)
-                }
+                setRefreshTouchThumbnail()
             } catch (e: IOException) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
-                }
+                setBasicDefaultThumbnail()
             } catch (e: Exception) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_refresh)
-                }
+                setRefreshTouchThumbnail()
             }
-            withContext(Dispatchers.Main) {
-                try {
-                    if (this@ProfileAddEditActivity::bitmap.isInitialized) {
-                        ivProfileThumbnail.setImageBitmap(bitmap)
-                    } else {
-                        throw InterruptedException()
-                    }
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
-                }
-            }
+            afterConnection()
         }
     }
 
@@ -395,6 +315,69 @@ class ProfileAddEditActivity : AppCompatActivity() {
     }
 
     /*---------------------------------------------*/
+
+    private fun fillDialogContents(builder: AlertDialog.Builder) {
+        builder.setTitle(
+            "작성 중인 내용이 있습니다." + "\n" +
+                    "나가시겠습니까?"
+        )
+            .setMessage("지금까지 작성한 내용이 사라집니다.")
+            .setPositiveButton("나가기",
+                DialogInterface.OnClickListener { dialog, id ->
+                    if (this@ProfileAddEditActivity::originalURL.isInitialized) {
+                        reviseMethod(originalURL, intent.getIntExtra("mIndex", 0))
+                        resetSupG(originalURL, intent.getIntExtra("mIndex", 0))
+                    }
+                    finish()
+                })
+            .setNegativeButton("취소",
+                DialogInterface.OnClickListener { dialog, id ->
+                    Log.i("dummy", "dummy")
+                })
+    }
+
+    private fun setDialogLayoutStyleAndShow(builder: AlertDialog.Builder) {
+        val aD = builder.show()
+        /*--------------------*/
+        val btnPositive = aD.getButton(AlertDialog.BUTTON_POSITIVE)
+        val btnNegative = aD.getButton(AlertDialog.BUTTON_NEGATIVE)
+        val layoutParams = btnPositive.layoutParams as LinearLayout.LayoutParams
+        layoutParams.marginEnd = 40
+        btnNegative.layoutParams = layoutParams
+    }
+
+    /*---------------------------------------------*/
+
+    private fun reviseMethod(dataTexts: List<String>, resultParam: Int) {
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(FIRE_JSON_BASEURL)
+            .build()
+
+
+        val service = retrofit.create(ApiService::class.java)
+
+
+        val jsonObjectString: String = PrepareJsonHelper().prepareFlexibleJson(dataTexts)
+
+
+        val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            try {
+                val resultParamStringValue: String = resultParam.toString()
+                service.updateItemProfileStyle(SAFEUID, resultParamStringValue, requestBody)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
+
+    }
+
+
     private fun reviseMethod(FilePath: String, resultParam: Int) {
 
         val retrofit = Retrofit.Builder()
@@ -405,7 +388,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
         val service = retrofit.create(ApiService::class.java)
 
 
-        val jsonObjectString: String = PrepareJsonHelper().prepareSmallJson(FilePath)
+        val jsonObjectString: String = PrepareJsonHelper().prepareFlexibleJson(FilePath)
 
 
         val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())

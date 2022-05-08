@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.shoppi.app.common.GLOBALUID
 import com.shoppi.app.common.SAFEUID
+import com.shoppi.app.common.SP_NOT_FOUND_USER_STRING_CODE
 import com.shoppi.app.myjetcp.MainComposeActivity
 import com.shoppi.app.ui.signstep.SignBeforeStartActivity
 
@@ -24,8 +25,8 @@ class SplashActivity : AppCompatActivity() {
     private fun doAutoLoginIfPossibleElseGoSignStartScreen() {
 
         val prefs: SharedPreferences = getSharedPreferences("UID", Context.MODE_PRIVATE)
-        GLOBALUID = prefs.getString("UID", "-10")
-        if (GLOBALUID == "-10") {
+        GLOBALUID = prefs.getString("UID", SP_NOT_FOUND_USER_STRING_CODE)
+        if (GLOBALUID == SP_NOT_FOUND_USER_STRING_CODE) {
             GLOBALUID = null
         } else {
             SAFEUID = GLOBALUID!!
