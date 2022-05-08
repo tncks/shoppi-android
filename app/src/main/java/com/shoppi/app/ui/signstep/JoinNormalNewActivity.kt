@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -19,8 +21,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Retrofit
 import java.net.URL
+import java.util.regex.Pattern
 
-@Suppress("RemoveExplicitTypeArguments")
+@Suppress("RemoveExplicitTypeArguments", "RedundantIf")
 class JoinNormalNewActivity : AppCompatActivity() {
 
     private lateinit var ediEmail: EditText
@@ -43,8 +46,42 @@ class JoinNormalNewActivity : AppCompatActivity() {
 
         /*---------------------------------------------------------*/
 
-        // on edit text required all satisfied, then button enabled true set, submitBtn.setEnabled = true
-        // if re unsatisfied to require -> then reset again false enabled, lively observe it
+        ediEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
+                if (charSequence.length != 0) {
+                    val emails = charSequence
+                    if (validateInputEmail(emails)) {
+                        submitBtn.isEnabled = true
+                    } else {
+                        submitBtn.isEnabled = false
+                    }
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable) {}
+        })
+
+        ediPw.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
+                if (charSequence.length != 0) {
+                    val password = ediPw.text.toString()
+                    if (validateInput(password)) {
+                        submitBtn.isEnabled = true
+                    } else {
+                        submitBtn.isEnabled = false
+                    }
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable) {}
+        })
+
+        /*---------------------------------------------------------*/
+
 
         // plus function extra - support password hide and show with imageview onclick, toggle it
 
@@ -61,7 +98,7 @@ class JoinNormalNewActivity : AppCompatActivity() {
             if (getPwText() != getPwRetypeText()) {
                 checkCode = -2
             }
-            // 1. check validation of input data 일단은 입력값 검증은 Skip, 나중에 구현, with validation library or tool
+            // 1. check email and password validation
             // 2. request to firebase server with data using retrofit service coroutines IO Scope, without delay
             // 3. work with response, if response is bad, handle it, when is ok then success handle
             // 4. startActivity for next step
@@ -166,17 +203,19 @@ class JoinNormalNewActivity : AppCompatActivity() {
             val response = service.pushOneAccount(resultParamStringValue, requestBody)
 
             withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    val prefs: SharedPreferences = getSharedPreferences("UID", Context.MODE_PRIVATE)
-                    val editor: SharedPreferences.Editor = prefs.edit()
-                    editor.putString("UID", resultParamStringValue)
-                    editor.commit()
-                    val sucIntent = Intent(applicationContext, JoinCompleteSuccessActivity::class.java)
-                    startActivity(sucIntent)
-                    finish()
-                } else {
-                    val failIntent = Intent(applicationContext, JoinIncompleteInvalidorfailActivity::class.java)
-                    startActivity(failIntent)
+                try {
+                    val resultIntent: Intent
+                    if (response.isSuccessful) {
+                        val prefs: SharedPreferences = getSharedPreferences("UID", Context.MODE_PRIVATE)
+                        val editor: SharedPreferences.Editor = prefs.edit()
+                        editor.putString("UID", resultParamStringValue)
+                        editor.commit()
+                        resultIntent = Intent(applicationContext, JoinCompleteSuccessActivity::class.java)
+                    } else {
+                        resultIntent = Intent(applicationContext, JoinIncompleteInvalidorfailActivity::class.java)
+                    }
+                    startActivity(resultIntent)
+                } finally {
                     finish()
                 }
             }
@@ -192,6 +231,41 @@ class JoinNormalNewActivity : AppCompatActivity() {
             ""
         }
     }
+
+    private fun validateInputEmail(emails: CharSequence): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(emails).matches()
+    }
+
+    @Suppress("RegExpSimplifiable")
+    private fun validateInput(password: String): Boolean {
+        try {
+
+            val isSatisfied = mutableListOf<Boolean>()
+            val strictPatterns = listOf<Pattern>(
+                Pattern.compile("[A-Z]"),
+                Pattern.compile("[a-z]"),
+                Pattern.compile("[0-9]")
+            )
+            val pwMinLen = 8
+            val pwMaxLen = 16
+
+            for (strictPattern in strictPatterns) {
+                isSatisfied.add(strictPattern.matcher(password).find())
+            }
+            isSatisfied.add((password.length in pwMinLen..pwMaxLen))
+
+            val predicate: (Boolean) -> Boolean = { it }
+            return isSatisfied.all(predicate)
+
+        } catch (e: IndexOutOfBoundsException) {
+            e.printStackTrace()
+            return false
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
+    }
+
 
 }
 
