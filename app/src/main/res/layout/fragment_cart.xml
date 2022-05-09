@@ -14,6 +14,7 @@
         android:textColor="#03A9F4"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,6 +27,7 @@
         android:contentDescription="@string/upload_desc"
         android:scaleType="centerCrop"
         android:src="@drawable/image_border"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageTextView" />
@@ -36,6 +38,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="180dp"
         android:textColor="@color/shoppi_white"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +52,7 @@
         android:autofillHints="name"
         android:hint="@string/label_category"
         android:inputType="text"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +66,7 @@
         android:autofillHints="name"
         android:hint="@string/label_category"
         android:inputType="text"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/plain_text_input0" />
@@ -75,6 +80,7 @@
         android:background="@android:color/transparent"
         android:hint="@string/label_category"
         android:inputType="text"
+        android:visibility="invisible"
         android:textColor="@color/shoppi_white"
         android:textColorHint="@color/shoppi_white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,6 +95,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:contentDescription="@string/applogo"
+        android:visibility="invisible"
         android:src="@drawable/img_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

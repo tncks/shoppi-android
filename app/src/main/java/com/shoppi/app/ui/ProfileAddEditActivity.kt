@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.shoppi.app.R
 import com.shoppi.app.common.*
-import com.shoppi.app.petwork.ApiService
+import com.shoppi.app.network.ApiService
 import com.shoppi.app.repository.category.Supglobal
 import kotlinx.coroutines.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

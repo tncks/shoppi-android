@@ -143,7 +143,6 @@ class MypageFragment : Fragment() {
 
         view.findViewById<Button>(R.id.btn_move_test_15).setOnClickListener {
             val intent = Intent(activity, DevByteActivity::class.java)
-            // val intent = Intent(activity, DevByteActivity::class.java)
             startActivity(intent)
         }
 

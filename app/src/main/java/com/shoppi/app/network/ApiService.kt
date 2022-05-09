@@ -1,4 +1,4 @@
-package com.shoppi.app.petwork
+package com.shoppi.app.network
 
 
 import okhttp3.RequestBody

@@ -35,13 +35,6 @@ const val ON_LONG_CLICK = "android:onLongClick"
 const val TAG = "TESTLIFECYCLE"
 
 
-var BFLAG = false
-
-
-var GLOBALUID: String? = null
-var SAFEUID = "0"
-
-
 const val REQUEST_PERMISSIONS = 100
 const val PERMISSION_CAMERA = 323
 

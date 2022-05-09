@@ -20,7 +20,7 @@ interface ApiClient {
     @GET("users/{uid}/categories.json")
     suspend fun getCategories(@Path("uid") uid: String): List<Category>?
 
-    @GET("fashion_female.json")
+    @GET("detail_test.json")
     suspend fun getCategoryDetail(): CategoryDetail
 
 

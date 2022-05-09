@@ -24,32 +24,32 @@
                 app:contentInsetStart="0dp"
                 app:layout_scrollFlags="scroll|enterAlways">
 
-                <TextView
-                    android:id="@+id/titleText"
-                    style="@style/TextHeadline5.White02.Bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="72dp"
-                    android:maxLines="2"
-                    android:paddingStart="16dp"
-                    android:paddingTop="32dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="24dp"
-                    android:text="@{title.text}"
-                    tools:text="LEO님, 이런 상품\n어때요?" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/titleText"-->
+                <!--                    style="@style/TextHeadline5.White02.Bold"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginEnd="72dp"-->
+                <!--                    android:maxLines="2"-->
+                <!--                    android:paddingStart="16dp"-->
+                <!--                    android:paddingTop="32dp"-->
+                <!--                    android:paddingEnd="16dp"-->
+                <!--                    android:paddingBottom="24dp"-->
+                <!--                    android:text="@{title.text}"-->
+                <!--                    tools:text="abc" />-->
 
 
-                <ImageView
-                    android:id="@+id/titleUrlIcon"
-                    imageUrl="@{title.iconUrl}"
-                    android:layout_width="68dp"
-                    android:layout_height="68dp"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="4dp"
-                    android:visibility="invisible"
-                    android:contentDescription="@string/applogo"
-                    android:scaleType="center"
-                    tools:src="@drawable/ic_gnb_back" />
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/titleUrlIcon"-->
+                <!--                    imageUrl="@{title.iconUrl}"-->
+                <!--                    android:layout_width="68dp"-->
+                <!--                    android:layout_height="68dp"-->
+                <!--                    android:layout_gravity="end"-->
+                <!--                    android:layout_marginEnd="4dp"-->
+                <!--                    android:visibility="invisible"-->
+                <!--                    android:contentDescription="@string/applogo"-->
+                <!--                    android:scaleType="center"-->
+                <!--                    tools:src="@drawable/ic_gnb_back" />-->
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -66,68 +66,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewpager_home_banner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <!--                <androidx.viewpager2.widget.ViewPager2-->
+                <!--                    android:id="@+id/viewpager_home_banner"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:visibility="invisible"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/viewpager_home_banner_indicator"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:visibility="invisible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/viewpager_home_banner"
-                    app:tabBackground="@drawable/selector_viewpager_indicator"
-                    app:tabGravity="center"
-                    app:tabIndicatorHeight="0dp" />
-
-                <Button
-                    android:id="@+id/btn_move_test_my_pictures"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:backgroundTint="@color/shoppi_sky"
-                    android:text="내 사진첩 이미지들 보는 화면으로 이동"
-                    android:textColor="@color/shoppi_white"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/viewpager_home_banner_indicator"
-                    tools:ignore="HardcodedText" />
-
-                <Button
-                    android:id="@+id/btn_move_test_profile_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:backgroundTint="@android:color/holo_blue_bright"
-                    android:text="여행 프로필 추가 &amp; 수정 화면으로 이동"
-                    android:textColor="@color/shoppi_white"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btn_move_test_my_pictures"
-                    tools:ignore="HardcodedText" />
-
-                <Button
-                    android:id="@+id/btn_move_test_sign_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:backgroundTint="@android:color/holo_blue_dark"
-                    android:text="회원 가입 시작 &amp; 로그인 화면으로 이동"
-                    android:textColor="@color/shoppi_white"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btn_move_test_profile_edit"
-                    tools:ignore="HardcodedText" />
+                <!--                <com.google.android.material.tabs.TabLayout-->
+                <!--                    android:id="@+id/viewpager_home_banner_indicator"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="45dp"-->
+                <!--                    android:visibility="invisible"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/viewpager_home_banner"-->
+                <!--                    app:tabBackground="@drawable/selector_viewpager_indicator"-->
+                <!--                    app:tabGravity="center"-->
+                <!--                    app:tabIndicatorHeight="0dp" />-->
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

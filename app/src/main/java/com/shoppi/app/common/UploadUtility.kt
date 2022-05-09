@@ -7,7 +7,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 
-class UploadUtility2 {
+class UploadUtility {
 
     private val serverURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_URL
 

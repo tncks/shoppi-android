@@ -28,7 +28,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.shoppi.app.R
 import com.shoppi.app.common.*
-import com.shoppi.app.petwork.ApiService
+import com.shoppi.app.network.ApiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,7 +59,7 @@ class CartFragment : Fragment() {
                         tmpPreview2
                     )
                     val fullFileName = createdTmpFile.name
-                    UploadUtility2().uploadFile(createdTmpFile)
+                    UploadUtility().uploadFile(createdTmpFile)
                     val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + fullFileName
 
                     getViewProfile()?.findViewById<EditText>(R.id.plain_text_input2)?.text =

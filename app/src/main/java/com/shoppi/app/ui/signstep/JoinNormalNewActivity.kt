@@ -21,7 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import com.shoppi.app.R
 import com.shoppi.app.common.FIRE_JSON_BASEURL
 import com.shoppi.app.common.PrepareJsonHelper
-import com.shoppi.app.petwork.ApiService
+import com.shoppi.app.network.ApiService
 import kotlinx.coroutines.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody

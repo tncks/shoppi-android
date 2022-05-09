@@ -19,7 +19,7 @@ import com.shoppi.app.R
 import com.shoppi.app.common.*
 import com.shoppi.app.model.ModelContents
 import com.shoppi.app.model.getAlImageuri
-import com.shoppi.app.petwork.ApiService
+import com.shoppi.app.network.ApiService
 import com.shoppi.app.repository.category.Supglobal
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -121,7 +121,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
                 nameStartWith,
                 alMenu[nPos2].getAlImageuri()[ps]
             )
-            val uploadSuccessfulAtFirstTry: Boolean = UploadUtility2().uploadFile(createdTmpFile)
+            val uploadSuccessfulAtFirstTry: Boolean = UploadUtility().uploadFile(createdTmpFile)
             if (uploadSuccessfulAtFirstTry) {
                 doRestChoresAfterUpload(createdTmpFile.name)
             } else {
@@ -161,7 +161,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
             }
         }
 
-        if (UploadUtility2().uploadFile(directFile)) {
+        if (UploadUtility().uploadFile(directFile)) {
             doRestChoresAfterUpload(directFile.name)
         } else {
             Log.w("FAIL", "GridViewAdapter FAIL")
