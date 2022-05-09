@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 테스트 코드, 추후 포토북 아이템으로 활용 가능성 -->
+
     <data>
 
         <variable
@@ -56,7 +58,7 @@
                 android:layout_marginStart="6dp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_promotion_discount_rate"
                 app:layout_constraintStart_toEndOf="@id/tv_promotion_discount_rate"
-                tools:text="99,800원" />
+                tools:text="9,980원" />
 
             <TextView
                 android:id="@+id/tv_promotion_original_price"
@@ -67,7 +69,7 @@
                 android:layout_marginStart="4dp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_promotion_price"
                 app:layout_constraintStart_toEndOf="@id/tv_promotion_price"
-                tools:text="120,000원" />
+                tools:text="12,000원" />
 
             <TextView
                 android:id="@+id/tv_promotion_label"
@@ -84,7 +86,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_promotion_original_price"
-                tools:text="스피커" />
+                tools:text="커스텀 포토북" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

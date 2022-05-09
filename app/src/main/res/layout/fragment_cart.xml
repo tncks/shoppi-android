@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- 포토북 기본화면 프래그먼트 -->
+
     <TextView
         android:id="@+id/imageTextView"
         android:layout_width="wrap_content"

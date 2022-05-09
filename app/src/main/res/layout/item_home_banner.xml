@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 임시 테스트 배너로, 프로젝트와 관련이 없어진 코드입니다. -->
+
     <data>
 
         <variable
@@ -23,6 +25,7 @@
             android:contentDescription="@string/cdbannerimage"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="invisible"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -38,6 +41,7 @@
             android:paddingBottom="1dp"
             android:text="@{banner.badge.label}"
             android:textColor="@color/shoppi_white"
+            tools:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@id/tv_banner_title"
             app:layout_constraintStart_toStartOf="@id/iv_banner_image"
             tools:background="@color/shoppi_grey_02"
@@ -54,6 +58,7 @@
             app:layout_constraintBottom_toTopOf="@id/bg_banner_product_detail"
             app:layout_constraintEnd_toEndOf="@id/iv_banner_image"
             app:layout_constraintStart_toStartOf="@id/iv_banner_image"
+            tools:visibility="invisible"
             tools:text="따스한 겨울\n준비하기" />
 
         <View
@@ -67,8 +72,7 @@
             app:layout_constraintBottom_toBottomOf="@id/iv_banner_image"
             app:layout_constraintEnd_toEndOf="@id/iv_banner_image"
             app:layout_constraintStart_toStartOf="@id/iv_banner_image"
-
-            />
+            tools:visibility="invisible" />
 
         <ImageView
             android:id="@+id/iv_banner_detail_thumbnail"
@@ -78,6 +82,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             android:contentDescription="@string/cdthumbnail"
+            tools:visibility="invisible"
             app:layout_constraintStart_toStartOf="@id/bg_banner_product_detail"
             app:layout_constraintTop_toTopOf="@id/bg_banner_product_detail" />
 
@@ -91,6 +96,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{banner.productDetail.brandName}"
+            tools:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@id/bg_banner_product_detail"
             app:layout_constraintStart_toEndOf="@id/iv_banner_detail_thumbnail"
             app:layout_constraintTop_toTopOf="@id/bg_banner_product_detail"
@@ -105,6 +111,7 @@
             app:layout_constraintEnd_toEndOf="@id/tv_banner_detail_brand_label"
             app:layout_constraintStart_toStartOf="@id/tv_banner_detail_brand_label"
             app:layout_constraintTop_toBottomOf="@id/tv_banner_detail_brand_label"
+            tools:visibility="invisible"
             tools:text="캐시미어 100% 터틀넥 스웨터" />
 
         <TextView
@@ -115,6 +122,7 @@
             android:text="@{@string/unit_discount_rate(banner.productDetail.discountRate)}"
             app:layout_constraintStart_toStartOf="@id/tv_banner_detail_product_label"
             app:layout_constraintTop_toBottomOf="@id/tv_banner_detail_product_label"
+            tools:visibility="invisible"
             tools:text="9%" />
 
         <TextView
@@ -124,6 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
+            tools:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/tv_banner_detail_product_discount_rate"
             app:layout_constraintStart_toEndOf="@id/tv_banner_detail_product_discount_rate"
             tools:text="89,000 원" />
@@ -135,6 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginBottom="1dp"
+            tools:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/tv_banner_detail_product_discount_rate"
             app:layout_constraintStart_toEndOf="@id/tv_banner_detail_product_discount_price"
             tools:text="109,000 원" />

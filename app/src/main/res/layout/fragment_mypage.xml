@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 마이페이지 - 테스트용으로 이용중 -->
+    <!-- 마이페이지 프래그먼트 - 테스트용으로 이용중 -->
 
     <TextView
         android:id="@+id/tv_hello_mypage"

@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 타이틀뷰 테스트 코드, 현재 미사용중, 프로젝트와 별 관련 X -->
+
     <data>
 
         <variable
@@ -24,7 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="추천상품" />
+            tools:text="추천" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

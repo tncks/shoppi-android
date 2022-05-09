@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 프로필 추가및 수정 - 이미지 설정 - 내 사진 갤러리 전체 사진보기 액티비티 -->
 
     <GridView
         android:id="@+id/gv_folder"

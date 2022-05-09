@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 아이템 - 여행계획 리사이클러뷰 -->
+
     <data>
 
         <variable

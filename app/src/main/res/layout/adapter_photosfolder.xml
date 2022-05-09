@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- 사진 폴더 및 개별 사진 그리드뷰의 내부 아이템 뷰 -->
 
     <LinearLayout
         android:layout_width="match_parent"

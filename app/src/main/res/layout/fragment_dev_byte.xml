@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.DevByteFragment">
 
+    <!-- 이는 DB 테스트를 위한 코드이며 프로젝트와 관련이 없습니다. -->
+
     <data>
 
         <variable

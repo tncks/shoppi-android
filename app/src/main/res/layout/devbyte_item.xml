@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 이는 DB 테스트 코드이며 프로젝트와 관련이 없습니다. -->
+
     <data>
 
         <variable
