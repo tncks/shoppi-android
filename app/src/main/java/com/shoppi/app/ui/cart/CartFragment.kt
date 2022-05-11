@@ -26,8 +26,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabLayout
 import com.shoppi.app.R
 import com.shoppi.app.common.*
+import com.shoppi.app.databinding.FragmentCartBinding
+import com.shoppi.app.databinding.FragmentHomeBinding
 import com.shoppi.app.network.ApiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +43,7 @@ import java.io.File
 
 class CartFragment : Fragment() {
 
-    private var viewProfile: View? = null
+    private lateinit var binding: FragmentCartBinding
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK && validAccessAvailablePermission()) {
@@ -50,7 +53,7 @@ class CartFragment : Fragment() {
 
 
                 if (tmpPreview != null) {
-                    getViewProfile()?.findViewById<ImageView>(R.id.imageView)?.setImageURI(tmpPreview)
+                    binding.imageView.setImageURI(tmpPreview)
                     val tmpPreview2: Uri = tmpPreview
                     val nameStartWith = "imgFile"
                     val createdTmpFile: File = TempFileIOUtility().createFileFromUri(
@@ -62,30 +65,21 @@ class CartFragment : Fragment() {
                     UploadUtility().uploadFile(createdTmpFile)
                     val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + fullFileName
 
-                    getViewProfile()?.findViewById<EditText>(R.id.plain_text_input2)?.text =
+
+                    binding.plainTextInput2.text =
                         Editable.Factory.getInstance().newEditable(prePathNameURL)
                 }
 
             }
         } // End of Register Start For Result
 
-    /*-------------------------------------------------------------------*/
-
-
-    // Getter of viewProfile
-    private fun getViewProfile(): View? {
-
-        return this.viewProfile
-    }
-
-    /*-------------------------------------------------------------------*/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentCartBinding.inflate(inflater, container, false)
 
-        viewProfile = inflater.inflate(R.layout.fragment_cart, container, false)
+        initTab()
 
-
-        return viewProfile
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -268,5 +262,11 @@ class CartFragment : Fragment() {
             android.Manifest.permission.READ_EXTERNAL_STORAGE
         )) == PackageManager.PERMISSION_GRANTED
     }
+
+    private fun initTab(){
+        binding.tablayout.addTab(binding.tablayout.newTab().setText("작업중"))
+        binding.tablayout.addTab(binding.tablayout.newTab().setText("작업완료"))
+    }
+
 
 }
