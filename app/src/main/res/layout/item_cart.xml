@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 아이템 - 여행계획 리사이클러뷰 -->
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.shoppi.app.ui.cart.CartViewModel" />
+
+        <variable
+            name="cart"
+            type="com.shoppi.app.model.Cart" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/crtmp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/background_bluegrey_r20">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{cart.label}"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="엄마랑 제주도 여행" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

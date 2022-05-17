@@ -89,5 +89,6 @@
     <string name="menu_test_text_title_delete">삭제</string>
     <string name="menu_test_text_title_move">이동</string>
 
-
+    <!-- Cart -->
+    <string name="hint_profile_name_cart">프로필 이름을 작성하세요.</string>
 </resources>
