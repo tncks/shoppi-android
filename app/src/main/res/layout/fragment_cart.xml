@@ -12,10 +12,12 @@
 
     <!-- 포토북 기본화면 프래그먼트 -->
 
-    <View
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ads_view"
         android:layout_width="match_parent"
-        android:layout_height="224dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/image_ad_sample"
         app:layout_constraintTop_toTopOf="parent"/>
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout"

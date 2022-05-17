@@ -13,6 +13,7 @@ import com.shoppi.app.databinding.ItemCartBinding
 import com.shoppi.app.databinding.ItemCategoryBinding
 import com.shoppi.app.model.Cart
 import com.shoppi.app.model.Category
+import com.shoppi.app.ui.CartEditActivity
 import com.shoppi.app.ui.ProfileAddEditActivity
 import com.shoppi.app.ui.common.CategoryDiffCallback
 
@@ -63,9 +64,9 @@ class CartAdapter(private val viewModel: CartViewModel) :
                 }
                 when (menuIndex) {
                     0 -> {
-//                        val mIntent = Intent(holder.binding.root.context, ProfileAddEditActivity::class.java)
-//                        mIntent.putExtra("mIndex", position)
-//                        holder.binding.root.context.startActivity(mIntent)
+                        val mIntent = Intent(holder.binding.root.context, CartEditActivity::class.java)
+                        mIntent.putExtra("mIndex", position)
+                        holder.binding.root.context.startActivity(mIntent)
                     }
                     1 -> {
                         Log.i("dummy", "dummy")
