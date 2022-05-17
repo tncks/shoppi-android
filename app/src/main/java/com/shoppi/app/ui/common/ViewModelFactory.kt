@@ -8,7 +8,6 @@ import com.shoppi.app.repository.category.CategoryRemoteDataSource
 import com.shoppi.app.repository.category.CategoryRepository
 import com.shoppi.app.repository.categorydetail.CategoryDetailRemoteDataSource
 import com.shoppi.app.repository.categorydetail.CategoryDetailRepository
-import com.shoppi.app.ui.cart.CartViewModel
 import com.shoppi.app.ui.category.CategoryViewModel
 import com.shoppi.app.ui.categorydetail.CategoryDetailViewModel
 
@@ -31,9 +30,6 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
                 val repository = CategoryDetailRepository(CategoryDetailRemoteDataSource(ApiClient.create()))
                 @Suppress("UNCHECKED_CAST")
                 CategoryDetailViewModel(repository) as T
-            }
-            modelClass.isAssignableFrom(CartViewModel::class.java) -> {
-                CartViewModel() as T
             }
             else -> {
                 throw IllegalArgumentException("Failed to create ViewModel: ${modelClass.name}")
