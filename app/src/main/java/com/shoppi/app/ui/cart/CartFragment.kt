@@ -25,17 +25,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
 import com.shoppi.app.R
 import com.shoppi.app.common.*
-import com.shoppi.app.databinding.FragmentCartBinding
-import com.shoppi.app.databinding.FragmentHomeBinding
 import com.shoppi.app.network.ApiService
-import com.shoppi.app.ui.category.CategoryViewModel
-import com.shoppi.app.ui.common.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,8 +40,7 @@ import java.io.File
 
 class CartFragment : Fragment() {
 
-    private val viewModel: CartViewModel by viewModels { ViewModelFactory(requireContext()) }
-    private lateinit var binding: FragmentCartBinding
+    private var viewProfile: View? = null
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK && validAccessAvailablePermission()) {
@@ -58,7 +50,7 @@ class CartFragment : Fragment() {
 
 
                 if (tmpPreview != null) {
-                    binding.imageView.setImageURI(tmpPreview)
+                    getViewProfile()?.findViewById<ImageView>(R.id.imageView)?.setImageURI(tmpPreview)
                     val tmpPreview2: Uri = tmpPreview
                     val nameStartWith = "imgFile"
                     val createdTmpFile: File = TempFileIOUtility().createFileFromUri(
@@ -70,28 +62,30 @@ class CartFragment : Fragment() {
                     UploadUtility().uploadFile(createdTmpFile)
                     val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + fullFileName
 
-
-                    binding.plainTextInput2.text =
+                    getViewProfile()?.findViewById<EditText>(R.id.plain_text_input2)?.text =
                         Editable.Factory.getInstance().newEditable(prePathNameURL)
                 }
 
             }
         } // End of Register Start For Result
 
+    /*-------------------------------------------------------------------*/
+
+
+    // Getter of viewProfile
+    private fun getViewProfile(): View? {
+
+        return this.viewProfile
+    }
+
+    /*-------------------------------------------------------------------*/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentCartBinding.inflate(inflater, container, false)
 
-        initTab()
+        viewProfile = inflater.inflate(R.layout.fragment_cart, container, false)
 
-        val cartAdapter = CartAdapter(viewModel)
-        binding.rvCart.adapter = cartAdapter
 
-        viewModel.items.observe(viewLifecycleOwner, Observer {
-            cartAdapter.updateCarts(it)
-        })
-
-        return binding.root
+        return viewProfile
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -274,11 +268,5 @@ class CartFragment : Fragment() {
             android.Manifest.permission.READ_EXTERNAL_STORAGE
         )) == PackageManager.PERMISSION_GRANTED
     }
-
-    private fun initTab(){
-        binding.tablayout.addTab(binding.tablayout.newTab().setText("작업중"))
-        binding.tablayout.addTab(binding.tablayout.newTab().setText("작업완료"))
-    }
-
 
 }
