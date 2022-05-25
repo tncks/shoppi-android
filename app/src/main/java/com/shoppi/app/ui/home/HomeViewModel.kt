@@ -2,7 +2,8 @@ package com.shoppi.app.ui.home
 
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel(/*private val homeRepository: HomeRepository*/) : ViewModel() {
+@Suppress("unused")
+class HomeViewModel/*(private val homeRepository: HomeRepository)*/ : ViewModel() {
 
 
 //    init {

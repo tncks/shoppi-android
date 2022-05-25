@@ -45,12 +45,12 @@
         tools:text="인증메일이 발송되었습니다. 메일을 확인해주세요." />
 
     <Button
-        android:id="@+id/btn_next_step"
+        android:id="@+id/btn_next_step_again"
         android:layout_width="340dp"
         android:layout_height="54dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/shoppi_white"
-        android:enabled="false"
+        android:enabled="true"
         android:text="@string/btn_resend_code_request_submit_value"
         android:fontFamily="@font/t_font_medium"
         android:textColor="@color/shoppi_sky"

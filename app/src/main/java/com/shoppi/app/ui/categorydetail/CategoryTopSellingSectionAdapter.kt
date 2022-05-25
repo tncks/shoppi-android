@@ -9,12 +9,14 @@ import com.shoppi.app.databinding.ItemCategoryTopSellingSectionBinding
 import com.shoppi.app.model.Category
 import com.shoppi.app.model.TopSelling
 
-class CategoryTopSellingSectionAdapter :
+class CategoryTopSellingSectionAdapter(
+    private val categoryPeriod: String?
+) :
     ListAdapter<TopSelling, CategoryTopSellingSectionAdapter.TopSellingSectionViewHolder>(TopSellingDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopSellingSectionViewHolder {
         val binding = ItemCategoryTopSellingSectionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return TopSellingSectionViewHolder(binding)
+        return TopSellingSectionViewHolder(binding, categoryPeriod)
     }
 
     override fun onBindViewHolder(holder: TopSellingSectionViewHolder, position: Int) {
@@ -24,25 +26,38 @@ class CategoryTopSellingSectionAdapter :
 
     /*-------------------------------------------------------------------------*/
 
-    class TopSellingSectionViewHolder(private val binding: ItemCategoryTopSellingSectionBinding) :
+    class TopSellingSectionViewHolder(
+        private val binding: ItemCategoryTopSellingSectionBinding,
+        private val categoryPeriod: String?
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val nestedAdapter = CategoryTopSellingItemAdapter()
+        private val nestedAdapter = CategoryTopSellingItemAdapter(categoryPeriod)
 
         init {
             binding.rvCategorySection.adapter = nestedAdapter
         }
 
-        @Suppress("RemoveExplicitTypeArguments")
         fun bind(topSelling: TopSelling) {
             binding.title = topSelling.title
             binding.executePendingBindings()
+
+            val joinedListTopSellingCategories = appendPlusButtonAtLastAndGetJoinedList(topSelling.categories)
+            nestedAdapter.submitList(joinedListTopSellingCategories)
+//          nestedAdapter.submitList(topSelling.categories)
+        }
+
+        private fun appendPlusButtonAtLastAndGetJoinedList(categoriesParam: List<Category>): List<Category> {
+
             val mydummyc = Category("", "", "", false, "", "", "")
-            val appended = listOf<Category>(mydummyc)
-            val joinedList: MutableList<Category> = ArrayList()
-            joinedList.addAll(topSelling.categories)
-            joinedList.addAll(appended)
-            nestedAdapter.submitList(joinedList.toList())
+            val appended = listOf(mydummyc)
+
+            val flexibleJoinedList: MutableList<Category> = ArrayList()
+            flexibleJoinedList.addAll(categoriesParam)
+            flexibleJoinedList.addAll(appended)
+
+            return flexibleJoinedList.toList()
+
         }
 
     }

@@ -9,16 +9,29 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.shoppi.app.R
 import com.shoppi.app.common.KEY_CATEGORY_LABEL
+import com.shoppi.app.common.KEY_CATEGORY_PERIOD
 import com.shoppi.app.databinding.FragmentCategoryDetailBinding
 import com.shoppi.app.ui.common.ViewModelFactory
+import com.shoppi.app.util.rightDrawable
+import com.shoppi.app.util.slideBack
+import com.shoppi.app.util.slideGenie
 
 
-class CategoryDetailFragment : Fragment() {
+class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
 
     private val viewModel: CategoryDetailViewModel by viewModels { ViewModelFactory(requireContext()) }
     private lateinit var binding: FragmentCategoryDetailBinding
+    private lateinit var mymap: GoogleMap
+    private var isMapToggleOpen: Boolean = true
 
 
     /*---------------------------------------------*/
@@ -34,14 +47,45 @@ class CategoryDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        try {
 
-        val myDetailMenu = binding.toolbarCategoryDetail
-        setToggleMenuInFragment(myDetailMenu)
-        binding.lifecycleOwner = viewLifecycleOwner
-        setToolbar()
-        setListAdapter()
-        // possible later soon, temporarily disabled, but not removed.
+
+            val mapFragment = childFragmentManager.findFragmentById(R.id.mymap) as SupportMapFragment
+            mapFragment.getMapAsync(this)
+
+            val myDetailMenu = binding.toolbarCategoryDetail
+            setToggleMenuInFragment(myDetailMenu)
+            binding.lifecycleOwner = viewLifecycleOwner
+            setToolbar()
+            setListAdapter()
+            setScheduleAdapter()
+            // possible later soon, temporarily disabled, but not removed.
+
+            // change this block of code with fun
+            binding.maptoggletxt.setOnClickListener {
+
+                if (isMapToggleOpen) {
+                    binding.maptoggletxt.rightDrawable(R.drawable.ic_load)
+                    binding.maptoggletxt.text = getString(R.string.tvtogglemapopposite)
+                    binding.lll.slideGenie(500)
+
+                } else {
+                    binding.maptoggletxt.rightDrawable(R.drawable.ic_comp)
+                    binding.maptoggletxt.text = getString(R.string.tvtogglemap)
+                    binding.lll.slideBack(500)
+                }
+                isMapToggleOpen = !isMapToggleOpen
+            }
+
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            // later
+        }
+
     }
+
 
     /*---------------------------------------------*/
 
@@ -54,7 +98,7 @@ class CategoryDetailFragment : Fragment() {
 
     /*---------------------------------------------*/
 
-    @Suppress("DuplicatedCode")
+
     private fun setToggleMenuInFragment(myMToolbar: Toolbar) {
 
         myMToolbar.setOnMenuItemClickListener {
@@ -71,16 +115,21 @@ class CategoryDetailFragment : Fragment() {
     /*---------------------------------------------*/
 
     private fun setToolbar() {
-        val categoryLabel = requireArguments().getString(KEY_CATEGORY_LABEL)
-        binding.toolbarCategoryDetail.title = categoryLabel
+        try {
+            val categoryLabel = requireArguments().getString(KEY_CATEGORY_LABEL)
+            binding.toolbarCategoryDetail.title = categoryLabel
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            binding.toolbarCategoryDetail.title = ""
+        }
     }
 
     private fun setListAdapter() {
-        val topSellingSectionAdapter = CategoryTopSellingSectionAdapter()
+        val topSellingSectionAdapter =
+            CategoryTopSellingSectionAdapter(requireArguments().getString(KEY_CATEGORY_PERIOD))
         binding.rvCategoryDetail.adapter = topSellingSectionAdapter
 
-
-        /*---Detect live data from firebase server fetched complete---------------------*/
 
         viewModel.topSelling.observe(viewLifecycleOwner) { topSelling ->
 
@@ -88,6 +137,50 @@ class CategoryDetailFragment : Fragment() {
 
         }
 
+    }
+
+    private fun setScheduleAdapter() {
+        val scheduleAdapter = ScheduleAdapter()
+        binding.rvScheduleWeek.adapter = scheduleAdapter
+
+
+        viewModel.basicSchedule.observe(viewLifecycleOwner) { bSchedules ->
+
+            scheduleAdapter.submitList(bSchedules)
+
+        }
+
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        try {
+            mymap = googleMap.apply {
+                val seoul = LatLng(37.564, 127.001)
+                addMarker(MarkerOptions().position(seoul).title("서울"))
+                setOnMarkerClickListener { marker ->
+                    onMarkerClicked(marker)
+                    false
+                }
+                setOnMapClickListener {
+
+                    // Toast.makeText(requireContext(), "map clicked!", Toast.LENGTH_SHORT).show()
+
+                }
+                moveCamera(CameraUpdateFactory.newLatLng(seoul))
+                animateCamera(CameraUpdateFactory.zoomTo(10f), 1000, null)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            // later
+        }
+    }
+
+    private fun onMarkerClicked(marker: Marker) {
+
+        Toast.makeText(requireContext(), marker.title, Toast.LENGTH_SHORT).show() // similar "marker clicked!"
+        // Toast.makeText(requireContext(), marker.position.longitude.toString(), Toast.LENGTH_SHORT).show()
+        // Toast.makeText(requireContext(), marker.position.latitude.toString(), Toast.LENGTH_SHORT).show()
 
     }
 
@@ -124,50 +217,7 @@ private fun setListAdapter(){
 //        }
 }
 
-private fun getTempDummyDataTitle(): Title {
 
-    return Title("추천상품", null)
-}
 
-private fun getTempDummyDataItems(): List<Product> {
-
-    return listOf(
-        Product(
-            null,
-            "[19차 리오더] 페이크 레더 숏 테일러 자켓 블랙",
-            10,
-            90000,
-            null,
-            "https://user-images.githubusercontent.com/26240553/163524326-0fd93ab3-bb41-4e06-a86f-9f4f419a3f41.png",
-            "jacket_1"
-        ),
-        Product(
-            null,
-            "캐시미어 100% 터틀넥 스웨터",
-            15,
-            70000,
-            null,
-            "https://user-images.githubusercontent.com/26240553/163524328-c5442ce4-631f-48ef-bfdc-2f9df93aced7.png",
-            "sweater_1"
-        ),
-        Product(
-            null,
-            "반팔 스트라이프 스웨터",
-            20,
-            30000,
-            null,
-            "https://user-images.githubusercontent.com/26240553/163524331-0f3aeee9-5f8b-4649-8394-05eb0f13fa45.png",
-            "sweater_2"
-        ),
-        Product(
-            null,
-            "화이트 스포츠 점퍼",
-            20,
-            150000,
-            null,
-            "https://user-images.githubusercontent.com/26240553/163524336-3f23a6ce-2c80-426d-a176-e5bf7342ece6.png",
-            "sports_1"
-        )
-    )
-}
 */
+

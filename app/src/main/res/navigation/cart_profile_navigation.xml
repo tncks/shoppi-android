@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cart_profile_navigation"
+    app:startDestination="@id/cart_profile_name">
+    <fragment
+        android:id="@+id/cart_profile_name"
+        android:name="com.shoppi.app.ui.cartprofile.CartProfileNameFragment"
+        android:label="CartProfileName"
+        tools:layout="@layout/fragment_cart_profile_name">
+        <action
+            android:id="@+id/action_cart_profile_name_to_cart_profile_detail"
+            app:destination="@id/cart_profile_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cart_profile_detail"
+        android:name="com.shoppi.app.ui.cartprofile.CartProfileDetailFragment"
+        android:label="CartProfileDetail"
+        tools:layout="@layout/fragment_cart_profile_detail">
+        <action
+            android:id="@+id/action_cart_profile_detail_to_cart_profile_laout"
+            app:destination="@id/cart_profile_laout" />
+    </fragment>
+    <fragment
+        android:id="@+id/cart_profile_laout"
+        android:name="com.shoppi.app.ui.cartprofile.CartProfileLayoutFragment"
+        android:label="CartProfileLayout"
+        tools:layout="@layout/fragment_cart_profile_layout"/>
+</navigation>

@@ -1,4 +1,4 @@
-@file:Suppress("RedundantCompanionReference", "RemoveExplicitTypeArguments")
+@file:Suppress("RedundantCompanionReference")
 
 package com.shoppi.app.ui
 
@@ -54,7 +54,7 @@ class GalleryActivity : AppCompatActivity() {
 
     private fun setPhotoClickListener(mIndex: Int) {
 
-        gvFolder = findViewById<GridView>(R.id.gv_folder)
+        gvFolder = findViewById(R.id.gv_folder)
         gvFolder?.onItemClickListener = AdapterView.OnItemClickListener { _, _, i, _ ->
             val intent = Intent(applicationContext, PhotosActivity::class.java)
             intent.putExtra("value", i)
@@ -96,6 +96,7 @@ class GalleryActivity : AppCompatActivity() {
     }
 
 
+    @Suppress("DuplicatedCode")
     private fun myimagespath2() {
 
         try {
@@ -186,7 +187,7 @@ class GalleryActivity : AppCompatActivity() {
     }
 
     companion object {
-        var alImages2: ArrayList<ModelContents> = ArrayList<ModelContents>()
+        var alImages2: ArrayList<ModelContents> = ArrayList()
     }
 
 }

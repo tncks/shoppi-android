@@ -1,5 +1,8 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">trAvelZ</string>
+
+    <!-- GMS Map style with map id -->
+    <string name="map_id">244f6466a063fece</string>
 
     <!-- Navigation -->
     <string name="label_category">trAvelZ</string>
@@ -12,8 +15,6 @@
     <!-- Image Description -->
     <string name="description_category_thumbnail">카테고리 썸네일</string>
     <string name="applogo">appLogo</string>
-    <string name="cdbannerimage">cdBannerImage</string>
-    <string name="cdthumbnail">cdThumbnail</string>
     <string name="description_product_representative_image">centered_desc_img</string>
     <string name="upload_desc">ClickThisToUpload</string>
 
@@ -51,6 +52,8 @@
     <string name="inputcorrectlyexactly">정확한 주소를 입력하세요</string>
     <string name="inputcorrectlyadditionalmessage">비밀번호 분실 시 재발급 등 중요한 공지전달에 사용됩니다.</string>
     <string name="inputpasswordvalidly">영문자, 숫자, 특수문자를 포함하여 8자리 이상 16자리 미만</string>
+    <string name="email_or_pw_not_match">이메일 또는 비밀번호가 일치하지 않습니다.</string>
+    <string name="pw_not_match">비밀번호가 일치하지 않습니다.</string>
 
 
     <!-- Profile -->
@@ -80,14 +83,35 @@
 
 
     <!-- Utils -->
-    <string name="unit_discount_rate">%d%%</string>
-    <string name="unit_discount_currency">%s 원</string>
+    <string name="unit_discount_rate" tools:ignore="UnusedResources">%d%%</string>
+    <string name="unit_discount_currency" tools:ignore="UnusedResources">%s 원</string>
 
 
     <!-- Toolbar toggle menu titles -->
     <string name="menu_test_text_title_add">추가</string>
     <string name="menu_test_text_title_delete">삭제</string>
     <string name="menu_test_text_title_move">이동</string>
+
+    <!-- Persistent BottomSheet Menu TextViews Contents -->
+    <string name="bottom_test_text_all">모두 선택</string>
+    <string name="bottom_test_text_deletion">삭제</string>
+    <string name="bottom_test_text_cancel">취소</string>
+
+
+    <!-- map -->
+    <string name="tvtogglemap">지도접기&#160;</string>
+    <string name="tvtogglemapopposite">지도펴기&#160;</string>
+
+
+    <!-- Network Problem Notice -->
+    <string name="otherutilstrnetworkcheck">네트워크 연결을 확인해주세요.</string>
+
+
+    <!-- Cart -->
+    <string name="hint_profile_name_cart">프로필 이름을 작성하세요.</string>
+    <string name="profile_size">크기</string>
+    <string name="profile_pages">페이지 수</string>
+    <string name="profile_layout"><u>상세보기</u></string>
 
 
 </resources>

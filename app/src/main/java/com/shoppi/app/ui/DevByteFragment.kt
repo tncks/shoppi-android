@@ -22,6 +22,14 @@ import com.shoppi.app.databinding.FragmentDevByteBinding
 import com.shoppi.app.domain.DevByteVideo
 import com.shoppi.app.viewmodels.DevByteViewModel
 
+
+/*
+* Note
+* This is Test Fragment
+* Should be ignored
+* */
+
+
 class DevByteFragment : Fragment() {
 
     private val viewModel: DevByteViewModel by lazy {
@@ -35,7 +43,6 @@ class DevByteFragment : Fragment() {
     private var viewModelAdapter: DevByteAdapter? = null
 
 
-    @Suppress("RemoveExplicitTypeArguments")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,17 +89,16 @@ class DevByteFragment : Fragment() {
 
 
 
-        viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
+        viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer { isNetworkError ->
             if (isNetworkError) onNetworkError()
         })
 
         return binding.root
     }
 
-    @Suppress("RemoveExplicitTypeArguments")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.playlist.observe(viewLifecycleOwner, Observer<List<DevByteVideo>> { videos ->
+        viewModel.playlist.observe(viewLifecycleOwner, Observer { videos ->
             videos?.apply {
                 viewModelAdapter?.videos = videos
             }

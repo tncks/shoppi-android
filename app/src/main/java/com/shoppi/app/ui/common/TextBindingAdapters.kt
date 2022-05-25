@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.shoppi.app.ui.common
 
 import android.widget.TextView

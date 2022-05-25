@@ -1,12 +1,29 @@
 package com.shoppi.app.ui.schedule
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.shoppi.app.R
+import com.shoppi.app.databinding.ActivityScheduleWriteEditBinding
+import com.shoppi.app.ui.basewrapper.BaseActivity
 
-class ScheduleWriteEditActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_schedule_write_edit)
+class ScheduleWriteEditActivity :
+    BaseActivity<ActivityScheduleWriteEditBinding>(R.layout.activity_schedule_write_edit) {
+
+    override fun initView() {
+        super.initView()
+
+        binding.apply {
+
+            liveDataModel = viewModel
+            lifecycleOwner = this@ScheduleWriteEditActivity
+        }
+
+    }
+
+    override fun initViewModel() {
+        super.initViewModel()
+
+
+        viewModel.isUpdate.observe(this) {
+            binding.tvSimpleCompleteEditSubmit.text = it.testOne
+        }
     }
 }

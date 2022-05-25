@@ -32,4 +32,11 @@ interface ApiService {
         @Body requestBody: RequestBody
     ): Response<ResponseBody>
 
+
+    @PATCH("users/{uid}/account.json")
+    suspend fun updateUserResetPw(
+        @Path("uid") uid: String,
+        @Body requestBody: RequestBody
+    ): Response<ResponseBody>
+
 }

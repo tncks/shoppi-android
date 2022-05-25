@@ -10,7 +10,6 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.shoppi.app.R
 import com.shoppi.app.ui.DevByteActivity
-import com.shoppi.app.ui.common.MoveToGalleryCameraPickOneActivity
 import com.shoppi.app.ui.common.MoveToGalleryCameraPickOneWithNextActivity
 import com.shoppi.app.ui.feed.MemoWithoutPictureActivity
 import com.shoppi.app.ui.feed.PictureWithMemoActivity
@@ -43,7 +42,8 @@ class MypageFragment : Fragment() {
     private fun setTestRestEventsAtOnce(view: View) {
 
         view.findViewById<Button>(R.id.btn_move_test_1).setOnClickListener {
-            val intent = Intent(activity, MoveToGalleryCameraPickOneActivity::class.java)
+            val intent = Intent(activity, PictureWithMemoActivity::class.java)
+//            val intent = Intent(activity, MoveToGalleryCameraPickOneActivity::class.java)
             startActivity(intent)
         }
 

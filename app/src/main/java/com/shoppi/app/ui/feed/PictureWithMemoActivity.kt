@@ -1,12 +1,27 @@
 package com.shoppi.app.ui.feed
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.shoppi.app.R
+import com.shoppi.app.databinding.ActivityPictureWithMemoBinding
+import com.shoppi.app.ui.basewrapper.BaseActivity
 
-class PictureWithMemoActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_picture_with_memo)
+class PictureWithMemoActivity : BaseActivity<ActivityPictureWithMemoBinding>(R.layout.activity_picture_with_memo) {
+
+    override fun initView() {
+        super.initView()
+
+        binding.apply {
+            liveDataModel = viewModel
+            lifecycleOwner = this@PictureWithMemoActivity
+        }
+
+    }
+
+    override fun initViewModel() {
+        super.initViewModel()
+
+
+        viewModel.isUpdate.observe(this) {
+            binding.plainTextInput9.setText(it.testOne)
+        }
     }
 }

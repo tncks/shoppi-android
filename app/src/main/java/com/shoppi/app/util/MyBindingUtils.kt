@@ -1,15 +1,16 @@
-@file:Suppress("unused")
-
 package com.shoppi.app.util
 
-object MyBindingUtils {
-}
 
+//object MyBindingUtils {
+//}
+
+// Refer
 /*
 import android.view.View
 import androidx.databinding.BindingAdapter
 import com.shoppi.app.common.ON_LONG_CLICK
 
+@Suppress("unused")
 object MyBindingUtils {
 
 
