@@ -4,7 +4,6 @@
     <color name="shoppi_pink_01">#66e062ff</color>
     <color name="shoppi_pink_02">#11e062ff</color>
     <color name="shoppi_gradient_purple">#6b19ff</color>
-    <color name="shoppi_gradient_pink">#fd62ff</color>
     <color name="shoppi_black_01">#000000</color>
     <color name="shoppi_grey_01">#5f5f69</color>
     <color name="shoppi_grey_02">#52514d</color>
@@ -24,6 +23,8 @@
     <color name="shoppi_splash_01">#6970FD</color>
     <color name="shoppi_splash_02">#6971FD</color>
     <color name="shoppi_splash_03">#FFDE94</color>
+    <color name="shoppi_splash_04">#D7FFF3</color>
+    <color name="shoppi_splash_05">#FADEA4</color>
     <color name="shoppi_fail_red">#FF6110</color>
     <color name="shoppi_dummy_white">#feffff</color>
     <color name="background_grey">#ffDDDDDD</color>

@@ -172,6 +172,20 @@
         app:layout_constraintTop_toBottomOf="@id/tv_nickname_normal_user"
         tools:text="약관" />
 
+    <TextView
+        android:id="@+id/tv_message_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/bt_submit_join_form_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/pw_not_match"
+        android:textColor="@color/shoppi_sky"
+        android:textSize="11sp"
+        android:paddingBottom="10dp"
+        android:visibility="gone"
+        tools:visibility="gone" />
+
     <Button
         android:id="@+id/bt_submit_join_form_btn"
         style="@style/SubmitBtnStyle"

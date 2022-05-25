@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 
 
-@Suppress("RemoveExplicitTypeArguments")
 class DevByteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val videosRepository = VideosRepository(getDatabase(application))
@@ -17,14 +16,14 @@ class DevByteViewModel(application: Application) : AndroidViewModel(application)
     val playlist = videosRepository.videos
 
 
-    private var _eventNetworkError = MutableLiveData<Boolean>(false)
+    private var _eventNetworkError = MutableLiveData(false)
 
 
     val eventNetworkError: LiveData<Boolean>
         get() = _eventNetworkError
 
 
-    private var _isNetworkErrorShown = MutableLiveData<Boolean>(false)
+    private var _isNetworkErrorShown = MutableLiveData(false)
 
 
     val isNetworkErrorShown: LiveData<Boolean>

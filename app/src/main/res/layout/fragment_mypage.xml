@@ -12,12 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="helloMypage"
+        android:text="Mypage"
+        android:visibility="invisible"
+        tools:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText"
-        tools:text="helloMypage" />
+        tools:text="Mypage" />
 
     <Button
         android:id="@+id/btn_move_test_1"
@@ -25,7 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:backgroundTint="@color/shoppi_sky"
-        android:text="사진 추가 화면으로 이동"
+        android:text="임시 테스트 화면으로 이동"
+        tools:text="사진 추가 화면으로 이동"
         android:textColor="@color/shoppi_white"
         android:textSize="12sp"
         android:fontFamily="@font/t_font_bold"
@@ -84,6 +87,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:backgroundTint="@android:color/holo_blue_bright"
+        android:visibility="invisible"
+        tools:visibility="visible"
         android:text="비번잊음 이메일 입력 화면으로 이동"
         android:textColor="@color/shoppi_white"
         android:textSize="12sp"
@@ -101,6 +106,8 @@
         android:text="이메일 인증메일 발송 화면으로 이동"
         android:textColor="@color/shoppi_white"
         android:textSize="12sp"
+        android:visibility="invisible"
+        tools:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_move_test_5"
@@ -144,6 +151,8 @@
         android:text="비번재설정 뷰"
         android:textColor="@color/shoppi_white"
         android:textSize="12sp"
+        android:visibility="invisible"
+        tools:visibility="visible"
         app:layout_constraintStart_toEndOf="@id/btn_move_test_8"
         app:layout_constraintTop_toBottomOf="@id/btn_move_test_6"
         tools:ignore="HardcodedText" />

@@ -23,12 +23,13 @@
         android:paddingEnd="6dp"
         android:paddingBottom="16dp">
 
+        <!-- 만약 안되면 imageview background 다시 이거 주면 됨 android:background="@drawable/background_circle_gradient"-->
         <ImageView
             android:id="@+id/iv_category_top_selling_image"
             circleImageUrl="@{category.thumbnailImageUrl}"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:background="@drawable/background_circle_gradient"
+            tools:background="@color/shoppi_white"
             android:contentDescription="@string/description_category_thumbnail"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,17 +66,16 @@
         <TextView
             android:id="@+id/tv_category_date_period"
             style="@style/TextCaption2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:gravity="center"
             android:maxLines="1"
-            android:text="1. 10."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_category_top_selling_label"
             tools:ignore="HardcodedText"
-            tools:text="1. 10." />
+            tools:text="11. 21." />
 
         <!--        <View-->
         <!--            android:id="@+id/selectionline"-->

@@ -1,12 +1,11 @@
 package com.shoppi.app.ui.categorydetail
 
-import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.shoppi.app.R
@@ -16,13 +15,46 @@ import com.shoppi.app.common.MY_BTN_JPG_URL_ADD_PLUS
 import com.shoppi.app.databinding.ItemCategoryTopSellingBinding
 import com.shoppi.app.model.Category
 import com.shoppi.app.ui.common.CategoryDiffCallback
+import com.shoppi.app.util.*
 
-class CategoryTopSellingItemAdapter :
+class CategoryTopSellingItemAdapter(
+    private val categoryPeriod: String?
+) :
     ListAdapter<Category, CategoryTopSellingItemAdapter.TopSellingItemViewHolder>(CategoryDiffCallback()) {
 
-    var nDayth: Int = 0          // should be public var, not private
-    var selectionIndex: Int = 1
-    var prevSelectionPointer: View? = null
+
+    var selectionIndex: Int = 1         // should be public var, not private
+    var prevSelectionPointer: View? = null  // should be public var, not private
+    var prevBottomSelectionPointerUnder: View? = null  // should be public var, not private
+
+    private var myItemCount: Int = 1
+    private var myTagDispenser: Int = 1
+    private lateinit var myDays: List<String>
+    private lateinit var myExpandableDaysForAdd: MutableList<String>
+
+    init {
+        setMyCount()
+    }
+
+    private fun setMyCount() {
+        this.myItemCount = 1
+        categoryPeriod?.let {
+            var loggingStr = it.filter { a ->
+                !a.isWhitespace()
+            }
+
+            val myTarget = '.'
+            loggingStr = loggingStr.replace(myTarget, '-')
+
+            val begins = loggingStr.split("~")[0].dropLast(1)
+            val ends = loggingStr.split("~")[1].dropLast(1)
+
+            this.myDays = getDatesBetweenModernNew(convertingForm(begins), convertingForm(ends))
+            this.myExpandableDaysForAdd = this.myDays.toMutableList()
+            this.myItemCount += this.myDays.size
+            this.myTagDispenser = this.myItemCount
+        }
+    }
 
 
     /*  Description
@@ -40,7 +72,9 @@ class CategoryTopSellingItemAdapter :
 
     override fun onBindViewHolder(holder: TopSellingItemViewHolder, position: Int) {
 
+        holder.setnDayth(position + 1)
         holder.bind(getItem(position))
+
     }
 
 
@@ -58,6 +92,12 @@ class CategoryTopSellingItemAdapter :
 
     }
 
+
+    override fun getItemCount(): Int {
+        return this@CategoryTopSellingItemAdapter.myItemCount
+    }
+
+
     /*-----------------------------------------------------------------------*/
 
 
@@ -67,62 +107,149 @@ class CategoryTopSellingItemAdapter :
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
+        private var nDayth: Int = 1
+
         fun bind(category: Category) {
-            when (viewType) {
-                CONTENT_TYPE -> {
-                    doContentTypeUiSetting(category)
+            try {
+                when (viewType) {
+                    CONTENT_TYPE -> {
+                        doContentTypeUiSetting(category)
+                    }
+                    BUTTON_TYPE -> {
+                        doButtonTypeUiSetting()
+                    }
+                    else -> {
+                        doButtonTypeUiSetting()
+                    }
                 }
-                BUTTON_TYPE -> {
-                    doButtonTypeUiSetting()
-                }
-                else -> {
-                    doButtonTypeUiSetting()
-                }
+            } finally {
+                // IMPORTANT FINALLY DO
+                binding.executePendingBindings()
             }
 
-            // IMPORTANT FINALLY DO
-            binding.executePendingBindings()
+        }
+
+
+        fun setnDayth(position: Int) {
+            this@TopSellingItemViewHolder.nDayth = position
         }
 
 
         private fun doContentTypeUiSetting(category: Category) {
 
-            nDayth++   // auto increment 처리 1일차, 2일차, 3일차 ... on and on
+            // 1일차, 2일차, 3일차 ... on and on
             binding.category = category
+
+            uiSettingLogicSubroutine()
+
+            setInitialDefaultTextColorSelectedStyleOnFirst() // 처음에 한번만 실행되는 함수, 첫번째 1일차 색상 set 용도
+
+            setStyleHideWithUnnecessaryImageView()
+
+            setDayStringTextDaythAutoIncreDefaultOn(
+                this@TopSellingItemViewHolder.nDayth.toString(),
+                this@TopSellingItemViewHolder.nDayth
+            )  // n일차 텍스트 설정 함수
+
+        }
+
+        private fun uiSettingLogicSubroutine() {
 
             binding.root.findViewById<TextView>(R.id.tv_category_top_selling_label).setOnClickListener {
                 if (prevSelectionPointer != null) {
                     (prevSelectionPointer as TextView).setTextColor(getIntegerBlackColorCode())
                 }
                 (it as TextView).setTextColor(getIntegerPrimaryColorCode())
+
                 prevSelectionPointer = it
+
+                if (prevBottomSelectionPointerUnder != null) {
+                    (prevBottomSelectionPointerUnder as TextView).setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                }
+                binding.root.findViewById<TextView>(R.id.tv_category_date_period)
+                    .bottomDrawable(R.drawable.ic_nbar, R.dimen.indicationbar)
+
+                prevBottomSelectionPointerUnder = binding.root.findViewById<TextView>(R.id.tv_category_date_period)
+
             }
-
-            setInitialDefaultTextColorSelectedStyleOnFirst() // 처음에 한번만 실행되는 함수, 첫번째 1일차 색상 set 용도
-
-            setStyleHideWithUnnecessaryImageView()
-
-            setDayStringTextDaythAutoIncreDefaultOn(nDayth.toString())  // n일차 텍스트 설정 함수
-
 
         }
 
         private fun setInitialDefaultTextColorSelectedStyleOnFirst() {
-            if (nDayth == selectionIndex) {
+            if (this@TopSellingItemViewHolder.nDayth == selectionIndex) {
+
                 binding.root.findViewById<TextView>(R.id.tv_category_top_selling_label)
                     .setTextColor(getIntegerPrimaryColorCode())
+                binding.root.findViewById<TextView>(R.id.tv_category_date_period)
+                    .bottomDrawable(R.drawable.ic_nbar, R.dimen.indicationbar)
+
+
                 prevSelectionPointer =
                     (binding.root.findViewById<TextView>(R.id.tv_category_top_selling_label) as View)
+                prevBottomSelectionPointerUnder =
+                    (binding.root.findViewById<TextView>(R.id.tv_category_date_period) as View)
                 selectionIndex = -10
             }
         }
 
-        private fun setDayStringTextDaythAutoIncreDefaultOn(nDaythStringValue: String) {
-
+        @Suppress("LiftReturnOrAssignment")
+        private fun setDayStringTextDaythAutoIncreDefaultOn(
+            nDaythStringValue: String,
+            nDaythParam: Int
+        ) {
             val resultJoinedStringValue = "$nDaythStringValue 일차"
             binding.root.findViewById<TextView>(R.id.tv_category_top_selling_label).text = resultJoinedStringValue
+            var start = ""
+            try {
+
+                val b = this@CategoryTopSellingItemAdapter::myDays.isInitialized
+                start = periodLogic(start, nDaythParam, b, myDays)
+
+            } catch (e: IndexOutOfBoundsException) {
+
+                start = showAddedDatesAgainTry(start, nDaythParam)
+
+
+            } finally {
+
+                binding.root.findViewById<TextView>(R.id.tv_category_date_period).text = start
+
+            }
 
         }
+
+        @Suppress("LiftReturnOrAssignment")
+        private fun showAddedDatesAgainTry(param: String, nDaythParam: Int): String {
+            var start = param
+
+            try {
+
+                val b = this@CategoryTopSellingItemAdapter::myExpandableDaysForAdd.isInitialized
+                start = periodLogic(start, nDaythParam, b, myExpandableDaysForAdd)
+
+            } catch (e: IndexOutOfBoundsException) {
+                start = myExpandableDaysForAdd.last()
+            }
+            return start
+
+        }
+
+        private fun periodLogic(param: String, nDaythParam: Int, b: Boolean, paramDays: List<String>): String {
+            var start = param
+            categoryPeriod?.let {
+                if (b) {
+                    start = paramDays[nDaythParam - 1]
+                    start = start.substring(start.indexOf("-") + 1)
+                    val reverseTarget = '-'
+                    start = start.replace(reverseTarget, '.')
+                    start += "."
+                    val indexAt = start.indexOf(".") + 1
+                    start = addChar(start, ' ', indexAt)
+                }
+            }
+            return start
+        }
+
 
         private fun doButtonTypeUiSetting() {
 
@@ -131,21 +258,27 @@ class CategoryTopSellingItemAdapter :
 
             setStyleHideWithUnnecessaryTextView()
 
-            binding.root.findViewById<ImageView>(R.id.iv_category_top_selling_image).setOnClickListener {
-                doAddWork()
+            binding.root.findViewById<ImageView>(R.id.iv_category_top_selling_image).apply {
+
+                tag = (++myTagDispenser)
+
+                setOnClickListener {
+                    if (this@CategoryTopSellingItemAdapter::myExpandableDaysForAdd.isInitialized) {
+
+                        if (myExpandableDaysForAdd.size < 35) {
+                            doAddWork()
+                        } else {
+                            doNotWorkAndHideMyPlusButton()
+                        }
+
+                    }
+
+                }
+
             }
 
         }
 
-        // Util Functions public
-        private fun getIntegerPrimaryColorCode(): Int {
-            return Color.parseColor("#6970FD")
-        }
-
-        private fun getIntegerBlackColorCode(): Int {
-            return Color.parseColor("#000000")
-        }
-        // End of util
 
         @Suppress("SameParameterValue")
         private fun setUpAddButtonImageAndUrl(btnThumbnailImageUrl: String) {
@@ -168,12 +301,69 @@ class CategoryTopSellingItemAdapter :
             binding.root.findViewById<TextView>(R.id.tv_category_date_period).visibility = View.INVISIBLE
         }
 
+        @Suppress("LiftReturnOrAssignment")
         private fun doAddWork() {
 
-            Toast.makeText(binding.root.context, "add", Toast.LENGTH_SHORT).show()
-            // do add process
-            // start adding codes here
+            var lastDate = ""
 
+            try {
+
+                this@CategoryTopSellingItemAdapter.myItemCount++
+
+
+                if (this@CategoryTopSellingItemAdapter.myDays.size == this@CategoryTopSellingItemAdapter.myExpandableDaysForAdd.size) {
+
+                    lastDate = getTommorowOfLastDate(getLastDayOfDates(this@CategoryTopSellingItemAdapter.myDays))
+
+                } else {
+
+                    lastDate =
+                        getTommorowOfLastDate(getLastDayOfDates(this@CategoryTopSellingItemAdapter.myExpandableDaysForAdd))
+
+                }
+
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+
+                if (lastDate.isNotBlank()) {
+                    this@CategoryTopSellingItemAdapter.myExpandableDaysForAdd.add(lastDate)
+                } else {
+                    this@CategoryTopSellingItemAdapter.myItemCount--
+                }
+
+
+
+
+                binding.tvCategoryTopSellingBadge.apply {
+                    visibility = View.VISIBLE
+                    visibility = View.GONE
+                }
+
+                binding.tvCategoryTopSellingBadge.apply {
+                    visibility = View.VISIBLE
+                    visibility = View.INVISIBLE
+                }
+
+            }
+
+        }
+
+        private fun doNotWorkAndHideMyPlusButton() {
+            try {
+                binding.root.findViewWithTag<ImageView>(myTagDispenser).visibility = View.INVISIBLE
+            } catch (e: Exception) {
+                Log.i("dummy", "dummy")
+            }
+        }
+
+        private fun getLastDayOfDates(myDays: List<String>): String {
+            return myDays.last()
+        }
+
+        private fun getTommorowOfLastDate(param: String): String {
+            return DateIncrementer().addOneDay(param)
         }
 
 
@@ -185,8 +375,47 @@ class CategoryTopSellingItemAdapter :
 }
 
 
-/*-----------------------------------------------------------------------*/
-/*-----------------------------------------------------------------------*/
-// Reference for studying
-// val tmpSelectionNameCurrent: String = ((it as TextView).text as String).dropLast(2)
-// Toast.makeText(binding.root.context, "$tmpSelectionNameCurrent 일차", Toast.LENGTH_SHORT).show()
+// 혹시 모를 오류에 대비한 복사 붙여넣기 로직 백업 코드
+/*
+            binding.root.findViewById<TextView>(R.id.tv_category_top_selling_label).setOnClickListener {
+                if (prevSelectionPointer != null) {
+                    (prevSelectionPointer as TextView).setTextColor(getIntegerBlackColorCode())
+                }
+                (it as TextView).setTextColor(getIntegerPrimaryColorCode())
+
+                prevSelectionPointer = it
+
+                if (prevBottomSelectionPointerUnder != null) {
+                    (prevBottomSelectionPointerUnder as TextView).setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                }
+                binding.root.findViewById<TextView>(R.id.tv_category_date_period)
+                    .bottomDrawable(R.drawable.ic_nbar, R.dimen.indicationbar)
+
+                prevBottomSelectionPointerUnder = binding.root.findViewById<TextView>(R.id.tv_category_date_period)
+
+            }
+             */
+
+/*
+            binding.root.findViewById<ImageView>(R.id.iv_category_top_selling_image).tag = (++myTagDispenser)
+
+
+            binding.root.findViewById<ImageView>(R.id.iv_category_top_selling_image).setOnClickListener {
+                if (this@CategoryTopSellingItemAdapter::myExpandableDaysForAdd.isInitialized) {
+
+                    if (myExpandableDaysForAdd.size < 35) {
+                        doAddWork()
+                    } else {
+                        doNotWorkAndHideMyPlusButton()
+                    }
+
+                }
+
+            }
+
+             */
+
+//                binding.tvCategoryTopSellingBadge.visibility = View.VISIBLE
+//                binding.tvCategoryTopSellingBadge.visibility = View.GONE
+//                binding.tvCategoryTopSellingBadge.visibility = View.VISIBLE
+//                binding.tvCategoryTopSellingBadge.visibility = View.INVISIBLE

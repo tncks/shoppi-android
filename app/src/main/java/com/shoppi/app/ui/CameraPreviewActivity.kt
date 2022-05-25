@@ -24,10 +24,10 @@ class CameraPreviewActivity : AppCompatActivity() {
     private val startCameraForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK && validAccessAvailablePermission()) {
-                // Toast or snackbar -> notice user for 사진 ~에 저장됨
+                // snackbar -> notice user for 사진 ~에 저장됨
                 finish()
             } else {
-                // different Toast or snackbar -> notice user for ERROR or throw exception and catch print
+                // different snackbar -> notice user for ERROR or throw exception and catch print
                 finish()
             }
         }

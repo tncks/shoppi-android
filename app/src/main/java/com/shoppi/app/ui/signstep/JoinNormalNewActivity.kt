@@ -1,5 +1,3 @@
-@file:Suppress("ReplaceSizeCheckWithIsNotEmpty")
-
 package com.shoppi.app.ui.signstep
 
 import android.content.Context
@@ -12,24 +10,27 @@ import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.shoppi.app.R
 import com.shoppi.app.common.FIRE_JSON_BASEURL
 import com.shoppi.app.common.PrepareJsonHelper
 import com.shoppi.app.network.ApiService
+import com.shoppi.app.util.FormValidator
 import kotlinx.coroutines.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.Retrofit
 import java.net.URL
-import java.util.regex.Pattern
 
-@Suppress("RemoveExplicitTypeArguments", "RedundantIf", "UnnecessaryVariable")
+@Suppress("RedundantIf", "UnnecessaryVariable")
 class JoinNormalNewActivity : AppCompatActivity() {
 
     private lateinit var ivPrevBackIcon: ImageView
@@ -45,19 +46,20 @@ class JoinNormalNewActivity : AppCompatActivity() {
     private var isPwRetypeToggled = false
 
 
+    @Suppress("DuplicatedCode")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_normal_new)
 
 
-        ivPrevBackIcon = findViewById<ImageView>(R.id.iv_back_unreal_previous_like_toolbar_second)
-        ediEmail = findViewById<EditText>(R.id.tv_email_normal_user)
-        ediPw = findViewById<EditText>(R.id.tv_pw_normal_user)
-        ediPwRetype = findViewById<EditText>(R.id.tv_pw_retype_again)
-        ediNickname = findViewById<EditText>(R.id.tv_nickname_normal_user)
-        submitBtn = findViewById<Button>(R.id.bt_submit_join_form_btn)
-        ivTogglePwVisibility = findViewById<ImageView>(R.id.iv_hide_eye_pw_normal_user)
-        ivTogglePwRetypeVisibility = findViewById<ImageView>(R.id.iv_hide_eye_pw_retype_normal_user)
+        ivPrevBackIcon = findViewById(R.id.iv_back_unreal_previous_like_toolbar_second)
+        ediEmail = findViewById(R.id.tv_email_normal_user)
+        ediPw = findViewById(R.id.tv_pw_normal_user)
+        ediPwRetype = findViewById(R.id.tv_pw_retype_again)
+        ediNickname = findViewById(R.id.tv_nickname_normal_user)
+        submitBtn = findViewById(R.id.bt_submit_join_form_btn)
+        ivTogglePwVisibility = findViewById(R.id.iv_hide_eye_pw_normal_user)
+        ivTogglePwRetypeVisibility = findViewById(R.id.iv_hide_eye_pw_retype_normal_user)
 
 
         /*---------------------------------------------------------*/
@@ -93,10 +95,11 @@ class JoinNormalNewActivity : AppCompatActivity() {
         ediEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
 
+            @Suppress("ReplaceSizeCheckWithIsNotEmpty")
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
                 if (charSequence.length != 0) {
                     val emails = charSequence
-                    if (validateInputEmail(emails)) {
+                    if (FormValidator().validateInputEmail(emails)) {
                         submitBtn.isEnabled = true
                         flagStr = "0"
                     } else {
@@ -112,10 +115,11 @@ class JoinNormalNewActivity : AppCompatActivity() {
         ediPw.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
 
+            @Suppress("ReplaceSizeCheckWithIsNotEmpty")
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
                 if (charSequence.length != 0) {
                     val password = ediPw.text.toString()
-                    if (validateInput(password)) {
+                    if (FormValidator().validateInput(password)) {
                         submitBtn.isEnabled = true
                         if (this@JoinNormalNewActivity::flagStr.isInitialized && flagStr == "0") {
                             flagStr += "1"
@@ -134,6 +138,7 @@ class JoinNormalNewActivity : AppCompatActivity() {
         ediPwRetype.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
 
+            @Suppress("ReplaceSizeCheckWithIsNotEmpty")
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
                 if (charSequence.length != 0) {
                     submitBtn.isEnabled = true
@@ -150,6 +155,7 @@ class JoinNormalNewActivity : AppCompatActivity() {
         ediNickname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
 
+            @Suppress("ReplaceSizeCheckWithIsNotEmpty")
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
                 if (charSequence.length != 0) {
                     submitBtn.isEnabled = true
@@ -192,13 +198,19 @@ class JoinNormalNewActivity : AppCompatActivity() {
             }
 
 
+            val messageState = findViewById<TextView>(R.id.tv_message_state)
+            if (checkCode != 0) {
+                messageState.visibility = View.VISIBLE
+            } else {
+                messageState.visibility = View.GONE
+            }
             when (checkCode) {
-                -1 -> Toast.makeText(applicationContext, "빈 칸을 모두 채워주세요.", Toast.LENGTH_SHORT).show()
-                -2 -> Toast.makeText(applicationContext, "패스워드가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
-                -3 -> Toast.makeText(applicationContext, "빈 칸을 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
-                -4 -> Toast.makeText(applicationContext, "입력이 미완료된 빈 칸이 있습니다.", Toast.LENGTH_SHORT).show()
-                -5 -> Toast.makeText(applicationContext, "잘못된 입력이 존재합니다. 다시 확인해주세요.", Toast.LENGTH_SHORT).show()
-                -6 -> Toast.makeText(applicationContext, "올바르지 않은 이메일 주소 혹은 비밀번호 설정입니다.", Toast.LENGTH_SHORT).show()
+                -1 -> messageState.text = "빈 칸을 모두 채워주세요."
+                -2 -> messageState.text = "비밀번호가 일치하지 않습니다."
+                -3 -> messageState.text = "빈 칸을 모두 입력해주세요."
+                -4 -> messageState.text = "입력이 미완료된 빈 칸이 있습니다."
+                -5 -> messageState.text = "잘못된 입력이 존재합니다. 다시 확인해주세요."
+                -6 -> messageState.text = "올바르지 않은 이메일 주소 혹은 비밀번호 형식입니다."
                 else -> doSome()
             }
             submitBtn.isEnabled = true
@@ -275,7 +287,6 @@ class JoinNormalNewActivity : AppCompatActivity() {
         }
     }
 
-    @Suppress("LiftReturnOrAssignment")
     private fun sendToServer(preparedFormData: List<String>, resultParamStringValue: String) {
 
 
@@ -297,25 +308,54 @@ class JoinNormalNewActivity : AppCompatActivity() {
 
             val response = service.pushOneAccount(resultParamStringValue, requestBody)
 
-            withContext(Dispatchers.Main) {
-                try {
-                    val resultIntent: Intent
-                    if (response.isSuccessful) {
-                        val prefs: SharedPreferences = getSharedPreferences("UID", Context.MODE_PRIVATE)
-                        val editor: SharedPreferences.Editor = prefs.edit()
-                        editor.putString("UID", resultParamStringValue)
-                        editor.commit()
-                        resultIntent = Intent(applicationContext, JoinCompleteSuccessActivity::class.java)
-                    } else {
-                        resultIntent = Intent(applicationContext, JoinIncompleteInvalidorfailActivity::class.java)
-                    }
-                    startActivity(resultIntent)
-                } finally {
-                    finish()
+            handleResponseResultWithSavingData(response, resultParamStringValue)
+
+            /*
+            * 바로 밑에 아래 함수로 동일하게 치환해놨는데 테스트해보고 문제 없으면 동일 내용의 이 주석 삭제하기 */
+//            withContext(Dispatchers.Main) {
+//                try {
+//                    val resultIntent: Intent
+//                    if (response.isSuccessful) {
+//                        val prefs: SharedPreferences = getSharedPreferences("UID", Context.MODE_PRIVATE)
+//                        val editor: SharedPreferences.Editor = prefs.edit()
+//                        editor.putString("UID", resultParamStringValue)
+//                        editor.commit()
+//                        resultIntent = Intent(applicationContext, JoinCompleteSuccessActivity::class.java)
+//                    } else {
+//                        resultIntent = Intent(applicationContext, JoinIncompleteInvalidorfailActivity::class.java)
+//                    }
+//                    startActivity(resultIntent)
+//                } finally {
+//                    finish()
+//                }
+//            }
+        }
+    }
+
+    @Suppress("ApplySharedPref", "LiftReturnOrAssignment")
+    private suspend fun handleResponseResultWithSavingData(
+        response: Response<ResponseBody>,
+        resultParamStringValue: String
+    ) {
+        withContext(Dispatchers.Main) {
+            try {
+                val resultIntent: Intent
+                if (response.isSuccessful) {
+                    val prefs: SharedPreferences = getSharedPreferences("UID", Context.MODE_PRIVATE)
+                    val editor: SharedPreferences.Editor = prefs.edit()
+                    editor.putString("UID", resultParamStringValue)
+                    editor.commit()
+                    resultIntent = Intent(applicationContext, JoinCompleteSuccessActivity::class.java)
+                } else {
+                    resultIntent = Intent(applicationContext, JoinIncompleteInvalidorfailActivity::class.java)
                 }
+                startActivity(resultIntent)
+            } finally {
+                finish()
             }
         }
     }
+
 
     private suspend fun urlRead() = withContext(Dispatchers.IO) {
         val quickConnect = (FIRE_JSON_BASEURL + "users.json")
@@ -326,41 +366,6 @@ class JoinNormalNewActivity : AppCompatActivity() {
             ""
         }
     }
-
-    private fun validateInputEmail(emails: CharSequence): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(emails).matches()
-    }
-
-    @Suppress("RegExpSimplifiable")
-    private fun validateInput(password: String): Boolean {
-        try {
-            val isSatisfied = mutableListOf<Boolean>()
-            val strictPatterns = listOf<Pattern>(
-                Pattern.compile("[A-Z]"),
-                Pattern.compile("[a-z]"),
-                Pattern.compile("[0-9]"),
-                Pattern.compile("[!@#$%^&*(){}?]")
-            )
-            val pwMinLen = 8
-            val pwMaxLen = 16
-
-            for (strictPattern in strictPatterns) {
-                isSatisfied.add(strictPattern.matcher(password).find())
-            }
-            isSatisfied.add((password.length in pwMinLen..pwMaxLen))
-
-            val predicate: (Boolean) -> Boolean = { it }
-            return isSatisfied.all(predicate)
-
-        } catch (e: IndexOutOfBoundsException) {
-            e.printStackTrace()
-            return false
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return false
-        }
-    }
-
 
 }
 

@@ -7,7 +7,6 @@
     android:minHeight="120dp">
 
     <!-- 이미지 설정 리사이클러뷰 내부 컴포넌트 아이템 뷰, 카드뷰 레이아웃 -->
-    <!-- 레이아웃 사이즈 확정 필요, 임시로 300~400 사이 하드코딩된 정수값 사용중 -->
 
     <ImageView
         android:id="@+id/photo"
@@ -15,7 +14,10 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:contentDescription="@string/label_category"
-        android:src="@drawable/image_border"
-        tools:src="@drawable/image_border" />
+        tools:srcCompat="@drawable/samplelandscape"
+        tools:src="@drawable/samplelandscape" />
+
+    <!-- removed line -->
+    <!-- android:src="@drawable/image_border" -->
 
 </androidx.cardview.widget.CardView>

@@ -10,18 +10,16 @@ import java.io.File
 class UploadUtility {
 
     private val serverURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_URL
-
-    // private val serverUploadDirectoryPath = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI
     private val client = OkHttpClient()
     private var isSuccess: Boolean = false
 
-    @Suppress("unused")
+    @Suppress("unused", "BooleanMethodIsAlwaysInverted")
     fun uploadFile(sourceFilePath: String, uploadedFileName: String? = null): Boolean {
         return uploadFile(File(sourceFilePath), uploadedFileName)
     }
 
 
-    @Suppress("FoldInitializerAndIfToElvis", "RedundantExplicitType")
+    @Suppress("FoldInitializerAndIfToElvis", "RedundantExplicitType", "BooleanMethodIsAlwaysInverted")
     fun uploadFile(sourceFile: File, uploadedFileName: String? = null): Boolean {
 
         val t = Thread {
@@ -92,3 +90,7 @@ class UploadUtility {
 }
 
 
+// deprecated
+// Refer
+// revised from
+// private val serverUploadDirectoryPath = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI

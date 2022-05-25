@@ -12,3 +12,9 @@ class DevByteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dev_byte_viewer)
     }
 }
+
+/*
+* Note
+* This is Test Activity
+* Should be ignored
+* */

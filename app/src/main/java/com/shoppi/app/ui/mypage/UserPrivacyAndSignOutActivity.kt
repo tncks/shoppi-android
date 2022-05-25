@@ -17,6 +17,7 @@ class UserPrivacyAndSignOutActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_privacy_and_sign_out)
 
 
+        // 로그아웃 SP 처리 알고리즘이 잘못되서 수정 필요
         findViewById<TextView>(R.id.tv_logout).setOnClickListener {
             val prefs: SharedPreferences = getSharedPreferences("UID", Context.MODE_PRIVATE)
             val editor: SharedPreferences.Editor = prefs.edit()

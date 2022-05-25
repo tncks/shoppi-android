@@ -11,7 +11,6 @@ import android.text.TextUtils
 import android.util.Log
 import com.shoppi.app.common.CONTENT_MEDIASTORE_PROTOCOL_PREFIX_STRING
 
-@Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
 object RealPathUtil {
 
     @SuppressLint("NewApi")
@@ -25,7 +24,7 @@ object RealPathUtil {
                 val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 val type = split[0]
 
-                if (1 == 0 && "primary".equals(type, ignoreCase = true)) {
+                if (type == "aaaaaaaaaaaaaaaaaa" && "primary".equals(type, ignoreCase = true)) {
                     reValue = "dummy"
                     // return Environment.getExternalStorageDirectory().toString()
                 }
@@ -96,7 +95,7 @@ object RealPathUtil {
     ): String? {
 
         var cursor: Cursor? = null
-        val column = "_data"  // Media.String.DATA deprecated
+        val column = "_data"
         val projection = arrayOf(column)
 
         try {

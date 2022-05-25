@@ -1,31 +1,46 @@
-@file:Suppress("SameParameterValue", "KotlinConstantConditions")
-
 package com.shoppi.app.ui
 
 
+import android.content.ContentUris
 import android.content.Intent
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.shoppi.app.R
-import com.shoppi.app.common.FIRST_BASE_HEIGHT
-import com.shoppi.app.common.MY_HEIGHT_INTERVAL_TOP_BOTTOM
+import com.shoppi.app.common.*
+import com.shoppi.app.model.ModelContents
+import com.shoppi.app.model.getAlImageuri
+import com.shoppi.app.model.setAlImageuri
+import com.shoppi.app.model.setStrFolder
+import com.shoppi.app.network.ApiService
+import com.shoppi.app.repository.category.Supglobal
+import kotlinx.coroutines.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Retrofit
+import java.io.File
+import java.io.FileOutputStream
 
 
-@Suppress("RemoveRedundantQualifierName")
 class LastingActivity : AppCompatActivity() {
 
-    // private var mNum: Int = 0
-    // private lateinit var mMM: MutableList<String>
 
+    private var alImages3: ArrayList<ModelContents> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +49,8 @@ class LastingActivity : AppCompatActivity() {
         val mIntent: Intent = intent
         val mPos: Int = mIntent.getIntExtra("mIndex", 0)
 
-        // this.mNum = SpUtility(applicationContext).myInitSup()
-        // this.mMM = SpUtility(applicationContext).myInitSup2()
 
-
-        // val mPos: Int = intent.getIntExtra("mIndex", 0)
+        setMyAlImagesOnInit()
 
 
         /*------------------------------------------------------------*/
@@ -50,7 +62,8 @@ class LastingActivity : AppCompatActivity() {
         fab.visibility = View.INVISIBLE
 
         recycler.layoutManager = gridLayoutManager
-        val adapter = LastingActivity.MyAdapter()
+        @Suppress("RemoveRedundantQualifierName")
+        val adapter = LastingActivity.MyAdapter(this@LastingActivity.alImages3, mPos)
         recycler.adapter = adapter
 
         /*------------------------------------------------------------*/
@@ -70,39 +83,83 @@ class LastingActivity : AppCompatActivity() {
         /*------------------------------------------------------------*/
 
         // Begin Of Handler
-        Handler(Looper.getMainLooper()).postDelayed({
-            runOnUiThread {
-                fab.setOnClickListener {
-                    val intent = Intent(applicationContext, GalleryActivity::class.java)
-                    intent.putExtra("mIndex", mPos)
-                    startActivity(intent)
-                }
-                if (adapter.itemCount > 14) {
-                    recycler.smoothScrollToPosition(adapter.itemCount - 1)
-                } else {
-                    fab.visibility = View.VISIBLE
+        lifecycleScope.launch {
+            delay(10L)
+
+            innScrollSmoothTopLogic(fab, mPos, adapter, recycler)
+
+        }
+        // End Of Handler
+    }
+
+    @Suppress("RemoveRedundantQualifierName")
+    private suspend fun innScrollSmoothTopLogic(
+        fab: FloatingActionButton,
+        mPos: Int,
+        adapter: LastingActivity.MyAdapter,
+        recycler: RecyclerView
+    ) {
+        withContext(Dispatchers.Main) {
+            fab.setOnClickListener {
+                val intent = Intent(applicationContext, GalleryActivity::class.java)
+                intent.putExtra("mIndex", mPos)
+                startActivity(intent)
+            }
+            if (adapter.itemCount > 14) {
+                recycler.smoothScrollToPosition(adapter.itemCount - 1)
+            } else {
+                fab.visibility = View.VISIBLE
+            }
+
+            recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (dy > 0 || dy < 0 && fab.isShown) {
+                        fab.hide()
+                    }
                 }
 
-                recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        if (dy > 0 || dy < 0 && fab.isShown) {
-                            fab.hide()
-                        }
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    if (!recyclerView.canScrollVertically(-1)) {
+                        fab.show()
                     }
 
-                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                        if (!recyclerView.canScrollVertically(-1)) {
-                            fab.show()
-                        }
+                    super.onScrollStateChanged(recyclerView, newState)
+                }
+            })
+        }
+    }
 
-                        super.onScrollStateChanged(recyclerView, newState)
-                    }
-                })
 
+    @Suppress("DuplicatedCode")
+    private fun setMyAlImagesOnInit() {
+
+        // var nPos = 0
+        var contentUri: Uri?
+        val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(MediaStore.MediaColumns._ID, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+        val orderBy = MediaStore.Images.Media.DATE_TAKEN
+        val cursor: Cursor? = applicationContext.contentResolver.query(uri, projection, null, null, "$orderBy DESC")
+        val columnIndexId: Int
+        val columnIndexFolderName = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+        if (cursor != null) {
+            columnIndexId = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+            while (cursor.moveToNext()) {
+
+                contentUri = ContentUris.withAppendedId(uri, cursor.getLong(columnIndexId))
+
+
+                val alUri = ArrayList<Uri>()
+                alUri.add(contentUri)
+                if (columnIndexFolderName != null) {
+                    val objModel = ModelContents("", alUri)
+                    objModel.setStrFolder("")
+                    objModel.setAlImageuri(alUri)
+                    this.alImages3.add(objModel)
+                }
 
             }
-        }, 500)
-        // End Of Handler
+            cursor.close()
+        }
 
     }
 
@@ -127,7 +184,11 @@ class LastingActivity : AppCompatActivity() {
 
     /*------------------------------------------------------------*/
 
-    private class MyAdapter :
+    @Suppress("RemoveRedundantQualifierName")
+    private class MyAdapter(
+        private val alImages3: ArrayList<ModelContents>,
+        private val mPos: Int
+    ) :
         RecyclerView.Adapter<LastingActivity.MyViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LastingActivity.MyViewHolder {
             val inflater = LayoutInflater.from(parent.context)
@@ -135,12 +196,31 @@ class LastingActivity : AppCompatActivity() {
             val layoutParams = itemView.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.width = parent.width / 3 - layoutParams.leftMargin - layoutParams.rightMargin
             itemView.layoutParams = layoutParams
+            itemView.tag = mPos
             return LastingActivity.MyViewHolder(itemView)
         }
 
         override fun onBindViewHolder(holder: LastingActivity.MyViewHolder, position: Int) {
 
-            // Glide.with(holder.photoView.context).load(mMM[position]).into(holder.photoView) // possible error
+            if (itemCount - position >= 3) {
+                Glide.with(holder.itemView.context).load(alImages3[position].getAlImageuri()[0])
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(holder.photoView)
+            } else {
+
+                if (itemCount - position == 1) {
+                    holder.apply {
+                        photoView.setImageResource(R.drawable.samplelandscape)
+                    }
+                } else {
+                    holder.apply {
+                        photoView.setImageResource(R.drawable.sampleportrait)
+                    }
+                }
+
+
+            }
 
 
         }
@@ -151,32 +231,8 @@ class LastingActivity : AppCompatActivity() {
         @Suppress("LiftReturnOrAssignment")
         override fun getItemCount(): Int {
 
-            val n = 0
-/*
-            val k: Int = mNum / 3
 
-            var n = 0
-
-            if (mNum == 1 && mNum != 0) {
-                n = 0
-            }
-            if (mNum == 2 && mNum != 0) {
-                n = 0
-            }
-            if (k == 0) {
-                val dummy: Int? = null
-            } else {
-                var cnt = 1
-                while (cnt < 1000) {
-                    if (k == cnt) {
-                        n = 3 * k + 2
-                        break
-                    }
-                    cnt++
-                }
-
-            }
-*/
+            val n = this@MyAdapter.alImages3.size
 
 
             if (n <= 14) {
@@ -192,6 +248,7 @@ class LastingActivity : AppCompatActivity() {
 
         /*------------------------------------------------------------*/
 
+
         private fun checkEmptyOrOnlyOneOrTwo(n: Int): Boolean {
             return checkEmptyOrOnlyOneOrTwoInternalCalculate(n)
         }
@@ -204,6 +261,7 @@ class LastingActivity : AppCompatActivity() {
             }
         }
 
+
         private fun matchIsEmptyOrOnlyOneOrTwoResult(n: Int): Int {
             return if (n == 1) {
                 (n + 1)
@@ -211,6 +269,7 @@ class LastingActivity : AppCompatActivity() {
                 n
             }
         }
+
 
         private fun addSampleImageForDummyGridNaturalLayout(n: Int): Int {
             if (n % 3 == 0) {
@@ -226,12 +285,85 @@ class LastingActivity : AppCompatActivity() {
     }
 
 
-    @Suppress("RemoveExplicitTypeArguments")
     private class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var photoView: ImageView
 
         init {
-            photoView = itemView.findViewById<ImageView>(R.id.photo)
+            photoView = itemView.findViewById(R.id.photo)
+            connectEachItemSetReactionListener(photoView, itemView)
+        }
+
+        fun connectEachItemSetReactionListener(photoView: ImageView, itemView: View) {
+            photoView.setOnClickListener {
+                val mPos = (itemView.tag as Int)
+
+                val bitmap: Bitmap = (it as ImageView).drawable.toBitmap()
+
+
+                val nameStartWith = "imgFile"
+                val directFile = File.createTempFile(nameStartWith, ".jpg", it.context.cacheDir)
+                val outputStream = FileOutputStream(directFile)
+                try {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream) // 100 값 수정 X !!
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    try {
+                        outputStream.close()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+                if (UploadUtility().uploadFile(directFile)) {
+
+                    val prePathNameURL = BACK_AZURE_STATIC_WEB_MEDIA_FILE_SERVER_IMAGE_DIR_URI + directFile.name
+                    reviseMethod(prePathNameURL, mPos)
+                    resetSupG(prePathNameURL, mPos)
+                    val intent = Intent(it.context, ProfileAddEditActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    it.context.startActivity(intent)
+
+                } else {
+                    Log.w("FAIL", "LastingActivity FAIL")
+                }
+
+            }
+        }
+
+        @Suppress("DuplicatedCode")
+        fun reviseMethod(thumbPhpFilePath: String, resultParam: Int) {
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(FIRE_JSON_BASEURL)
+                .build()
+
+
+            val service = retrofit.create(ApiService::class.java)
+
+
+            val jsonObjectString: String = PrepareJsonHelper().prepareFlexibleJson(thumbPhpFilePath)
+
+
+            val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val resultParamStringValue: String = resultParam.toString()
+
+                val response = service.updateItemProfileStyle(SAFEUID, resultParamStringValue, requestBody)
+
+                withContext(Dispatchers.Main) {
+                    Log.i("dummy", response.isSuccessful.toString())
+                }
+            }
+        }
+
+
+        fun resetSupG(prePathNameURL: String, mPos: Int) {
+            val tmpLs = Supglobal.mSup.split(DELIM)
+            Supglobal.mSup = PatchHelperUtility().reviseHelperUtil(tmpLs, mPos, prePathNameURL)
         }
     }
 

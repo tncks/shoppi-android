@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.shoppi.app">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -30,11 +31,6 @@
         <intent>
             <action android:name="android.intent.action.GET_CONTENT" />
         </intent>
-        <!-- Email send -->
-        <intent>
-            <action android:name="android.intent.action.SENDTO" />
-            <data android:scheme="*" />
-        </intent>
     </queries>
 
     <!-- Camera Hardware Feature required -->
@@ -49,98 +45,118 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoppiandroid">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <activity
+            android:name=".ui.cartprofile.CartEditActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.Shoppiandroid.Splash">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
 
         </activity>
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action." /> -->
+            <!-- </intent-filter> -->
             <intent-filter>
-                <action android:name="android.intent.action." />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.DevByteActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.LastingActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.signstep.SignBeforeStartActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.ProfileAddEditActivity"
             android:launchMode="singleTop"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.common.MoveToGalleryCameraPickOneActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.feed.PictureWithMemoActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.feed.PictureWithoutMemoActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.signstep.JoinNormalNewActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.signstep.ForgotPwNeedEmailAddressActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.signstep.ForgotPwConfirmEmailCheckValidActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.signstep.JoinEntireViewOfTermsAgreeActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.schedule.ScheduleWriteEditActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.signstep.ForgotResetPasswordRenewActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.signstep.JoinCompleteSuccessActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.signstep.JoinIncompleteInvalidorfailActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.schedule.TheLocationActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.common.MoveToGalleryCameraPickOneWithNextActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.feed.MemoWithoutPictureActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.GalleryActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.PhotosActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".myjetcp.MainComposeActivity"
             android:exported="false"
             android:noHistory="true"
             android:label="@string/title_activity_main_compose"
-            android:theme="@style/Theme.Shoppiandroid.NoActionBar"></activity>
+            android:theme="@style/Theme.Shoppiandroid.NoActionBar"/>
         <activity
             android:name=".ui.mypage.UserPrivacyAndSignOutActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.CameraPreviewActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
+        <activity
+            android:name=".ui.tutorials.heart.LoveActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -7,19 +7,20 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.shoppi.app.R
 import com.shoppi.app.common.*
 import com.shoppi.app.network.ApiService
 import com.shoppi.app.repository.category.Supglobal
+import com.shoppi.app.ui.common.DialogStylingUtil
 import kotlinx.coroutines.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -32,8 +33,6 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
 
-
-@Suppress("RemoveExplicitTypeArguments")
 class ProfileAddEditActivity : AppCompatActivity() {
 
     private lateinit var bitmap: Bitmap
@@ -46,6 +45,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
     private lateinit var ediLocationOfProfile: EditText
     private lateinit var ediPeriodOfProfile: EditText
     private lateinit var ediProfileMemo: EditText
+    private var functionCallCurrentCountIncrementSum: Int = 0
 
     /*---------------------------------------------*/
 
@@ -54,14 +54,14 @@ class ProfileAddEditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile_add_edit)
 
 
-        ivProfileThumbnail = findViewById<ImageView>(R.id.imageView_profile)
-        ivBack = findViewById<ImageView>(R.id.iv_unreal_back_simple)
-        tvSubmitFinish = findViewById<TextView>(R.id.tv_simple_complete_edit_submit)
+        ivProfileThumbnail = findViewById(R.id.imageView_profile)
+        ivBack = findViewById(R.id.iv_unreal_back_simple)
+        tvSubmitFinish = findViewById(R.id.tv_simple_complete_edit_submit)
         originalURL = Supglobal.mSup.split(DELIM)[intent.getIntExtra("mIndex", 0)]
-        ediProfileName = findViewById<EditText>(R.id.et_profile_name)
-        ediLocationOfProfile = findViewById<EditText>(R.id.et_location_of_profile)
-        ediPeriodOfProfile = findViewById<EditText>(R.id.et_period_of_profile)
-        ediProfileMemo = findViewById<EditText>(R.id.et_profile_memo)
+        ediProfileName = findViewById(R.id.et_profile_name)
+        ediLocationOfProfile = findViewById(R.id.et_location_of_profile)
+        ediPeriodOfProfile = findViewById(R.id.et_period_of_profile)
+        ediProfileMemo = findViewById(R.id.et_profile_memo)
 
         /*---------------------------------------------*/
 
@@ -74,9 +74,18 @@ class ProfileAddEditActivity : AppCompatActivity() {
         /*---------------------------------------------*/
 
         ivBack.setOnClickListener {
-            val builder = AlertDialog.Builder(this, R.style.MDialogTheme)
-            fillDialogContents(builder)
-            setDialogLayoutStyleAndShow(builder)
+            try {
+                if (functionCallCurrentCountIncrementSum < 5) {
+                    functionCallCurrentCountIncrementSum = 0
+                    finish()
+                } else {
+                    val builder = AlertDialog.Builder(this, R.style.MDialogTheme)
+                    fillDialogContents(builder)
+                    setDialogLayoutStyleAndShow(builder)
+                }
+            } finally {
+                // som
+            }
         }
 
         tvSubmitFinish.setOnClickListener {
@@ -89,6 +98,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
                 ), intent.getIntExtra("mIndex", 0)
             )
             BFLAG = true
+            functionCallCurrentCountIncrementSum = 0
             finish()
         }
 
@@ -96,9 +106,16 @@ class ProfileAddEditActivity : AppCompatActivity() {
         ediPeriodOfProfile.inputType = 0
         ediPeriodOfProfile.setOnFocusChangeListener { _, b ->
             if (b) {
+                val calendarConstraintBuilder = CalendarConstraints.Builder()
+                calendarConstraintBuilder.setValidator(DateValidatorPointForward.now())
 
                 var dateResultStr: String
-                val datePicker = MaterialDatePicker.Builder.dateRangePicker().build()
+                val myRangeBuilder = MaterialDatePicker.Builder.dateRangePicker()
+                myRangeBuilder.setTheme(R.style.CustomThemeOverlay_MaterialCalendar_Fullscreen)
+                // myRangeBuilder.setTitleText(R.string.label_category)
+                myRangeBuilder.setCalendarConstraints(calendarConstraintBuilder.build())
+                val datePicker = myRangeBuilder.build()
+
                 datePicker.show(supportFragmentManager, "DatePicker")
 
                 datePicker.addOnPositiveButtonClickListener {
@@ -110,15 +127,11 @@ class ProfileAddEditActivity : AppCompatActivity() {
                     dateResultStr = "$dateString ~ $dateStringEnd"
 
                     ediPeriodOfProfile.setText(dateResultStr)
+
+                    functionCallCurrentCountIncrementSum += 10
                 }
 
-//                datePicker.addOnNegativeButtonClickListener {
-//                    Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                datePicker.addOnCancelListener {
-//                    Toast.makeText(this, "여행기간 수정이 취소되었습니다.", Toast.LENGTH_LONG).show()
-//                }
+
             }
         }
 
@@ -130,9 +143,11 @@ class ProfileAddEditActivity : AppCompatActivity() {
         preThumbnail = mPos
         val tmpLs = Supglobal.mSup.split(DELIM)
         ivProfileThumbnail.setOnClickListener {
+            functionCallCurrentCountIncrementSum = 0
             val intent = Intent(applicationContext, LastingActivity::class.java)
             intent.putExtra("mIndex", mIntent.getIntExtra("mIndex", 0))
             startActivity(intent)
+            functionCallCurrentCountIncrementSum += 10
         }
 
         /*---------------------------------------------*/
@@ -166,6 +181,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
             }
             afterConnection()
         }
+        functionCallCurrentCountIncrementSum++
     }
 
     private fun connectServerAndGetStreamOfImage(serverPath: String): InputStream {
@@ -206,6 +222,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
         ivProfileThumbnail.setImageResource(R.drawable.ic_placeholder_add)
 
+        functionCallCurrentCountIncrementSum++
     }
 
     private suspend fun afterConnection() {
@@ -250,6 +267,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
         }
         /*---------------------------------------------*/
 
+        functionCallCurrentCountIncrementSum += 5
     }
 
     private suspend fun calltinOnRestart() {
@@ -282,29 +300,36 @@ class ProfileAddEditActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val builder = AlertDialog.Builder(this, R.style.MDialogTheme)
-        // Do not change below code block with function call fillDialogContents
-        builder.setTitle(
-            "작성 중인 내용이 있습니다." + "\n" +
-                    "나가시겠습니까?"
-        )
-            .setMessage("지금까지 작성한 내용이 사라집니다.")
-            .setPositiveButton("나가기",
-                DialogInterface.OnClickListener { dialog, id ->
-                    if (this@ProfileAddEditActivity::originalURL.isInitialized) {
-                        reviseMethod(originalURL, intent.getIntExtra("mIndex", 0))
-                        resetSupG(originalURL, intent.getIntExtra("mIndex", 0))
-                    }
-                    super.onBackPressed()
-                    finish()
-                })
-            .setNegativeButton(
-                "취소",
-                DialogInterface.OnClickListener { dialog, id ->
-                    Log.i("dummy", "dummy")
-                })
 
-        setDialogLayoutStyleAndShow(builder)
+        if (functionCallCurrentCountIncrementSum < 5) {
+            functionCallCurrentCountIncrementSum = 0
+            finish()
+        } else {
+            val builder = AlertDialog.Builder(this, R.style.MDialogTheme)
+            // Do not change below code block with function call fillDialogContents
+            builder.setTitle(
+                "작성 중인 내용이 있습니다." + "\n" +
+                        "나가시겠습니까?"
+            )
+                .setMessage("지금까지 작성한 내용이 사라집니다.")
+                .setPositiveButton("나가기",
+                    DialogInterface.OnClickListener { _, _ ->
+                        if (this@ProfileAddEditActivity::originalURL.isInitialized) {
+                            reviseMethod(originalURL, intent.getIntExtra("mIndex", 0))
+                            resetSupG(originalURL, intent.getIntExtra("mIndex", 0))
+                        }
+                        functionCallCurrentCountIncrementSum = 0
+                        super.onBackPressed()
+                        finish()
+                    })
+                .setNegativeButton(
+                    "취소",
+                    DialogInterface.OnClickListener { _, _ ->
+
+                    })
+
+            setDialogLayoutStyleAndShow(builder)
+        }
     }
 
     override fun onResume() {
@@ -323,27 +348,27 @@ class ProfileAddEditActivity : AppCompatActivity() {
         )
             .setMessage("지금까지 작성한 내용이 사라집니다.")
             .setPositiveButton("나가기",
-                DialogInterface.OnClickListener { dialog, id ->
+                DialogInterface.OnClickListener { _, _ ->
                     if (this@ProfileAddEditActivity::originalURL.isInitialized) {
                         reviseMethod(originalURL, intent.getIntExtra("mIndex", 0))
                         resetSupG(originalURL, intent.getIntExtra("mIndex", 0))
                     }
+                    functionCallCurrentCountIncrementSum = 0
                     finish()
                 })
             .setNegativeButton("취소",
-                DialogInterface.OnClickListener { dialog, id ->
-                    Log.i("dummy", "dummy")
+                DialogInterface.OnClickListener { _, _ ->
+
                 })
+
+
+        functionCallCurrentCountIncrementSum++
     }
 
     private fun setDialogLayoutStyleAndShow(builder: AlertDialog.Builder) {
-        val aD = builder.show()
-        /*--------------------*/
-        val btnPositive = aD.getButton(AlertDialog.BUTTON_POSITIVE)
-        val btnNegative = aD.getButton(AlertDialog.BUTTON_NEGATIVE)
-        val layoutParams = btnPositive.layoutParams as LinearLayout.LayoutParams
-        layoutParams.marginEnd = 40
-        btnNegative.layoutParams = layoutParams
+        DialogStylingUtil().setDialogMarginAndDisplay(builder)
+
+        functionCallCurrentCountIncrementSum++
     }
 
     /*---------------------------------------------*/
@@ -375,9 +400,11 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
         }
 
+        functionCallCurrentCountIncrementSum++
     }
 
 
+    @Suppress("DuplicatedCode")
     private fun reviseMethod(FilePath: String, resultParam: Int) {
 
         val retrofit = Retrofit.Builder()
@@ -403,11 +430,14 @@ class ProfileAddEditActivity : AppCompatActivity() {
             }
 
         }
+        functionCallCurrentCountIncrementSum++
     }
 
     private fun resetSupG(URL: String, index: Int) {
         val tmpData = Supglobal.mSup.split(DELIM)
         Supglobal.mSup = PatchHelperUtility().reviseHelperUtil(tmpData, index, URL)
+
+        functionCallCurrentCountIncrementSum++
     }
 
 

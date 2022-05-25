@@ -1,12 +1,28 @@
 package com.shoppi.app.ui.schedule
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.shoppi.app.R
+import com.shoppi.app.databinding.ActivityTheLocationBinding
+import com.shoppi.app.ui.basewrapper.BaseActivity
 
-class TheLocationActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_the_location)
+class TheLocationActivity :
+    BaseActivity<ActivityTheLocationBinding>(R.layout.activity_the_location) {
+
+    override fun initView() {
+        super.initView()
+
+        binding.apply {
+            liveDataModel = viewModel
+            lifecycleOwner = this@TheLocationActivity
+        }
+
+    }
+
+    override fun initViewModel() {
+        super.initViewModel()
+
+
+        viewModel.isUpdate.observe(this) {
+            binding.plainTextInput0.setText(it.testOne)
+        }
     }
 }
