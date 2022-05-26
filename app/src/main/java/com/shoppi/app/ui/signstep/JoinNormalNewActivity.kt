@@ -117,18 +117,7 @@ class JoinNormalNewActivity : AppCompatActivity() {
 
             @Suppress("ReplaceSizeCheckWithIsNotEmpty")
             override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
-                if (charSequence.length != 0) {
-                    val password = ediPw.text.toString()
-                    if (FormValidator().validateInput(password)) {
-                        submitBtn.isEnabled = true
-                        if (this@JoinNormalNewActivity::flagStr.isInitialized && flagStr == "0") {
-                            flagStr += "1"
-                        }
-                    } else {
-                        submitBtn.isEnabled = false
-                        flagStr = "error"
-                    }
-                }
+
             }
 
             override fun afterTextChanged(editable: Editable) {}
@@ -177,23 +166,36 @@ class JoinNormalNewActivity : AppCompatActivity() {
                     getNicknameText()
                 )
             ) {
-                checkCode = -1
+
+
+                if (this@JoinNormalNewActivity::flagStr.isInitialized) {
+                    checkCode = -4
+                } else {
+                    checkCode = -1
+                }
+
+
 
             }
             if (getPwText() != getPwRetypeText()) {
                 checkCode = -2
             }
+
+            val password = ediPw.text.toString()
+            if (!FormValidator().validateInput(password)) {
+                checkCode = -7
+            }
+
+
             if (!this@JoinNormalNewActivity::flagStr.isInitialized) {
                 checkCode = -3
             } else {
-                if (flagStr == "error") {
-                    checkCode = -6
-                } else if (flagStr == "0") {
-                    checkCode = -4
-                } else if (flagStr != "01") {
-                    checkCode = -5
-                } else {
-                    Log.i("dummy", "dummy")
+                if (checkCode != -7) {
+                    if (flagStr == "error") {
+                        checkCode = -6
+                    } else {
+                        Log.i("dummy", "dummy")
+                    }
                 }
             }
 
@@ -209,8 +211,8 @@ class JoinNormalNewActivity : AppCompatActivity() {
                 -2 -> messageState.text = "비밀번호가 일치하지 않습니다."
                 -3 -> messageState.text = "빈 칸을 모두 입력해주세요."
                 -4 -> messageState.text = "입력이 미완료된 빈 칸이 있습니다."
-                -5 -> messageState.text = "잘못된 입력이 존재합니다. 다시 확인해주세요."
-                -6 -> messageState.text = "올바르지 않은 이메일 주소 혹은 비밀번호 형식입니다."
+                -6 -> messageState.text = "올바르지 않은 이메일 주소 형식입니다."
+                -7 -> messageState.text = "올바르지 않은 비밀번호 형식입니다."
                 else -> doSome()
             }
             submitBtn.isEnabled = true

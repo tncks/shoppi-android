@@ -2,6 +2,8 @@
 
 package com.shoppi.app.common
 
+const val FRESH_PING_SITE_URL = "https://duddndtncks.freshping.io/"
+
 
 const val KEY_CATEGORY_ID = "category_id"   // used
 const val KEY_CATEGORY_LABEL = "category_label"   // used
