@@ -168,10 +168,10 @@ class JoinNormalNewActivity : AppCompatActivity() {
             ) {
 
 
-                if (this@JoinNormalNewActivity::flagStr.isInitialized) {
-                    checkCode = -4
+                checkCode = if (this@JoinNormalNewActivity::flagStr.isInitialized) {
+                    -4
                 } else {
-                    checkCode = -1
+                    -1
                 }
 
 

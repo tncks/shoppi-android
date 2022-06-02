@@ -207,6 +207,7 @@ class CategoryAdapter(private val viewModel: CategoryViewModel) :
 
     }
 
+    @Suppress("DuplicatedCode")
     private fun getRealPosWithClickedPosOnDisplayedScreen(positionParam: Int): Int {
 
         var idxTargetingValue = 0
@@ -318,6 +319,7 @@ class CategoryAdapter(private val viewModel: CategoryViewModel) :
     }
 
 
+    @Suppress("SameParameterValue")
     private fun processSingleClick(position: Int) {
         if (mIsInMultiChoiceMode || mIsInSingleClickMode) {
             processClick(position)

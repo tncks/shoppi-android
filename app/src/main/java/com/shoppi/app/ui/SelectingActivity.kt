@@ -35,6 +35,7 @@ class SelectingActivity : AppCompatActivity() {
     private var alImages3: ArrayList<String> = ArrayList()
 
 
+    @Suppress("DuplicatedCode")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lasting)
@@ -87,7 +88,7 @@ class SelectingActivity : AppCompatActivity() {
     }
 
 
-    @Suppress("RemoveRedundantQualifierName")
+    @Suppress("RemoveRedundantQualifierName", "DuplicatedCode")
     private suspend fun innScrollSmoothTopLogic(
         fab: FloatingActionButton,
         adapter: SelectingActivity.MyAdapter,
@@ -140,6 +141,7 @@ class SelectingActivity : AppCompatActivity() {
 
     /*------------------------------------------------------------*/
 
+    @Suppress("DuplicatedCode")
     private fun determineStackLevelWithItemCount(itemCnt: Int): Int {
         return if (itemCnt <= (3 * 1)) {
             0
@@ -185,6 +187,7 @@ class SelectingActivity : AppCompatActivity() {
         }
 
 
+        @Suppress("DuplicatedCode")
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectingActivity.MyViewHolder {
             val inflater = LayoutInflater.from(parent.context)
             val itemView: View = inflater.inflate(R.layout.item_view, parent, false)
@@ -220,13 +223,13 @@ class SelectingActivity : AppCompatActivity() {
 
                 } else {
 
-                    if (itemCount - position == 1) {
+                    sampleImgEachItemUrlPath = if (itemCount - position == 1) {
 
-                        sampleImgEachItemUrlPath = dataOfOtherStatic[0]
+                        dataOfOtherStatic[0]
 
                     } else {
 
-                        sampleImgEachItemUrlPath = dataOfOtherStatic[1]
+                        dataOfOtherStatic[1]
 
                     }
 

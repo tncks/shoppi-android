@@ -26,6 +26,7 @@ class CategoryTopSellingSectionAdapter(
 
     /*-------------------------------------------------------------------------*/
 
+    @Suppress("CanBeParameter")
     class TopSellingSectionViewHolder(
         private val binding: ItemCategoryTopSellingSectionBinding,
         private val categoryPeriod: String?

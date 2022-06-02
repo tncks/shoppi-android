@@ -23,6 +23,7 @@ class HistoryViewModel(
     private val _openHistoryEvent = MutableLiveData<Event<Category>>()
     val openHistoryEvent: LiveData<Event<Category>> = _openHistoryEvent
 
+    @Suppress("MemberVisibilityCanBePrivate")
     var isNothingToShow: Boolean = false
 
 

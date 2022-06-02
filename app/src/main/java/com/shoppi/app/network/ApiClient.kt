@@ -15,6 +15,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import java.lang.reflect.Type
 
+@Suppress("RedundantNullableReturnType")
 interface ApiClient {
 
     @GET("users/{uid}/categories.json")

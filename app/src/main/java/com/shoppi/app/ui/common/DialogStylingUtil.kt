@@ -3,6 +3,7 @@ package com.shoppi.app.ui.common
 import android.app.AlertDialog
 import android.widget.LinearLayout
 
+@Suppress("DuplicatedCode")
 class DialogStylingUtil {
     fun setDialogMarginAndDisplay(builder: AlertDialog.Builder) {
         val aD = builder.show()

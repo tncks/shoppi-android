@@ -35,6 +35,7 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
 
     /*---------------------------------------------*/
 
+    @Suppress("RedundantNullableReturnType")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCategoryDetailBinding.inflate(inflater, container, false)
         val tb = (binding.root).findViewById<Toolbar>(R.id.toolbar_category_detail)

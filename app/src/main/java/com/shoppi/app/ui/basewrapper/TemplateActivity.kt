@@ -1,3 +1,5 @@
+@file:Suppress("EmptyMethod")
+
 package com.shoppi.app.ui.basewrapper
 
 import android.os.Bundle

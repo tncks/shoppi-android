@@ -37,6 +37,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 
+@Suppress("DuplicatedCode")
 class LastingActivity : AppCompatActivity() {
 
 

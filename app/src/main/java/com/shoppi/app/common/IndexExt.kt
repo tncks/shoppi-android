@@ -1,3 +1,5 @@
+@file:Suppress("DuplicatedCode")
+
 package com.shoppi.app.common
 
 import com.shoppi.app.ui.category.CategoryBoolLiveArray

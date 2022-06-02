@@ -30,6 +30,7 @@ import com.shoppi.app.viewmodels.DevByteViewModel
 * */
 
 
+@Suppress("RedundantSamConstructor")
 class DevByteFragment : Fragment() {
 
     private val viewModel: DevByteViewModel by lazy {
@@ -43,6 +44,7 @@ class DevByteFragment : Fragment() {
     private var viewModelAdapter: DevByteAdapter? = null
 
 
+    @Suppress("RedundantNullableReturnType")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

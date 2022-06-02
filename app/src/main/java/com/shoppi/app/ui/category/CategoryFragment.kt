@@ -40,7 +40,7 @@ import kotlinx.coroutines.*
 import xyz.teamgravity.checkinternet.CheckInternet
 
 
-@Suppress("RedundantNullableReturnType")
+@Suppress("RedundantNullableReturnType", "RedundantSamConstructor")
 class CategoryFragment : Fragment() {
 
     private val viewModel: CategoryViewModel by viewModels { ViewModelFactory(requireContext()) }

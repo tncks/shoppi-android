@@ -38,6 +38,7 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
 
+@Suppress("RedundantSamConstructor", "DuplicatedCode")
 class ProfileAddEditActivity : AppCompatActivity() {
 
     private lateinit var bitmap: Bitmap

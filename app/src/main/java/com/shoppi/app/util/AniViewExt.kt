@@ -83,6 +83,8 @@ fun View.visibleOrGone(show: Boolean, animate: Boolean = true) {
     if (show) visible(animate) else gone(animate)
 }
 
+
+@Suppress("SameParameterValue")
 private fun View.hide(hidingStrategy: Int, animate: Boolean = true) {
     if (animate) {
         animate().alpha(0f).setDuration(300).setListener(object : AnimatorListenerAdapter() {

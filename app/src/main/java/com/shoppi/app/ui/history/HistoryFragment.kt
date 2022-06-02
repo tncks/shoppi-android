@@ -7,14 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.shoppi.app.R
-import com.shoppi.app.common.KEY_CATEGORY_ID
-import com.shoppi.app.common.KEY_CATEGORY_LABEL
-import com.shoppi.app.common.KEY_CATEGORY_PERIOD
 import com.shoppi.app.databinding.FragmentHistoryBinding
 import com.shoppi.app.ui.ProfileCreateActivity
 import com.shoppi.app.ui.category.CategoryBoolLiveArray
@@ -27,6 +22,7 @@ class HistoryFragment : Fragment() {
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var historyAdapter: HistoryAdapter
 
+    @Suppress("RedundantNullableReturnType")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHistoryBinding.inflate(inflater, container, false)
         return binding.root
@@ -48,20 +44,20 @@ class HistoryFragment : Fragment() {
         }
         viewModel.openHistoryEvent.observe(viewLifecycleOwner, EventObserver {
 
-            openHistoryDetail(it.categoryId, it.label, it.period)
+            openHistoryDetail(/*it.categoryId, it.label, it.period*/)
 
         })
 
     }
 
 
-    private fun openHistoryDetail(categoryId: String, categoryLabel: String, categoryPeriod: String) {
+    private fun openHistoryDetail(/*categoryId: String, categoryLabel: String, categoryPeriod: String*/) {
         // 아래 코드 삭제
         Toast.makeText(requireContext(), "개발중입니다", Toast.LENGTH_SHORT).show()
         return
         // 위 코드 삭제
 
-
+/*
         findNavController().navigate(
             R.id.action_history_to_history_detail, bundleOf(
                 KEY_CATEGORY_ID to categoryId,
@@ -69,7 +65,7 @@ class HistoryFragment : Fragment() {
                 KEY_CATEGORY_PERIOD to categoryPeriod
             )
         )
-
+*/
 
     }
 
