@@ -51,25 +51,57 @@ class CategoryViewModel(
                 if (connected) {
                     val categories: List<Category>? = categoryRepository.getCategories(SAFEUID)
 
-                    if (categories == null) {
-                        Log.i("dummy", "dummy")
-                    } else {
-                        _items.value = categories
+                    categories?.let { totalArray ->
 
-                        if (categories.isEmpty()) {
+                        setObjectBoolLiveArrayData(totalArray)
+                        val filteredCategories: List<Category> =
+                            filterInCategoriesWithUpdatePropertyBoolFalseValueSelectAll(totalArray)
+                        _items.value = filteredCategories
+
+
+                        if (filteredCategories.isEmpty()) {
                             isNothingToShow = true
                         }
+
                     }
+
                 } else {
                     Log.d("COCOCOCO", "OFFLINE")
                 }
             } catch (e: Exception) {
                 Log.d("erroronmodel", "errorthrowedOnViewmodelInit")
-            } finally {
-                Log.i("dummy", "dummy")
             }
         }
 
+    }
+
+    private fun filterInCategoriesWithUpdatePropertyBoolFalseValueSelectAll(categories: List<Category>): List<Category> {
+
+        val filteredResults = mutableListOf<Category>()
+
+
+        var i = 0
+        for (category in categories) {
+            if (category.updated) {
+                if (i == -2) {
+                    Log.i("dummy", "dummy") // dummy code
+                }
+                // Log.d("updatedValueTAt",i.toString()) // not dummy and debug code
+            } else {
+                filteredResults.add(category)
+            }
+            i++
+        }
+
+
+        return filteredResults
+    }
+
+    private fun setObjectBoolLiveArrayData(categoriesParam: List<Category>) {
+        CategoryBoolLiveArray.mUpdates.clear()
+        for (category in categoriesParam) {
+            CategoryBoolLiveArray.mUpdates.add(category.updated)
+        }
     }
 
     fun updateFakeCategoryTmp(b: List<Int>, tmpAbsolutes: MutableList<Int>) {
@@ -119,23 +151,24 @@ class CategoryViewModel(
                         val categories: List<Category>? = categoryRepository.getCategories(SAFEUID)
                         SelectionAllToggleSelector.singleToneFlag = true
 
-                        if (categories == null) {
-                            Log.i("dummy", "dummy")
-                        } else {
-                            _items.value = categories
+                        categories?.let { totalArray ->
 
-                            if (categories.isEmpty()) {
+                            val filteredCategories: List<Category> =
+                                filterInCategoriesWithUpdatePropertyBoolFalseValueSelectAll(totalArray)
+                            _items.value = filteredCategories
+
+                            if (filteredCategories.isEmpty()) {
                                 isNothingToShow = true
                             }
+
                         }
+
                     } else {
                         delay(500L)
                     }
 
                 } catch (e: Exception) {
                     e.printStackTrace()
-                } finally {
-                    // later
                 }
             }
 

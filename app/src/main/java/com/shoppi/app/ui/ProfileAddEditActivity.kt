@@ -5,12 +5,16 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.format.DateFormat
+import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.datepicker.CalendarConstraints
@@ -21,6 +25,7 @@ import com.shoppi.app.common.*
 import com.shoppi.app.network.ApiService
 import com.shoppi.app.repository.category.Supglobal
 import com.shoppi.app.ui.common.DialogStylingUtil
+import com.shoppi.app.util.setTitleColor
 import kotlinx.coroutines.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -39,7 +44,6 @@ class ProfileAddEditActivity : AppCompatActivity() {
     private var preThumbnail: Int = 0
     private lateinit var ivProfileThumbnail: ImageView
     private lateinit var ivBack: ImageView
-    private lateinit var tvSubmitFinish: TextView
     private lateinit var originalURL: String
     private lateinit var ediProfileName: EditText
     private lateinit var ediLocationOfProfile: EditText
@@ -56,22 +60,59 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
         ivProfileThumbnail = findViewById(R.id.imageView_profile)
         ivBack = findViewById(R.id.iv_unreal_back_simple)
-        tvSubmitFinish = findViewById(R.id.tv_simple_complete_edit_submit)
         originalURL = Supglobal.mSup.split(DELIM)[intent.getIntExtra("mIndex", 0)]
         ediProfileName = findViewById(R.id.et_profile_name)
         ediLocationOfProfile = findViewById(R.id.et_location_of_profile)
         ediPeriodOfProfile = findViewById(R.id.et_period_of_profile)
         ediProfileMemo = findViewById(R.id.et_profile_memo)
+        val toolbarProfile = findViewById<Toolbar>(R.id.toolbar_profile)
 
         /*---------------------------------------------*/
 
-        Glide.with(this).load(R.raw.movingcircular).into(ivProfileThumbnail)
+        Glide.with(this).load(R.raw.skeleton).into(ivProfileThumbnail)
         ediProfileName.setText(Supglobal.mLabel.split(DELIM)[intent.getIntExtra("mIndex", 0)])
         ediLocationOfProfile.setText(Supglobal.mLocation.split(DELIM)[intent.getIntExtra("mIndex", 0)])
         ediPeriodOfProfile.setText(Supglobal.mPeriod.split(DELIM)[intent.getIntExtra("mIndex", 0)])
         ediProfileMemo.setText(Supglobal.mMemo.split(DELIM)[intent.getIntExtra("mIndex", 0)])
 
         /*---------------------------------------------*/
+
+        if (ediProfileName.text.isNotBlank()) {
+            toolbarProfile.menu.findItem(R.id.menu_just).setTitleColor(Color.BLACK)
+        } else {
+            toolbarProfile.menu.findItem(R.id.menu_just).setTitleColor(Color.LTGRAY)
+        }
+
+        toolbarProfile.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_just -> {
+                    justSubmit()
+                }
+                else -> {
+                    Log.i("error","error")
+                }
+            }
+            true
+        }
+
+        /*--------------------------------------------*/
+
+        ediProfileName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
+
+            @Suppress("ReplaceSizeCheckWithIsNotEmpty")
+            override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
+                if (charSequence.length != 0) {
+                    toolbarProfile.menu.findItem(R.id.menu_just).setTitleColor(Color.BLACK)
+                } else {
+                    toolbarProfile.menu.findItem(R.id.menu_just).setTitleColor(Color.LTGRAY)
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable) {}
+        })
+
+        /*-------------------------------------------*/
 
         ivBack.setOnClickListener {
             try {
@@ -88,19 +129,9 @@ class ProfileAddEditActivity : AppCompatActivity() {
             }
         }
 
-        tvSubmitFinish.setOnClickListener {
-            reviseMethod(
-                listOf(
-                    ediProfileName.text.toString(),
-                    ediLocationOfProfile.text.toString(),
-                    ediPeriodOfProfile.text.toString(),
-                    ediProfileMemo.text.toString()
-                ), intent.getIntExtra("mIndex", 0)
-            )
-            BFLAG = true
-            functionCallCurrentCountIncrementSum = 0
-            finish()
-        }
+
+
+
 
 
         ediPeriodOfProfile.inputType = 0
@@ -160,14 +191,32 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
     }
 
+    private fun justSubmit() {
+        if (ediProfileName.text.toString().isBlank()) {
+            return
+        } else {
+            reviseMethod(
+                listOf(
+                    ediProfileName.text.toString(),
+                    ediLocationOfProfile.text.toString(),
+                    ediPeriodOfProfile.text.toString(),
+                    ediProfileMemo.text.toString()
+                ), intent.getIntExtra("mIndex", 0)
+            )
+            BFLAG = true
+            functionCallCurrentCountIncrementSum = 0
+            finish()
+        }
+    }
+
 
     private suspend fun calltinOnCreate(tmpLs: List<String>, mPos: Int) {
         withContext(Dispatchers.IO) {
             try {
-                val iss: InputStream? = connectServerAndGetStreamOfImage(tmpLs[mPos])
+                val iss: InputStream = connectServerAndGetStreamOfImage(tmpLs[mPos])
                 bitmap = BitmapFactory.decodeStream(iss)
             } catch (e: NullPointerException) {
-                val iss: InputStream? = connectServerAndGetStreamOfImage(MY_NUPTR_JPG_URL_ON_LOAD_ERROR)
+                val iss: InputStream = connectServerAndGetStreamOfImage(MY_NUPTR_JPG_URL_ON_LOAD_ERROR)
                 bitmap = BitmapFactory.decodeStream(iss)
                 setBitmapThumbnail()
             } catch (e: FileNotFoundException) {
@@ -251,7 +300,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
 
         // Do not remove this one line code for stability
-        Glide.with(this).load(R.raw.movingcircular).into(ivProfileThumbnail)
+        Glide.with(this).load(R.raw.skeleton).into(ivProfileThumbnail)
 
         /*---------------------------------------------*/
         lifecycleScope.launch {
@@ -259,7 +308,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
 
             // Do not remove four lines code for stability
             withContext(Dispatchers.Main) {
-                Glide.with(applicationContext).load(R.raw.movingcircular)
+                Glide.with(applicationContext).load(R.raw.skeleton)
                     .into(ivProfileThumbnail)
             }
 
@@ -273,10 +322,10 @@ class ProfileAddEditActivity : AppCompatActivity() {
     private suspend fun calltinOnRestart() {
         withContext(Dispatchers.IO) {
             try {
-                val iss: InputStream? = connectServerAndGetStreamOfImage(Supglobal.mSup.split(DELIM)[preThumbnail])
+                val iss: InputStream = connectServerAndGetStreamOfImage(Supglobal.mSup.split(DELIM)[preThumbnail])
                 bitmap = BitmapFactory.decodeStream(iss)
             } catch (e: NullPointerException) {
-                val iss: InputStream? = connectServerAndGetStreamOfImage(MY_NUPTR_JPG_URL_ON_LOAD_ERROR)
+                val iss: InputStream = connectServerAndGetStreamOfImage(MY_NUPTR_JPG_URL_ON_LOAD_ERROR)
                 bitmap = BitmapFactory.decodeStream(iss)
                 setBitmapThumbnail()
             } catch (e: MalformedURLException) {
@@ -296,7 +345,7 @@ class ProfileAddEditActivity : AppCompatActivity() {
         super.onPause()
 
 
-        Glide.with(this).load(R.raw.movingcircular).into(ivProfileThumbnail)
+        Glide.with(this).load(R.raw.skeleton).into(ivProfileThumbnail)
     }
 
     override fun onBackPressed() {

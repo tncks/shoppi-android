@@ -65,6 +65,7 @@
             android:id="@+id/lll"
             android:weightSum="24"
             android:orientation="vertical"
+            tools:visibility="gone"
             android:paddingStart="14dp"
             android:paddingEnd="14dp"
             android:layout_width="match_parent"
@@ -103,9 +104,11 @@
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clc"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:minHeight="340dp"
+            tools:layout_height="340dp"
             android:layout_height="340dp">
 
             <androidx.recyclerview.widget.RecyclerView

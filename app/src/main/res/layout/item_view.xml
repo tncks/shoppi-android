@@ -3,21 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="80dp"
     android:layout_height="120dp"
+    tools:layout_height="100dp"
+    tools:layout_width="100dp"
+    tools:layout_margin="0dp"
+    tools:minHeight="100dp"
     android:layout_margin="4dp"
     android:minHeight="120dp">
 
-    <!-- 이미지 설정 리사이클러뷰 내부 컴포넌트 아이템 뷰, 카드뷰 레이아웃 -->
+    <!-- LastingActivity and SelectingActivity Recycler 내부 컴포넌트 아이템 뷰, 카드뷰 레이아웃 -->
 
     <ImageView
         android:id="@+id/photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:layout_height="100dp"
+        tools:layout_width="100dp"
+        android:background="@color/shoppi_grey_shimmer"
+        tools:background="@color/shoppi_grey_shimmer"
+        tools:scaleType="centerCrop"
         android:scaleType="centerCrop"
         android:contentDescription="@string/label_category"
         tools:srcCompat="@drawable/samplelandscape"
         tools:src="@drawable/samplelandscape" />
 
-    <!-- removed line -->
-    <!-- android:src="@drawable/image_border" -->
+
 
 </androidx.cardview.widget.CardView>

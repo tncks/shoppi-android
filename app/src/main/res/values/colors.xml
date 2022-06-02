@@ -16,6 +16,7 @@
     <color name="shoppi_grey_09">#eeeff1</color>
     <color name="shoppi_grey_10">#dfdfdf</color>
     <color name="shoppi_grey_11">#b9b9b9</color>
+    <color name="shoppi_grey_shimmer">#e7e7e7</color>
     <color name="shoppi_bluegrey">#f2f4f6</color>
     <color name="shoppi_white">#ffffff</color>
     <color name="shoppi_brown">#967a6d</color>
@@ -32,5 +33,5 @@
     <color name="text_black">#ff222222</color>
     <color name="bblack">#FF000000</color>
     <color name="wwhitegrey">#FFF2F2F2</color>
-    <!--<color name="mytransparent">#00000000</color>-->
+    <color name="mytransparent">#00000000</color>
 </resources>

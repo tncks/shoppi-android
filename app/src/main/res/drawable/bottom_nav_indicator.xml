@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:color="@color/shoppi_sky" >
+        <layer-list>
+            <item android:gravity="top|center_horizontal">
+                <shape android:shape="rectangle">
+                    <size android:width="200dp" android:height="3dp" />
+                    <solid android:color="@color/shoppi_sky" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item android:color="@color/shoppi_sky" >
+    <layer-list>
+        <item android:gravity="top|center_horizontal">
+            <shape android:shape="rectangle">
+                <size android:width="200dp" android:height="3dp" />
+                <solid android:color="@color/shoppi_white" />
+            </shape>
+        </item>
+    </layer-list>
+    </item>
+
+</selector>
+

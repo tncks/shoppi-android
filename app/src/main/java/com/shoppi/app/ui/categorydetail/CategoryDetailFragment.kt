@@ -21,9 +21,8 @@ import com.shoppi.app.common.KEY_CATEGORY_LABEL
 import com.shoppi.app.common.KEY_CATEGORY_PERIOD
 import com.shoppi.app.databinding.FragmentCategoryDetailBinding
 import com.shoppi.app.ui.common.ViewModelFactory
-import com.shoppi.app.util.rightDrawable
-import com.shoppi.app.util.slideBack
-import com.shoppi.app.util.slideGenie
+import com.shoppi.app.util.*
+import kotlinx.coroutines.*
 
 
 class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
@@ -56,26 +55,11 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
             val myDetailMenu = binding.toolbarCategoryDetail
             setToggleMenuInFragment(myDetailMenu)
             binding.lifecycleOwner = viewLifecycleOwner
+
             setToolbar()
             setListAdapter()
             setScheduleAdapter()
-            // possible later soon, temporarily disabled, but not removed.
-
-            // change this block of code with fun
-            binding.maptoggletxt.setOnClickListener {
-
-                if (isMapToggleOpen) {
-                    binding.maptoggletxt.rightDrawable(R.drawable.ic_load)
-                    binding.maptoggletxt.text = getString(R.string.tvtogglemapopposite)
-                    binding.lll.slideGenie(500)
-
-                } else {
-                    binding.maptoggletxt.rightDrawable(R.drawable.ic_comp)
-                    binding.maptoggletxt.text = getString(R.string.tvtogglemap)
-                    binding.lll.slideBack(500)
-                }
-                isMapToggleOpen = !isMapToggleOpen
-            }
+            setToggleGMapEventListener()
 
 
         } catch (e: Exception) {
@@ -151,6 +135,64 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
         }
 
     }
+
+    private fun setToggleGMapEventListener() {
+        binding.maptoggletxt.setOnClickListener {
+
+            try {
+                if (isMapToggleOpen) {
+                    hideMap()
+                } else {
+                    reDisplayMap()
+                }
+            } finally {
+                isMapToggleOpen = !isMapToggleOpen
+            }
+
+        }
+    }
+
+
+    private fun hideMap() {
+
+        binding.maptoggletxt.rightDrawable(R.drawable.ic_load)
+        binding.maptoggletxt.text = getString(R.string.tvtogglemapopposite)
+        binding.lll.slideGenie(500)
+        CoroutineScope(Dispatchers.Default).launch {
+            delay(501L)
+            withContext(Dispatchers.Main) {
+                binding.lll.apply {
+                    gone(true)
+                }
+                val params: ViewGroup.LayoutParams = binding.clc.layoutParams
+                params.height = ((requireContext().resources.displayMetrics.heightPixels / 4) * 3)
+                binding.clc.layoutParams = params
+
+            }
+
+        }
+
+    }
+
+
+    private fun reDisplayMap() {
+
+        binding.maptoggletxt.rightDrawable(R.drawable.ic_comp)
+        binding.maptoggletxt.text = getString(R.string.tvtogglemap)
+
+        val params: ViewGroup.LayoutParams = binding.clc.layoutParams
+        params.height = requireContext().resources.getDimensionPixelSize(R.dimen.height_in_dp)
+        binding.clc.layoutParams = params
+
+
+        binding.lll.apply {
+            visible(true)
+        }
+
+        binding.lll.slideBack(500)
+
+    }
+
 
     override fun onMapReady(googleMap: GoogleMap) {
         try {

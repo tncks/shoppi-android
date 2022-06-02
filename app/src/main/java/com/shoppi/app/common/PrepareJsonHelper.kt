@@ -2,19 +2,72 @@ package com.shoppi.app.common
 
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.*
+import java.security.SecureRandom
 
 class PrepareJsonHelper {
 
-    fun prepareCleanRemoveIndexingJson(saIndexStr: String): String {
+    fun prepareCategoryPropertyBoolToggleJson(b: Boolean): String {
+        val jsonObject = JSONObject()
+        jsonObject.put("updated", b)
+        return jsonObject.toString()
+    }
+
+    fun prepareCleanRemoveIndexingJson(saIndexStr: String, updatedBoolProperty: Boolean = false): String {
+        return if (!updatedBoolProperty) {
+            inCategoryPlanLogicFalseUpdatedPropertyDoThis(saIndexStr)
+        } else {
+            inHistoryLogicTrueUpdatedPropertyDoThis(saIndexStr)
+        }
+    }
+
+    /** 나중에 아래 로직함수 분기 달라져야하는부분 보고 수정 Int.get 하는 확장함수 유틸도 분기별로 함수 두개인데 잘 보고 수정 */
+
+    private fun inCategoryPlanLogicFalseUpdatedPropertyDoThis(saIndexStr: String): String {
+
+        var saIndexOriginalValue = 0
+        var indexHelper: Int = -1
+        for (n in 0 until 20) {
+            ++indexHelper
+            if (indexHelper.toString() == saIndexStr) {
+                saIndexOriginalValue = indexHelper
+                break
+            }
+        }
+        val saIndexRealLiveIndexOnTotalArrayPosValue = saIndexOriginalValue.getSomeOriginInfo() // 달라져야하는부분
+        val sameWithSaIndexRealLiveIndexOnTotalArrayPosValueStr = saIndexRealLiveIndexOnTotalArrayPosValue.toString()
         var indexCount = 0
         val consKeyFixes = listOf("uid", "idx")
         val jsonObject = JSONObject()
         jsonObject.put(consKeyFixes[indexCount++], SAFEUID)
         val ja = JSONArray()
-        ja.put(saIndexStr)
+        ja.put(sameWithSaIndexRealLiveIndexOnTotalArrayPosValueStr)
         jsonObject.put(consKeyFixes[indexCount], ja)
         return jsonObject.toString()
+
+    }
+
+    private fun inHistoryLogicTrueUpdatedPropertyDoThis(saIndexStr: String): String {
+
+        var saIndexOriginalValue = 0
+        var indexHelper: Int = -1
+        for (n in 0 until 20) {
+            ++indexHelper
+            if (indexHelper.toString() == saIndexStr) {
+                saIndexOriginalValue = indexHelper
+                break
+            }
+        }
+        val saIndexRealLiveIndexOnTotalArrayPosValue = saIndexOriginalValue.getSomeOriginInfo() // 달라져야하는부분
+        val sameWithSaIndexRealLiveIndexOnTotalArrayPosValueStr = saIndexRealLiveIndexOnTotalArrayPosValue.toString()
+        var indexCount = 0
+        val consKeyFixes = listOf("uid", "idx")
+        val jsonObject = JSONObject()
+        jsonObject.put(consKeyFixes[indexCount++], SAFEUID)
+        val ja = JSONArray()
+        ja.put(sameWithSaIndexRealLiveIndexOnTotalArrayPosValueStr)
+        jsonObject.put(consKeyFixes[indexCount], ja)
+        return jsonObject.toString()
+
     }
 
     fun prepareLoginUserDataJson(uEmail: String?, uPassword: String?): String {
@@ -79,27 +132,22 @@ class PrepareJsonHelper {
     }
 
 
-    // Temporarily Deprecated function
-    fun prepareJson(two: String, three: String): String {
+    fun prepareJson(datas: List<String>): String {
         val jsonObject = JSONObject()
-        val rand = Random()
-        val randValue = rand.nextInt(10000)
-        val randValueString = randValue.toString()
-        val first = "tplan_$randValueString"
 
-        jsonObject.put("category_id", first)
-        jsonObject.put("label", two)
-        jsonObject.put("thumbnail_image_url", three)
+        val randValue = SecureRandom().nextInt(1000000)
+        val randValueString = randValue.toString()
+        val generatedCategoryId = "tplan_$randValueString"
+
+        jsonObject.put("category_id", generatedCategoryId)
+        jsonObject.put("label", datas[0])
+        jsonObject.put("thumbnail_image_url", datas[4])
         jsonObject.put("updated", false)
-        jsonObject.put("location", "")
-        jsonObject.put("period", "")
-        jsonObject.put("memo", "")
+        jsonObject.put("location", datas[1])
+        jsonObject.put("period", datas[2])
+        jsonObject.put("memo", datas[3])
 
         return jsonObject.toString()
     }
-    // End of deprecated description
 
 }
-
-
-// Reference for studying

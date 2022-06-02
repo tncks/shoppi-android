@@ -14,6 +14,10 @@
     <!-- tab layout nDayth deco indicate bar size -->
     <dimen name="indicationbar">16dp</dimen>
 
+
+    <!-- detail rvScheduleWeek animation prev height -->
+    <dimen name="height_in_dp">340dp</dimen>
+
 </resources>
 
 

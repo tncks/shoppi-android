@@ -16,7 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.shoppi.app.R
 import com.shoppi.app.common.PERMISSION_CAMERA
-import java.util.*
+import java.security.SecureRandom
 
 
 class CameraPreviewActivity : AppCompatActivity() {
@@ -114,8 +114,7 @@ class CameraPreviewActivity : AppCompatActivity() {
     }
 
     private fun newFileName(): String {
-        val rand = Random()
-        val randValue = rand.nextInt(10000)
+        val randValue = SecureRandom().nextInt(10000)
         val randValueString = randValue.toString()
         return "$randValueString.jpg"
     }

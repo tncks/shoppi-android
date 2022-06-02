@@ -119,13 +119,3 @@ fun convertingForm(s: String): String {
     return ("20" + array[0] + "-" + longMonth + "-" + longDay)
 }
 
-
-/*---------------------------------------*/
-/*---------------------------------------*/
-// 혹시 모를 오류에 대비한 백업 코드
-//            date1 = java.time.LocalDate.parse(dateString1, input)
-//            date2 = java.time.LocalDate.parse(dateString2, input)
-/*
-date1 = org.joda.time.LocalDate.parse(dateString1, input)
-date2 = org.joda.time.LocalDate.parse(dateString2, input)
- */

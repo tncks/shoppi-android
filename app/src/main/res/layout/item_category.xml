@@ -22,20 +22,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/background_bluegrey_r20"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/background_white_r20"
         android:onClick="@{() -> viewModel.openCategoryDetail(category)}">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_category_thumbnail"
             imageUrl="@{category.thumbnailImageUrl}"
             android:layout_width="match_parent"
-            android:layout_height="164dp"
+            android:layout_height="168dp"
             android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
             android:scaleType="centerCrop"
             tools:srcCompat="@drawable/placeholder"
+            android:background="@color/shoppi_grey_shimmer"
+            tools:background="@color/shoppi_grey_shimmer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -50,7 +52,8 @@
             android:background="@drawable/background_purple_r24"
             tools:background="@drawable/background_white"
             tools:visibility="gone"
-            android:text="@string/label_category_new"
+            android:text=""
+            tools:text=""
             app:layout_constraintStart_toStartOf="@id/iv_category_thumbnail"
             app:layout_constraintEnd_toEndOf="@id/iv_category_thumbnail"
             app:layout_constraintBottom_toBottomOf="@id/iv_category_thumbnail"
@@ -76,14 +79,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
+            android:ellipsize="end"
             android:fontFamily="@font/t_font"
             android:paddingEnd="10dp"
             android:paddingStart="30dp"
             android:text="@{category.label}"
-            android:paddingTop="50dp"
+            android:paddingTop="38dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/iv_category_thumbnail"
-            tools:text="독일여행" />
+            tools:text="독일여행 탐방기" />
 
         <TextView
             android:id="@+id/tv_category_period"
@@ -97,6 +101,59 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_category_title"
             tools:text="22. 1. 20. ~ 22. 1. 31." />
+
+        <View
+            android:id="@+id/dotted"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            tools:visibility="visible"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tick_image"
+            android:layout_marginTop="50dp" />
+
+        <Button
+            android:id="@+id/btn_expenditure"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/transparent_bg_bordered_button"
+            android:fontFamily="@font/t_font_bold"
+            android:text="@string/str_expenditure"
+            android:textColor="@color/shoppi_white"
+            android:textSize="12sp"
+            app:backgroundTint="@null"
+            app:cornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/dotted"
+            app:layout_constraintEnd_toEndOf="@id/dotted"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeColor="@color/shoppi_white"
+            app:strokeWidth="1dp"
+            tools:text="가계부"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_memory"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="28dp"
+            android:background="@drawable/transparent_bg_bordered_button"
+            app:backgroundTint="@null"
+            android:fontFamily="@font/t_font_bold"
+            android:text="@string/str_memory"
+            android:textColor="@color/shoppi_white"
+            android:textSize="12sp"
+            app:cornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/dotted"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/dotted"
+            app:strokeColor="@color/shoppi_white"
+            app:strokeWidth="1dp"
+            tools:text="여행일지"
+            tools:visibility="visible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

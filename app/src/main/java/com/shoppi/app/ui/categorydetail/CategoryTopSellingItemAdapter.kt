@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.shoppi.app.R
 import com.shoppi.app.common.BUTTON_TYPE
 import com.shoppi.app.common.CONTENT_TYPE
@@ -26,6 +27,7 @@ class CategoryTopSellingItemAdapter(
     var selectionIndex: Int = 1         // should be public var, not private
     var prevSelectionPointer: View? = null  // should be public var, not private
     var prevBottomSelectionPointerUnder: View? = null  // should be public var, not private
+    var addBtnClickableFlag: Boolean = true
 
     private var myItemCount: Int = 1
     private var myTagDispenser: Int = 1
@@ -39,20 +41,30 @@ class CategoryTopSellingItemAdapter(
     private fun setMyCount() {
         this.myItemCount = 1
         categoryPeriod?.let {
-            var loggingStr = it.filter { a ->
-                !a.isWhitespace()
+            if (it.isNotBlank()) {
+
+                var loggingStr = it.filter { a ->
+                    !a.isWhitespace()
+                }
+
+                val myTarget = '.'
+                loggingStr = loggingStr.replace(myTarget, '-')
+
+                val begins = loggingStr.split("~")[0].dropLast(1)
+                val ends = loggingStr.split("~")[1].dropLast(1)
+
+                this.myDays = getDatesBetweenModernNew(convertingForm(begins), convertingForm(ends))
+                this.myExpandableDaysForAdd = this.myDays.toMutableList()
+                this.myItemCount += this.myDays.size
+                this.myTagDispenser = this.myItemCount
+
+            } else {
+                addBtnClickableFlag = false
+
+                this.myDays = listOf()
+                this.myExpandableDaysForAdd = this.myDays.toMutableList()
+                this.myTagDispenser = this.myItemCount
             }
-
-            val myTarget = '.'
-            loggingStr = loggingStr.replace(myTarget, '-')
-
-            val begins = loggingStr.split("~")[0].dropLast(1)
-            val ends = loggingStr.split("~")[1].dropLast(1)
-
-            this.myDays = getDatesBetweenModernNew(convertingForm(begins), convertingForm(ends))
-            this.myExpandableDaysForAdd = this.myDays.toMutableList()
-            this.myItemCount += this.myDays.size
-            this.myTagDispenser = this.myItemCount
         }
     }
 
@@ -266,7 +278,12 @@ class CategoryTopSellingItemAdapter(
                     if (this@CategoryTopSellingItemAdapter::myExpandableDaysForAdd.isInitialized) {
 
                         if (myExpandableDaysForAdd.size < 35) {
-                            doAddWork()
+                            if (this@CategoryTopSellingItemAdapter.addBtnClickableFlag) {
+                                doAddWork()
+                            } else {
+                                Snackbar.make(binding.root, "먼저일정을 설정해야합니다.", Snackbar.LENGTH_LONG).show()
+                            }
+
                         } else {
                             doNotWorkAndHideMyPlusButton()
                         }
@@ -373,49 +390,3 @@ class CategoryTopSellingItemAdapter(
 
 
 }
-
-
-// 혹시 모를 오류에 대비한 복사 붙여넣기 로직 백업 코드
-/*
-            binding.root.findViewById<TextView>(R.id.tv_category_top_selling_label).setOnClickListener {
-                if (prevSelectionPointer != null) {
-                    (prevSelectionPointer as TextView).setTextColor(getIntegerBlackColorCode())
-                }
-                (it as TextView).setTextColor(getIntegerPrimaryColorCode())
-
-                prevSelectionPointer = it
-
-                if (prevBottomSelectionPointerUnder != null) {
-                    (prevBottomSelectionPointerUnder as TextView).setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                }
-                binding.root.findViewById<TextView>(R.id.tv_category_date_period)
-                    .bottomDrawable(R.drawable.ic_nbar, R.dimen.indicationbar)
-
-                prevBottomSelectionPointerUnder = binding.root.findViewById<TextView>(R.id.tv_category_date_period)
-
-            }
-             */
-
-/*
-            binding.root.findViewById<ImageView>(R.id.iv_category_top_selling_image).tag = (++myTagDispenser)
-
-
-            binding.root.findViewById<ImageView>(R.id.iv_category_top_selling_image).setOnClickListener {
-                if (this@CategoryTopSellingItemAdapter::myExpandableDaysForAdd.isInitialized) {
-
-                    if (myExpandableDaysForAdd.size < 35) {
-                        doAddWork()
-                    } else {
-                        doNotWorkAndHideMyPlusButton()
-                    }
-
-                }
-
-            }
-
-             */
-
-//                binding.tvCategoryTopSellingBadge.visibility = View.VISIBLE
-//                binding.tvCategoryTopSellingBadge.visibility = View.GONE
-//                binding.tvCategoryTopSellingBadge.visibility = View.VISIBLE
-//                binding.tvCategoryTopSellingBadge.visibility = View.INVISIBLE

@@ -6,9 +6,12 @@
     app:startDestination="@id/navigation_category">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.shoppi.app.ui.home.HomeFragment"
-        android:label="HomeFragment">
+        android:id="@+id/navigation_history"
+        android:name="com.shoppi.app.ui.history.HistoryFragment"
+        android:label="HistoryFragment">
+        <action
+            android:id="@+id/action_history_to_history_detail"
+            app:destination="@id/navigation_category_detail" />
         <!-- action tag for product detail removed -->
     </fragment>
     <fragment
@@ -16,6 +19,8 @@
         android:name="com.shoppi.app.ui.category.CategoryFragment"
         android:label="CategoryFragment"
         tools:layout="@layout/fragment_category">
+
+
         <action
             android:id="@+id/action_category_to_category_detail"
             app:destination="@id/navigation_category_detail" />

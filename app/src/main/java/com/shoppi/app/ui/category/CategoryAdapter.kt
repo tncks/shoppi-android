@@ -21,12 +21,21 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.shoppi.app.R
+import com.shoppi.app.common.FIRE_JSON_BASEURL
+import com.shoppi.app.common.PrepareJsonHelper
+import com.shoppi.app.common.SAFEUID
 import com.shoppi.app.databinding.FragmentCategoryBinding
 import com.shoppi.app.databinding.ItemCategoryBinding
 import com.shoppi.app.model.Category
+import com.shoppi.app.network.ApiService
 import com.shoppi.app.ui.ProfileAddEditActivity
 import com.shoppi.app.ui.common.CategoryDiffCallback
 import com.shoppi.app.util.leftDrawable
+import com.shoppi.app.util.slideGenie
+import kotlinx.coroutines.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Retrofit
 
 class CategoryAdapter(private val viewModel: CategoryViewModel) :
     ListAdapter<Category, CategoryAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
@@ -116,6 +125,7 @@ class CategoryAdapter(private val viewModel: CategoryViewModel) :
         holder: CategoryAdapter.CategoryViewHolder,
         position: Int
     ) {
+        val realPosition = getRealPosWithClickedPosOnDisplayedScreen(position)
 
         holder.itemView.setOnLongClickListener {
 
@@ -136,7 +146,7 @@ class CategoryAdapter(private val viewModel: CategoryViewModel) :
                     0 -> {
                         if (!mIsInMultiChoiceMode) {
                             val mIntent = Intent(holder.binding.root.context, ProfileAddEditActivity::class.java)
-                            mIntent.putExtra("mIndex", position)
+                            mIntent.putExtra("mIndex", realPosition)
                             holder.binding.root.context.startActivity(mIntent)
                         }
                     }
@@ -144,7 +154,9 @@ class CategoryAdapter(private val viewModel: CategoryViewModel) :
                         Log.i("dummy", "dummy")
                     }
                     2 -> {
-                        Log.i("dummy", "dummy")
+
+                        changePropertyFromPlanToHistory(realPosition, it)
+
                     }
                 }
                 true
@@ -153,6 +165,69 @@ class CategoryAdapter(private val viewModel: CategoryViewModel) :
             true
         }
 
+    }
+
+    private fun changePropertyFromPlanToHistory(realPosition: Int, itParam: View) {
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(FIRE_JSON_BASEURL)
+            .build()
+
+
+        val service = retrofit.create(ApiService::class.java)
+
+        val jsonObjectString = PrepareJsonHelper().prepareCategoryPropertyBoolToggleJson(true)
+
+
+        val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val response =
+                service.updateCategoryUpdatedProperty(SAFEUID, realPosition.toString(), requestBody)
+            withContext(Dispatchers.Main) {
+                itParam.apply {
+                    slideGenie(500)
+
+
+                    delay(502L)
+                    visibility = View.INVISIBLE
+                    visibility = View.GONE
+                }
+            }
+
+            withContext(Dispatchers.Default) {
+                this@CategoryAdapter.viewModel.externalReloadInitAgainOnOnlineStatus()
+            }
+
+            delay(500L)
+
+
+        }
+
+    }
+
+    private fun getRealPosWithClickedPosOnDisplayedScreen(positionParam: Int): Int {
+
+        var idxTargetingValue = 0
+        val fakeIdx = positionParam
+        var i = 0
+
+        var matchedCnt = 0
+        for (data in CategoryBoolLiveArray.mUpdates) {
+            if (!data) {
+                if (matchedCnt == fakeIdx) {
+                    idxTargetingValue = i
+                    break
+                }
+                matchedCnt++
+            }
+            i++
+        }
+
+
+
+        return idxTargetingValue
     }
 
     /*-----------------------------------------------------------------*/

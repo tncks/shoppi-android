@@ -39,4 +39,14 @@ interface ApiService {
         @Body requestBody: RequestBody
     ): Response<ResponseBody>
 
+
+    @PATCH("users/{uid}/categories/{number}.json")
+    suspend fun updateCategoryUpdatedProperty(
+        @Path("uid") uid: String,
+        @Path("number") number: String,
+        @Body requestBody: RequestBody
+    ): Response<ResponseBody>
+
+
+
 }

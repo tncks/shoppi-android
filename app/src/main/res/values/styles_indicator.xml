@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="navTextInactive">
+        <item name="android:fontFamily">@font/t_font_light</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="navTextActive">
+        <item name="android:fontFamily">@font/t_font</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="BottomNavigationTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/shoppi_black_01</item>
+        <item name="android:textColorSecondary">@color/shoppi_black_01</item>
+    </style>
+
+</resources>

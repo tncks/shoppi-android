@@ -7,12 +7,31 @@
 
     <!-- 프로필 추가 및 수정 액티비티 / p3. 여행계획 -->
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/shoppi_white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        android:visibility="visible"
+        tools:visibility="visible"
+        app:menu="@menu/menu_profile_topbar"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_scrollFlags="noScroll"
+        app:navigationIcon="@drawable/ic_chevron_left"
+        app:titleTextAppearance="@style/TextMedium.Bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/iv_unreal_back_simple"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="visible"
+        tools:visibility="invisible"
+        android:alpha="0.001"
         android:contentDescription="@string/label_category"
         android:src="@drawable/ic_unreal_back_page_left"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,6 +41,8 @@
         android:id="@+id/tv_simple_complete_edit_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
+        tools:visibility="invisible"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:text="@string/btn_simple_complete_submit"
@@ -30,17 +51,32 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="완료" />
 
-    <ImageView
-        android:id="@+id/imageView_profile"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fake"
         android:layout_width="360dp"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
         android:layout_marginTop="62dp"
-        android:contentDescription="@string/upload_desc"
-        android:scaleType="centerCrop"
-        android:src="@drawable/image_border"
+        android:background="@drawable/background_white_r20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/upload_desc"
+            android:scaleType="centerCrop"
+            android:src="@drawable/image_border"
+            tools:srcCompat="@drawable/placeholder"
+            app:shapeAppearanceOverlay="@style/Circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <EditText
         android:id="@+id/et_profile_name"
@@ -54,7 +90,7 @@
         android:inputType="text"
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView_profile" />
+        app:layout_constraintTop_toBottomOf="@id/fake" />
 
     <EditText
         android:id="@+id/et_location_of_profile"
@@ -87,7 +123,7 @@
     <EditText
         android:id="@+id/et_profile_memo"
         android:layout_width="330dp"
-        android:layout_height="260dp"
+        android:layout_height="230dp"
         android:layout_marginStart="38dp"
         android:layout_marginTop="10dp"
         android:autofillHints="name"

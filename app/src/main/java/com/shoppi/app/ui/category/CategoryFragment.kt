@@ -29,6 +29,7 @@ import com.shoppi.app.common.KEY_CATEGORY_LABEL
 import com.shoppi.app.common.KEY_CATEGORY_PERIOD
 import com.shoppi.app.databinding.FragmentCategoryBinding
 import com.shoppi.app.myjetcp.MainComposeActivity
+import com.shoppi.app.ui.ProfileCreateActivity
 import com.shoppi.app.ui.common.DialogStylingUtil
 import com.shoppi.app.ui.common.EventObserver
 import com.shoppi.app.ui.common.ViewModelFactory
@@ -39,6 +40,7 @@ import kotlinx.coroutines.*
 import xyz.teamgravity.checkinternet.CheckInternet
 
 
+@Suppress("RedundantNullableReturnType")
 class CategoryFragment : Fragment() {
 
     private val viewModel: CategoryViewModel by viewModels { ViewModelFactory(requireContext()) }
@@ -87,14 +89,15 @@ class CategoryFragment : Fragment() {
                 NetworkStatus.Unavailable -> {
                     // this block current work half finished
                     // 현재 위에 코드 한줄이 조건이 성립이 안되는 문제가 존재 오프라인인데 온라인으로만 아직 인식되고있음
-                    // 해결해야됨 -> update -> 해결하긴 했음
+                    // 해결해야됨 -> update -> 해결하긴 했음 반 이상은
                     // Show Snackbar top or display CardView No status on Recyclerview Overlapped INVISIBLE
                     // -> change VISIBLE
-                    // or use other way
+                    // or use other way 다른 방법이 있겠지만 잘 모르겠음
                 }
                 else -> {
                     Log.d("networkerror", "networkerror")
                     // or throw exception error and close or safely handle this error
+                    // other way possible
                 }
             }
         }
@@ -148,6 +151,13 @@ class CategoryFragment : Fragment() {
             } else {
                 mustHideIt()
             }
+            // twice again! for stability
+            delay(1000L)
+            if (viewModel.isNothingToShow) {
+                mustDisplayIt()
+            } else {
+                mustHideIt()
+            }
         }
     }
 
@@ -168,13 +178,11 @@ class CategoryFragment : Fragment() {
     }
 
     private fun justShowNothingMessageToasting() {
-        Toast.makeText(context, "임시 토스트, 코드변경시까지 사용", Toast.LENGTH_SHORT).show()
-//        val smallIntentForFirstProfileAdd = Intent(context, ProfileAddEditActivity::class.java)
-//        smallIntentForFirstProfileAdd.putExtra("mIndex", 0)
-//        startActivity(smallIntentForFirstProfileAdd)
-        // 일단은 임시 토스트 생성만, 나중에 다시 변경 -> intent ProfileNewFirstActivity start
-        // 아무것도 없는 화면에서 완전 처음 생성하는거는 따로 뷰 만들고 따로 처리해줘야될듯, not profileaddedit
-        // 지금 그대로 액티비티 실행시, ProfileAddEdit 액티비티에서 Exception 발생하고 앱 종료되는 문제있
+
+        val lightIntentForFirstProfileCreate = Intent(context, ProfileCreateActivity::class.java)
+        lightIntentForFirstProfileCreate.putExtra("mIndex", 0)
+        startActivity(lightIntentForFirstProfileCreate)
+
     }
 
     private fun setToggleMenuInFragment(myMToolbar: Toolbar) {
@@ -197,10 +205,9 @@ class CategoryFragment : Fragment() {
 
 
     private fun addingSec() {
-        Toast.makeText(requireContext(), "추가", Toast.LENGTH_SHORT).show()
-//        val smallIntentForFirstProfileAdd = Intent(context, ProfileAddEditActivity::class.java)
-//        smallIntentForFirstProfileAdd.putExtra("mIndex", 0)
-//        startActivity(smallIntentForFirstProfileAdd)
+        val smallIntentForFirstProfileCreate = Intent(context, ProfileCreateActivity::class.java)
+        smallIntentForFirstProfileCreate.putExtra("mIndex", CategoryBoolLiveArray.mUpdates.size)
+        startActivity(smallIntentForFirstProfileCreate)
     }
 
     private fun deletingSec(isStart: Boolean) {
@@ -274,6 +281,7 @@ class CategoryFragment : Fragment() {
                 categoryAdapter.processStartClick(0)
             }
             else -> {
+                Log.i("dummy","dummy")
                 // do nothing
             }
         }
@@ -635,6 +643,13 @@ object SelectionAllToggleSelector {
 
 
 // Refer
+/*
+Nothingtoshow button logic deprecated below
+// 일단은 임시 토스트 생성만, 나중에 다시 변경 -> intent ProfileNewFirstActivity start
+        // 아무것도 없는 화면에서 완전 처음 생성하는거는 따로 뷰 만들고 따로 처리해줘야될듯, not profileaddedit
+        // 지금 그대로 액티비티 실행시, ProfileAddEdit 액티비티에서 Exception 발생하고 앱 종료되는 문제있
+        // Toast.makeText(context, "임시 토스트, 코드변경시까지 사용", Toast.LENGTH_SHORT).show()
+ */
 //    private fun getPermissionsRequest() =
 //        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
 //            if (isAllPermissionsGranted(PERMISSIONS)) {

@@ -32,7 +32,7 @@ import com.google.android.material.tabs.TabLayout
 import com.shoppi.app.R
 import com.shoppi.app.common.*
 import com.shoppi.app.databinding.FragmentCartBinding
-import com.shoppi.app.databinding.FragmentHomeBinding
+import com.shoppi.app.databinding.FragmentHistoryBinding
 import com.shoppi.app.network.ApiService
 import com.shoppi.app.ui.category.CategoryViewModel
 import com.shoppi.app.ui.common.ViewModelFactory
@@ -234,7 +234,7 @@ class CartFragment : Fragment() {
         val service = retrofit.create(ApiService::class.java)
 
 
-        val jsonObjectString: String = PrepareJsonHelper().prepareJson(two, three)
+        val jsonObjectString: String = PrepareJsonHelper().prepareJson(listOf(two, three))
 
 
         val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())

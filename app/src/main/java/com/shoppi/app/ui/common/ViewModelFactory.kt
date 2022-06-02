@@ -12,17 +12,13 @@ import com.shoppi.app.ui.cart.CartViewModel
 import com.shoppi.app.ui.cartprofile.CartEditViewModel
 import com.shoppi.app.ui.category.CategoryViewModel
 import com.shoppi.app.ui.categorydetail.CategoryDetailViewModel
+import com.shoppi.app.ui.history.HistoryViewModel
 
 class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
 
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-//            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
-//                val repository = HomeRepository(HomeAssetDataSource(AssetLoader(context)))
-//                @Suppress("UNCHECKED_CAST")
-//                HomeViewModel(repository) as T
-//            }
             modelClass.isAssignableFrom(CategoryViewModel::class.java) -> {
                 val repository = CategoryRepository(CategoryRemoteDataSource(ApiClient.create()))
                 @Suppress("UNCHECKED_CAST")
@@ -40,6 +36,11 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
             modelClass.isAssignableFrom(CartEditViewModel::class.java) -> {
                 @Suppress("UNCHECKED_CAST")
                 CartEditViewModel() as T
+            }
+            modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
+                val repository = CategoryRepository(CategoryRemoteDataSource(ApiClient.create()))
+                @Suppress("UNCHECKED_CAST")
+                HistoryViewModel(repository) as T
             }
             else -> {
                 throw IllegalArgumentException("Failed to create ViewModel: ${modelClass.name}")

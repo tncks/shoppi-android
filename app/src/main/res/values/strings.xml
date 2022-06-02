@@ -7,7 +7,7 @@
     <!-- Navigation -->
     <string name="label_category">trAvelZ</string>
     <string name="label_category2">여행계획</string>
-    <string name="label_home_icon">여행기록</string>
+    <string name="label_history_icon">여행기록</string>
     <string name="label_cart_icon">포토북</string>
     <string name="label_cart_icon2">마이페이지</string>
 
@@ -20,6 +20,7 @@
 
 
     <!-- Category -->
+    <string name="label_category_his">his</string>
     <string name="label_category_new">NEW</string>
     <string name="label_category_n">N</string>
 
@@ -60,10 +61,15 @@
     <string name="hint_profile_name">프로필 이름</string>
     <string name="hint_location">여행 장소</string>
     <string name="hint_duration">여행 기간</string>
+    <string name="str_expenditure">가계부</string>
+    <string name="str_memory">여행일지</string>
+
+
     <!-- Popup menu titles in profile home -->
     <string name="m_edit_profile">프로필 수정</string>
     <string name="m_pin_profile">프로필 고정</string>
     <string name="m_move_profile_history_tab">여행기록으로 이동</string>
+    <string name="m_move_profile_category_tab">여행계획으로 이동</string>
 
 
     <!-- Schedule -->
@@ -91,6 +97,7 @@
     <string name="menu_test_text_title_add">추가</string>
     <string name="menu_test_text_title_delete">삭제</string>
     <string name="menu_test_text_title_move">이동</string>
+    <string name="menu_test_text_title_just">완료</string>
 
     <!-- Persistent BottomSheet Menu TextViews Contents -->
     <string name="bottom_test_text_all">모두 선택</string>

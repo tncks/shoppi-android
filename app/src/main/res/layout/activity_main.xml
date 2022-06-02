@@ -18,6 +18,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/main_navigation" />
 
+    <View
+        android:id="@+id/white_margin_bar_space"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        app:layout_constraintBottom_toTopOf="@id/navigation_main"
+        android:background="@color/shoppi_white"
+        android:visibility="visible"
+        tools:visibility="visible" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_main"
         android:layout_width="0dp"
@@ -25,6 +34,10 @@
         android:maxHeight="42dp"
         android:minHeight="42dp"
         android:paddingTop="0dp"
+        android:theme="@style/BottomNavigationTheme"
+        app:itemTextAppearanceActive="@style/navTextActive"
+        app:itemTextAppearanceInactive="@style/navTextInactive"
+        app:itemBackground="@drawable/bottom_nav_indicator"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
