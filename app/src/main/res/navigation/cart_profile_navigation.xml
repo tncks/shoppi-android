@@ -27,5 +27,8 @@
         android:id="@+id/cart_profile_laout"
         android:name="com.shoppi.app.ui.cartprofile.CartProfileLayoutFragment"
         android:label="CartProfileLayout"
-        tools:layout="@layout/fragment_cart_profile_layout"/>
+        tools:layout="@layout/fragment_cart_profile_layout">
+
+
+    </fragment>
 </navigation>

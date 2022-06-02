@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.shoppi.app.databinding.FragmentCartProfileDetailBinding
 import com.shoppi.app.databinding.FragmentCartProfileLayoutBinding
 import com.shoppi.app.databinding.FragmentCartProfileNameBinding
@@ -14,10 +15,13 @@ import com.shoppi.app.model.Layout
 
 class CartProfileLayoutFragment : Fragment() {
     private lateinit var binding: FragmentCartProfileLayoutBinding
-    private val adapter = LayoutAdapter()
+    private val viewModel : CartEditViewModel by activityViewModels()
+    private lateinit var adapter : LayoutAdapter
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCartProfileLayoutBinding.inflate(inflater,container,false)
+        adapter = LayoutAdapter(viewModel)
         binding.rvLayout.adapter = adapter
         setAdapter()
         return binding.root

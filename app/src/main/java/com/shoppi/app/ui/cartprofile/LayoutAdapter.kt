@@ -6,6 +6,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.lifecycle.ViewModel
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.shoppi.app.R
 import com.shoppi.app.databinding.ItemCartBinding
@@ -14,9 +16,10 @@ import com.shoppi.app.model.Cart
 import com.shoppi.app.model.Layout
 import com.shoppi.app.ui.cartprofile.CartEditActivity
 
-class LayoutAdapter() :
+class LayoutAdapter(viewModel : ViewModel) :
     RecyclerView.Adapter<LayoutAdapter.LayoutViewHolder>() {
     private val layouts = mutableListOf<Layout>()
+    private val cartEditViewModel = viewModel as CartEditViewModel
 
     fun updateLayouts(layouts : List<Layout>){
         this.layouts.clear()
@@ -31,8 +34,12 @@ class LayoutAdapter() :
 
 
     override fun onBindViewHolder(holder: LayoutViewHolder, position: Int) {
-        holder.bind(layouts[position])
-
+        val layout = layouts[position]
+        holder.bind(layout)
+        holder.itemView.setOnClickListener {
+            cartEditViewModel.setLayout(layout.layoutId, layout.label, layout.memo)
+            holder.binding.root.findNavController().navigateUp()
+        }
     }
 
     inner class LayoutViewHolder(val binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {

@@ -27,6 +27,7 @@ import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.shoppi.app.R
@@ -34,6 +35,7 @@ import com.shoppi.app.common.*
 import com.shoppi.app.databinding.FragmentCartBinding
 import com.shoppi.app.databinding.FragmentHomeBinding
 import com.shoppi.app.network.ApiService
+import com.shoppi.app.ui.cartprofile.CartEditActivity
 import com.shoppi.app.ui.category.CategoryViewModel
 import com.shoppi.app.ui.common.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -90,6 +92,13 @@ class CartFragment : Fragment() {
         viewModel.items.observe(viewLifecycleOwner, Observer {
             cartAdapter.updateCarts(it)
         })
+
+        binding.fbCartAdd.setOnClickListener {
+            val mIntent = Intent(context, CartEditActivity::class.java)
+            //mIntent.putExtra("mIndex", )
+            startActivity(mIntent)
+        }
+
 
         return binding.root
     }
