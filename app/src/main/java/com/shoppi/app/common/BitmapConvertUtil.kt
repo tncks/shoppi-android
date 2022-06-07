@@ -10,7 +10,7 @@ class BitmapConvertUtil {
     fun bitmapToStr(bitmap: Bitmap): String {
         val oStream =
             ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 70, oStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, oStream)
         val bytes = oStream.toByteArray()
         return Base64.encodeToString(bytes, Base64.DEFAULT)
 

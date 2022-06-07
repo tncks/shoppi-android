@@ -8,6 +8,10 @@
     <data>
 
         <variable
+            name="viewModel"
+            type="com.shoppi.app.ui.categorydetail.CategoryDetailViewModel" />
+
+        <variable
             name="schedule"
             type="com.shoppi.app.model.Schedule" />
 
@@ -20,6 +24,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="16dp"
+        android:onClick="@{() -> viewModel.openScheduling(schedule)}"
         tools:background="@color/shoppi_white">
 
         <TextView

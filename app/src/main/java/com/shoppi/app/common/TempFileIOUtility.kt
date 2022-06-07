@@ -43,7 +43,7 @@ class TempFileIOUtility {
             if (bitmap == null) {
                 return File.createTempFile("errorDesc", extForBitFileDotJpg, context?.cacheDir)
             }
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
             bitmap.recycle()
 
             fos.flush()

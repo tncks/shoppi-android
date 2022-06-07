@@ -240,7 +240,7 @@ class ProfileCreateActivity : AppCompatActivity() {
             val directFile = File.createTempFile(nameStartWith, ".jpg", applicationContext.cacheDir)
             val outputStream = FileOutputStream(directFile)
             try {
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, outputStream) // 75 값 수정 X !!
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream) // 100 값 수정 X !!
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {

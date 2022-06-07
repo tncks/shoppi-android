@@ -27,7 +27,7 @@ class CategoryTopSellingItemAdapter(
     var selectionIndex: Int = 1         // should be public var, not private
     var prevSelectionPointer: View? = null  // should be public var, not private
     var prevBottomSelectionPointerUnder: View? = null  // should be public var, not private
-    var addBtnClickableFlag: Boolean = true
+    var addBtnClickableFlag: Boolean = true   // should be public var, not private
 
     private var myItemCount: Int = 1
     private var myTagDispenser: Int = 1
@@ -61,8 +61,9 @@ class CategoryTopSellingItemAdapter(
             } else {
                 addBtnClickableFlag = false
 
-                this.myDays = listOf()
+                this.myDays = listOf("2023-01-01")
                 this.myExpandableDaysForAdd = this.myDays.toMutableList()
+                this.myItemCount += 1
                 this.myTagDispenser = this.myItemCount
             }
         }
@@ -163,11 +164,16 @@ class CategoryTopSellingItemAdapter(
                 this@TopSellingItemViewHolder.nDayth
             )  // n일차 텍스트 설정 함수
 
+
+
+            if (!addBtnClickableFlag) {
+                binding.tvCategoryDatePeriod.visibility = View.INVISIBLE
+            }
         }
 
         private fun uiSettingLogicSubroutine() {
 
-            binding.root.findViewById<TextView>(R.id.tv_category_top_selling_label).setOnClickListener {
+            binding.tvCategoryTopSellingLabel.setOnClickListener {
                 if (prevSelectionPointer != null) {
                     (prevSelectionPointer as TextView).setTextColor(getIntegerBlackColorCode())
                 }
@@ -178,10 +184,9 @@ class CategoryTopSellingItemAdapter(
                 if (prevBottomSelectionPointerUnder != null) {
                     (prevBottomSelectionPointerUnder as TextView).setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                 }
-                binding.root.findViewById<TextView>(R.id.tv_category_date_period)
-                    .bottomDrawable(R.drawable.ic_nbar, R.dimen.indicationbar)
+                binding.tvCategoryDatePeriod.bottomDrawable(R.drawable.ic_nbar, R.dimen.indicationbar)
 
-                prevBottomSelectionPointerUnder = binding.root.findViewById<TextView>(R.id.tv_category_date_period)
+                prevBottomSelectionPointerUnder = binding.tvCategoryDatePeriod
 
             }
 
@@ -190,16 +195,16 @@ class CategoryTopSellingItemAdapter(
         private fun setInitialDefaultTextColorSelectedStyleOnFirst() {
             if (this@TopSellingItemViewHolder.nDayth == selectionIndex) {
 
-                binding.root.findViewById<TextView>(R.id.tv_category_top_selling_label)
+                binding.tvCategoryTopSellingLabel
                     .setTextColor(getIntegerPrimaryColorCode())
-                binding.root.findViewById<TextView>(R.id.tv_category_date_period)
+                binding.tvCategoryDatePeriod
                     .bottomDrawable(R.drawable.ic_nbar, R.dimen.indicationbar)
 
 
                 prevSelectionPointer =
-                    (binding.root.findViewById<TextView>(R.id.tv_category_top_selling_label) as View)
+                    (binding.tvCategoryTopSellingLabel as View)
                 prevBottomSelectionPointerUnder =
-                    (binding.root.findViewById<TextView>(R.id.tv_category_date_period) as View)
+                    (binding.tvCategoryDatePeriod as View)
                 selectionIndex = -10
             }
         }
@@ -210,7 +215,7 @@ class CategoryTopSellingItemAdapter(
             nDaythParam: Int
         ) {
             val resultJoinedStringValue = "$nDaythStringValue 일차"
-            binding.root.findViewById<TextView>(R.id.tv_category_top_selling_label).text = resultJoinedStringValue
+            binding.tvCategoryTopSellingLabel.text = resultJoinedStringValue
             var start = ""
             try {
 
@@ -224,7 +229,7 @@ class CategoryTopSellingItemAdapter(
 
             } finally {
 
-                binding.root.findViewById<TextView>(R.id.tv_category_date_period).text = start
+                binding.tvCategoryDatePeriod.text = start
 
             }
 
@@ -270,7 +275,7 @@ class CategoryTopSellingItemAdapter(
 
             setStyleHideWithUnnecessaryTextView()
 
-            binding.root.findViewById<ImageView>(R.id.iv_category_top_selling_image).apply {
+            binding.ivCategoryTopSellingImage.apply {
 
                 tag = (++myTagDispenser)
 
@@ -282,6 +287,17 @@ class CategoryTopSellingItemAdapter(
                                 doAddWork()
                             } else {
                                 Snackbar.make(binding.root, "먼저일정을 설정해야합니다.", Snackbar.LENGTH_LONG).show()
+                                this@CategoryTopSellingItemAdapter.myExpandableDaysForAdd.add("2023-01-02")
+                                this@CategoryTopSellingItemAdapter.myItemCount++
+                                binding.tvCategoryTopSellingBadge.apply {
+                                    visibility = View.VISIBLE
+                                    visibility = View.GONE
+                                }
+
+                                binding.tvCategoryTopSellingBadge.apply {
+                                    visibility = View.VISIBLE
+                                    visibility = View.INVISIBLE
+                                }
                             }
 
                         } else {
@@ -311,11 +327,11 @@ class CategoryTopSellingItemAdapter(
         }
 
         private fun setStyleHideWithUnnecessaryImageView() {
-            binding.root.findViewById<ImageView>(R.id.iv_category_top_selling_image).visibility = View.INVISIBLE
+            binding.ivCategoryTopSellingImage.visibility = View.INVISIBLE
         }
 
         private fun setStyleHideWithUnnecessaryTextView() {
-            binding.root.findViewById<TextView>(R.id.tv_category_date_period).visibility = View.INVISIBLE
+            binding.tvCategoryDatePeriod.visibility = View.INVISIBLE
         }
 
         @Suppress("LiftReturnOrAssignment")

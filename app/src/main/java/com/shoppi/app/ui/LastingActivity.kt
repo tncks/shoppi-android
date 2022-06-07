@@ -305,7 +305,7 @@ class LastingActivity : AppCompatActivity() {
                 val directFile = File.createTempFile(nameStartWith, ".jpg", it.context.cacheDir)
                 val outputStream = FileOutputStream(directFile)
                 try {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream) // 100 값 수정 X !!
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream) // 100 값 수정 X !!
                 } catch (e: Exception) {
                     e.printStackTrace()
                 } finally {

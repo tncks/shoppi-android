@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.shoppi.app.model.Schedule
 import com.shoppi.app.model.TopSelling
 import com.shoppi.app.repository.categorydetail.CategoryDetailRepository
+import com.shoppi.app.ui.common.Event
 import kotlinx.coroutines.launch
 import xyz.teamgravity.checkinternet.CheckInternet
 
@@ -21,10 +22,16 @@ class CategoryDetailViewModel(
     private val _basicSchedule = MutableLiveData<List<Schedule>>()
     val basicSchedule: LiveData<List<Schedule>> = _basicSchedule
 
+    private val _openScheduleEvent = MutableLiveData<Event<Schedule>>()
+    val openScheduleEvent: LiveData<Event<Schedule>> = _openScheduleEvent
 
     init {
         loadCategoryDetail()
         loadSchedule()
+    }
+
+    fun openScheduling(schedule: Schedule) {
+        _openScheduleEvent.value = Event(schedule)
     }
 
     private fun loadCategoryDetail() {
@@ -34,13 +41,9 @@ class CategoryDetailViewModel(
                 if (CheckInternet().check()) {
                     val categoryDetail = categoryDetailRepository.getCategoryDetail()
                     _topSelling.value = categoryDetail.topSelling
-                } else {
-                    Log.i("dummy", "dummy")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-            } finally {
-                // later
             }
         }
 

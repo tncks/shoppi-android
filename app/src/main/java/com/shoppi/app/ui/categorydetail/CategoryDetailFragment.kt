@@ -1,5 +1,7 @@
 package com.shoppi.app.ui.categorydetail
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +18,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.shoppi.app.JustForContApplication
 import com.shoppi.app.R
-import com.shoppi.app.common.KEY_CATEGORY_LABEL
 import com.shoppi.app.common.KEY_CATEGORY_PERIOD
 import com.shoppi.app.databinding.FragmentCategoryDetailBinding
+import com.shoppi.app.ui.common.EventObserver
 import com.shoppi.app.ui.common.ViewModelFactory
 import com.shoppi.app.util.*
 import kotlinx.coroutines.*
@@ -30,8 +33,18 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
     private val viewModel: CategoryDetailViewModel by viewModels { ViewModelFactory(requireContext()) }
     private lateinit var binding: FragmentCategoryDetailBinding
     private lateinit var mymap: GoogleMap
-    private var isMapToggleOpen: Boolean = true
+    private var isMapToggleOpen: Boolean
 
+
+    init {
+        isMapToggleOpen = getStoredStatusOfToggle()
+    }
+
+    private fun getStoredStatusOfToggle(): Boolean {
+        val prefs: SharedPreferences =
+            JustForContApplication.instance.getSharedPreferences("toggleActiveInactiveStatus", Context.MODE_PRIVATE)
+        return prefs.getBoolean("toggleActiveInactiveStatus", true)
+    }
 
     /*---------------------------------------------*/
 
@@ -46,6 +59,11 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!isMapToggleOpen) {
+            hideMap(1)
+        }
+
 
         try {
 
@@ -65,30 +83,16 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
 
         } catch (e: Exception) {
             e.printStackTrace()
-        } finally {
-            // later
         }
 
     }
-
-
-    /*---------------------------------------------*/
-
-    /*
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-    */
-
-    /*---------------------------------------------*/
 
 
     private fun setToggleMenuInFragment(myMToolbar: Toolbar) {
 
         myMToolbar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.menu_add -> Toast.makeText(requireContext(), "추가", Toast.LENGTH_SHORT).show()
+                R.id.menu_add -> findNavController().navigate(R.id.action_category_detail_to_schedule_create)
                 R.id.menu_delete -> Toast.makeText(requireContext(), "삭제", Toast.LENGTH_SHORT).show()
                 R.id.menu_move -> Toast.makeText(requireContext(), "이동", Toast.LENGTH_SHORT).show()
             }
@@ -97,16 +101,14 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-    /*---------------------------------------------*/
 
+    @Suppress("RedundantNullableReturnType")
     private fun setToolbar() {
         try {
-            val categoryLabel = requireArguments().getString(KEY_CATEGORY_LABEL)
-            binding.toolbarCategoryDetail.title = categoryLabel
+            val emptyCategoryLabelThatIsBlank: String? = ""
+            binding.toolbarCategoryDetail.title = emptyCategoryLabelThatIsBlank
         } catch (e: Exception) {
             e.printStackTrace()
-        } finally {
-            binding.toolbarCategoryDetail.title = ""
         }
     }
 
@@ -125,7 +127,7 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setScheduleAdapter() {
-        val scheduleAdapter = ScheduleAdapter()
+        val scheduleAdapter = ScheduleAdapter(viewModel)
         binding.rvScheduleWeek.adapter = scheduleAdapter
 
 
@@ -134,6 +136,13 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
             scheduleAdapter.submitList(bSchedules)
 
         }
+
+        viewModel.openScheduleEvent.observe(viewLifecycleOwner, EventObserver {
+
+            findNavController().navigate(
+                R.id.action_category_detail_to_schedule_write_edit
+            )
+        })
 
     }
 
@@ -148,19 +157,33 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
                 }
             } finally {
                 isMapToggleOpen = !isMapToggleOpen
+
+
+                val prefs: SharedPreferences =
+                    JustForContApplication.instance.getSharedPreferences(
+                        "toggleActiveInactiveStatus",
+                        Context.MODE_PRIVATE
+                    )
+                val editor: SharedPreferences.Editor = prefs.edit()
+                editor
+                    .putBoolean("toggleActiveInactiveStatus", isMapToggleOpen)
+                    .apply()
+
+
             }
 
         }
     }
 
 
-    private fun hideMap() {
+    private fun hideMap(duration: Int = 500) {
 
         binding.maptoggletxt.rightDrawable(R.drawable.ic_load)
         binding.maptoggletxt.text = getString(R.string.tvtogglemapopposite)
-        binding.lll.slideGenie(500)
+        binding.lll.slideGenie(duration)
         CoroutineScope(Dispatchers.Default).launch {
-            delay(501L)
+
+            delay((duration + 1).toLong())
             withContext(Dispatchers.Main) {
                 binding.lll.apply {
                     gone(true)
@@ -176,7 +199,7 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun reDisplayMap() {
+    private fun reDisplayMap(duration: Int = 500) {
 
         binding.maptoggletxt.rightDrawable(R.drawable.ic_comp)
         binding.maptoggletxt.text = getString(R.string.tvtogglemap)
@@ -190,7 +213,7 @@ class CategoryDetailFragment : Fragment(), OnMapReadyCallback {
             visible(true)
         }
 
-        binding.lll.slideBack(500)
+        binding.lll.slideBack(duration)
 
     }
 

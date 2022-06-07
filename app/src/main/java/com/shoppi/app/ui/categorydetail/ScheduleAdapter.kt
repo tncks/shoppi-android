@@ -8,7 +8,7 @@ import com.shoppi.app.databinding.ItemScheduleWeekBinding
 import com.shoppi.app.model.Schedule
 import com.shoppi.app.ui.common.ScheduleDiffCallback
 
-class ScheduleAdapter :
+class ScheduleAdapter(private val viewModel: CategoryDetailViewModel) :
     ListAdapter<Schedule, ScheduleAdapter.ScheduleItemViewHolder>(ScheduleDiffCallback()) {
 
 
@@ -29,6 +29,7 @@ class ScheduleAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(schedule: Schedule) {
+            binding.viewModel = viewModel
             binding.schedule = schedule
             binding.executePendingBindings()
         }
@@ -37,12 +38,3 @@ class ScheduleAdapter :
 
 
 }
-
-
-/*
-fun bind(category: Category) {
-            binding.viewModel = viewModel
-            binding.category = category
-            binding.executePendingBindings()
-        }
- */

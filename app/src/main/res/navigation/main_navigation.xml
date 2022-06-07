@@ -12,7 +12,7 @@
         <action
             android:id="@+id/action_history_to_history_detail"
             app:destination="@id/navigation_category_detail" />
-        <!-- action tag for product detail removed -->
+
     </fragment>
     <fragment
         android:id="@+id/navigation_category"
@@ -24,7 +24,7 @@
         <action
             android:id="@+id/action_category_to_category_detail"
             app:destination="@id/navigation_category_detail" />
-        <!-- 0425 code revised action tag that has id/action_category_to_cart was removed -->
+
     </fragment>
     <fragment
         android:id="@+id/navigation_cart"
@@ -34,7 +34,17 @@
         android:id="@+id/navigation_category_detail"
         android:name="com.shoppi.app.ui.categorydetail.CategoryDetailFragment"
         android:label="CategoryDetailFragment"
-        tools:layout="@layout/fragment_category_detail" />
+        tools:layout="@layout/fragment_category_detail">
+
+        <action
+            android:id="@+id/action_category_detail_to_schedule_write_edit"
+            app:destination="@id/navigation_schedule_write_edit" />
+
+        <action
+            android:id="@+id/action_category_detail_to_schedule_create"
+            app:destination="@id/navigation_schedule_create" />
+
+    </fragment>
     <fragment
         android:id="@+id/navigation_my_page"
         android:name="com.shoppi.app.ui.mypage.MypageFragment"
@@ -102,7 +112,7 @@
         android:label="LastingActivity"
         tools:layout="@layout/activity_lasting" />
     <activity
-        android:id="@+id/scheduleWriteEditActivity"
+        android:id="@+id/navigation_schedule_write_edit"
         android:name="com.shoppi.app.ui.schedule.ScheduleWriteEditActivity"
         android:label="ScheduleWriteEditActivity"
         tools:layout="@layout/activity_schedule_write_edit" />
@@ -141,4 +151,9 @@
         android:name="com.shoppi.app.ui.feed.PictureEditActivity"
         android:label="PictureEditActivity"
         tools:layout="@layout/activity_picture_edit" />
+    <activity
+        android:id="@+id/navigation_schedule_create"
+        android:name="com.shoppi.app.ui.schedule.ScheduleCreateActivity"
+        android:label="ScheduleCreateActivity"
+        tools:layout="@layout/activity_schedule_create" />
 </navigation>

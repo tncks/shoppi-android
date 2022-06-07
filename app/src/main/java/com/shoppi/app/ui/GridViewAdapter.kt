@@ -150,7 +150,7 @@ class GridViewAdapter(context: Context, private val alMenu: ArrayList<ModelConte
         val directFile = File.createTempFile(nameStartWith, ".jpg", context.cacheDir)
         val outputStream = FileOutputStream(directFile)
         try {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream) // 100 값 수정 X !!
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream) // 100 값 수정 X !!
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
