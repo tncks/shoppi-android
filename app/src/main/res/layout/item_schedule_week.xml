@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.shoppi.app.ui.categorydetail.CategoryDetailViewModel" />
+            type="com.shoppi.app.entitytype.ScheduleDataModel" />
 
         <variable
             name="schedule"
@@ -18,7 +18,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/aaaaaaaaaaa"
+        android:id="@+id/constainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -28,7 +28,7 @@
         tools:background="@color/shoppi_white">
 
         <TextView
-            android:id="@+id/bbbbbbbbbbbbbbbb"
+            android:id="@+id/named"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
@@ -36,7 +36,7 @@
             android:layout_marginEnd="1dp"
             android:scaleType="centerCrop"
             android:textColor="@color/shoppi_black_01"
-            android:text="@{schedule.namelabel}"
+            android:text='@{schedule.namelabel}'
             tools:text="일정1 이름"
             android:padding="2dp"
             android:textSize="14sp"
@@ -46,20 +46,20 @@
 
 
         <TextView
-            android:id="@+id/dddddddddddddddddd"
+            android:id="@+id/timeline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:fontFamily="@font/t_font"
             android:padding="2dp"
-            android:text="@{schedule.timerange}"
+            android:text='@{schedule.timerange}'
             android:textColor="@color/shoppi_black_01"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bbbbbbbbbbbbbbbb"
+            app:layout_constraintTop_toBottomOf="@id/named"
             tools:text="일정1 시간" />
 
         <ImageView
-            android:id="@+id/eeeeeeeeeeeee"
+            android:id="@+id/spot"
             android:contentDescription="@string/label_category"
             android:src="@drawable/ic_location_pin"
             android:layout_width="wrap_content"

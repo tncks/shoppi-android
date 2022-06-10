@@ -168,6 +168,16 @@
         <activity
             android:name=".ui.schedule.ScheduleCreateActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.tutorials.calling.CallActivity"
+            android:exported="false" >
+
+
+
+        </activity>
+        <activity
+            android:name=".ui.tutorials.calling.AddActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

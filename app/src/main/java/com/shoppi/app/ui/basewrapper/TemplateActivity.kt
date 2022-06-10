@@ -3,6 +3,7 @@
 package com.shoppi.app.ui.basewrapper
 
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -27,7 +28,16 @@ abstract class TemplateActivity<T : ViewDataBinding, R : ViewModel>
 
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
-        viewModel = ViewModelProvider(this).get(getViewModelClass())
+        getViewModelClass()?.let {
+            try {
+                viewModel = ViewModelProvider(this).get(it)
+            } catch (e: Exception) {
+                Log.d("argumentmismatch","argumentmismatch")
+                Log.d("isIninialQuest", "")
+            }
+
+        }
+
 
         initView()
         initViewModel()
@@ -42,9 +52,14 @@ abstract class TemplateActivity<T : ViewDataBinding, R : ViewModel>
     protected open fun afterOnCreate() {}
 
 
-    private fun getViewModelClass(): Class<R> {
-        val type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1]
-        @Suppress("UNCHECKED_CAST")
-        return type as Class<R>
+    private fun getViewModelClass(): Class<R>? {
+        try {
+            val type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1]
+            @Suppress("UNCHECKED_CAST")
+            return type as Class<R>
+        } catch (e: Exception) {
+            return null
+        }
+
     }
 }

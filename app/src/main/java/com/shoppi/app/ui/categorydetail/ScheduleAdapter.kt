@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.shoppi.app.databinding.ItemScheduleWeekBinding
+import com.shoppi.app.entitytype.ScheduleDataModel
 import com.shoppi.app.model.Schedule
 import com.shoppi.app.ui.common.ScheduleDiffCallback
 
-class ScheduleAdapter(private val viewModel: CategoryDetailViewModel) :
+class ScheduleAdapter(private val viewModel: ScheduleDataModel) :
     ListAdapter<Schedule, ScheduleAdapter.ScheduleItemViewHolder>(ScheduleDiffCallback()) {
 
+//    private var schedules: List<Schedule> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleItemViewHolder {
         val binding = ItemScheduleWeekBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -20,6 +22,15 @@ class ScheduleAdapter(private val viewModel: CategoryDetailViewModel) :
     override fun onBindViewHolder(holder: ScheduleItemViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
+
+//    fun setSchedules(schedules: List<Schedule>) {
+//        this.schedules = schedules
+//        notifyItemInserted(0)
+//        notifyItemRangeChanged(0,itemCount)
+//        this.schedules = schedules
+//    }
+
+
 
 
     inner class ScheduleItemViewHolder(

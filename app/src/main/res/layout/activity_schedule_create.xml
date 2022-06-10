@@ -5,9 +5,9 @@
 
     <data>
 
-        <variable
-            name="LiveDataModel"
-            type="com.shoppi.app.ui.tutorials.entitytype.LiveDataModel" />
+<!--        <variable-->
+<!--            name="ScheduleDataModel"-->
+<!--            type="com.shoppi.app.entitytype.ScheduleDataModel" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,9 +36,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{LiveDataModel.isUpdate().testOne ?? `완료`}"
+            android:text="@string/btn_simple_complete_submit"
             tools:text="완료" />
 
 

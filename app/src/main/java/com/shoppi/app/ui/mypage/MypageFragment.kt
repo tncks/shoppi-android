@@ -17,6 +17,7 @@ import com.shoppi.app.ui.feed.PictureWithoutMemoActivity
 import com.shoppi.app.ui.schedule.ScheduleWriteEditActivity
 import com.shoppi.app.ui.schedule.TheLocationActivity
 import com.shoppi.app.ui.signstep.*
+import com.shoppi.app.ui.tutorials.calling.CallActivity
 
 class MypageFragment : Fragment() {
 
@@ -42,7 +43,8 @@ class MypageFragment : Fragment() {
     private fun setTestRestEventsAtOnce(view: View) {
 
         view.findViewById<Button>(R.id.btn_move_test_1).setOnClickListener {
-            val intent = Intent(activity, PictureWithMemoActivity::class.java)
+            val intent = Intent(activity, CallActivity::class.java)
+//            val intent = Intent(activity, PictureWithMemoActivity::class.java)
 //            val intent = Intent(activity, MoveToGalleryCameraPickOneActivity::class.java)
             startActivity(intent)
         }

@@ -7,6 +7,11 @@
 
     <data>
 
+        <variable
+            name="ScheduleDataModel"
+            type="com.shoppi.app.entitytype.ScheduleDataModel" />
+
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
