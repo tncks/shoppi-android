@@ -1,3 +1,6 @@
 /build
 /release
-google-services.json
+/schemas
+/schemas/com.shoppi.app.database.VideosDatabase
+**/1.json
+google-services.json!/schemas/com.shoppi.app.database.VideosDatabase/1.json
