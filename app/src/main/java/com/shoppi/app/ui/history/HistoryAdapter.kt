@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shoppi.app.JustForContApplication
 import com.shoppi.app.R
 import com.shoppi.app.common.FIRE_JSON_BASEURL
-import com.shoppi.app.common.PrepareJsonHelper
+import com.shoppi.app.common.jsoncraft.PrepareJsonHelper
 import com.shoppi.app.common.SAFEUID
 import com.shoppi.app.databinding.ItemHistoryBinding
 import com.shoppi.app.model.Category
 import com.shoppi.app.network.ApiService
-import com.shoppi.app.ui.ProfileAddEditActivity
+import com.shoppi.app.ui.category.subwork.ProfileAddEditActivity
 import com.shoppi.app.ui.category.CategoryBoolLiveArray
-import com.shoppi.app.ui.common.CategoryDiffCallback
+import com.shoppi.app.ui.common.diffcallbacks.CategoryDiffCallback
 import com.shoppi.app.util.slideGenie
 import kotlinx.coroutines.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

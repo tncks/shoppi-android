@@ -11,10 +11,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.shoppi.app.R
 import com.shoppi.app.common.FIRE_JSON_BASEURL
-import com.shoppi.app.common.PrepareJsonHelper
+import com.shoppi.app.common.jsoncraft.PrepareJsonHelper
 import com.shoppi.app.common.SAFEUID
 import com.shoppi.app.network.ApiService
-import com.shoppi.app.util.FormValidator
+import com.shoppi.app.util.manager.scrutiny.FormValidator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

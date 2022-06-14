@@ -2,8 +2,7 @@ package com.shoppi.app.ui.signstep
 
 import com.shoppi.app.R
 import com.shoppi.app.databinding.ActivityJoinEntireViewOfTermsAgreeBinding
-import com.shoppi.app.entitytype.TermDataModel
-import com.shoppi.app.ui.basewrapper.TemplateActivity
+import com.shoppi.app.ui.common.basewrapper.TemplateActivity
 
 class JoinEntireViewOfTermsAgreeActivity :
     TemplateActivity<ActivityJoinEntireViewOfTermsAgreeBinding, TermDataModel>(R.layout.activity_join_entire_view_of_terms_agree) {

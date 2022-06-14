@@ -7,7 +7,7 @@
 
         <variable
             name="TermDataModel"
-            type="com.shoppi.app.entitytype.TermDataModel" />
+            type="com.shoppi.app.ui.signstep.TermDataModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

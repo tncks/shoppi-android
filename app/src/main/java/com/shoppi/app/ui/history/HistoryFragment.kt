@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.shoppi.app.R
 import com.shoppi.app.databinding.FragmentHistoryBinding
-import com.shoppi.app.ui.ProfileCreateActivity
+import com.shoppi.app.ui.category.subwork.ProfileCreateActivity
 import com.shoppi.app.ui.category.CategoryBoolLiveArray
 import com.shoppi.app.ui.common.EventObserver
-import com.shoppi.app.ui.common.ViewModelFactory
+import com.shoppi.app.ui.common.factories.ViewModelFactory
 
 class HistoryFragment : Fragment() {
 

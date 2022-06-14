@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.DevByteFragment">
+    tools:context=".ui.tutorials.videotuto.DevByteFragment">
 
     <!-- 이는 DB 테스트를 위한 코드이며 프로젝트와 관련이 없습니다. -->
 
@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.shoppi.app.viewmodels.DevByteViewModel" />
+            type="com.shoppi.app.ui.tutorials.videotuto.DevByteViewModel" />
     </data>
 
     <FrameLayout

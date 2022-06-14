@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shoppi.app.common.BACK_AZURE_ACCOUNT_LOGIN_AUTH_RESTAPI_BASEURL
-import com.shoppi.app.common.PrepareJsonHelper
+import com.shoppi.app.common.jsoncraft.PrepareJsonHelper
 import com.shoppi.app.common.SAFEUID
 import com.shoppi.app.model.Category
 import com.shoppi.app.network.RESTInterface

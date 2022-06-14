@@ -13,10 +13,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.shoppi.app.R
 import com.shoppi.app.common.GLOBALUID
-import com.shoppi.app.common.PrepareJsonHelper
+import com.shoppi.app.common.jsoncraft.PrepareJsonHelper
 import com.shoppi.app.common.SAFEUID
 import com.shoppi.app.common.SP_NOT_FOUND_USER_STRING_CODE
-import com.shoppi.app.myjetcp.MainComposeActivity
+import com.shoppi.app.jetpackcompose.JetActivity
 import com.shoppi.app.network.RESTInterface
 import com.shoppi.app.repository.auth.AuthRemoteDataSource
 import com.shoppi.app.repository.auth.AuthRepository
@@ -114,7 +114,7 @@ class SignBeforeStartActivity : AppCompatActivity() {
     }
 
     private fun goForwardMainPage() {
-        startActivity(Intent(this@SignBeforeStartActivity, MainComposeActivity::class.java))
+        startActivity(Intent(this@SignBeforeStartActivity, JetActivity::class.java))
         finish()
     }
 
@@ -132,7 +132,7 @@ class SignBeforeStartActivity : AppCompatActivity() {
         }
 
         if (GLOBALUID != null) {
-            val intent = Intent(this, MainComposeActivity::class.java)
+            val intent = Intent(this, JetActivity::class.java)
             startActivity(intent)
             finish()
         }

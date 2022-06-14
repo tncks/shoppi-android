@@ -1,19 +1,10 @@
 package com.shoppi.app.ui.cartprofile
 
-import android.app.AlertDialog
-import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import com.shoppi.app.R
-import com.shoppi.app.common.BFLAG
-import com.shoppi.app.ui.cart.CartViewModel
-import com.shoppi.app.ui.common.ViewModelFactory
+import com.shoppi.app.ui.common.factories.ViewModelFactory
 
 class CartEditActivity : AppCompatActivity() {
 

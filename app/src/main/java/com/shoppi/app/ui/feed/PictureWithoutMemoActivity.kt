@@ -2,7 +2,7 @@ package com.shoppi.app.ui.feed
 
 import com.shoppi.app.R
 import com.shoppi.app.databinding.ActivityPictureWithoutMemoBinding
-import com.shoppi.app.ui.basewrapper.BaseActivity
+import com.shoppi.app.ui.common.basewrapper.BaseActivity
 
 class PictureWithoutMemoActivity :
     BaseActivity<ActivityPictureWithoutMemoBinding>(R.layout.activity_picture_without_memo) {

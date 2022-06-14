@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.DevByteActivity">
+    tools:context=".ui.tutorials.videotuto.DevByteActivity">
 
     <!--  이는 DB 적용을 위한 테스트 뷰일뿐이며 프로젝트와 관련이 없습니다 -->
 

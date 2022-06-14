@@ -2,7 +2,7 @@ package com.shoppi.app.ui.feed
 
 import com.shoppi.app.R
 import com.shoppi.app.databinding.ActivityPictureWithMemoBinding
-import com.shoppi.app.ui.basewrapper.BaseActivity
+import com.shoppi.app.ui.common.basewrapper.BaseActivity
 
 class PictureWithMemoActivity : BaseActivity<ActivityPictureWithMemoBinding>(R.layout.activity_picture_with_memo) {
 

@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.shoppi.app.R
-import com.shoppi.app.ui.DevByteActivity
-import com.shoppi.app.ui.common.MoveToGalleryCameraPickOneWithNextActivity
+import com.shoppi.app.ui.tutorials.videotuto.DevByteActivity
+import com.shoppi.app.ui.common.subnavi.MoveToGalleryCameraPickOneWithNextActivity
 import com.shoppi.app.ui.feed.MemoWithoutPictureActivity
 import com.shoppi.app.ui.feed.PictureWithMemoActivity
 import com.shoppi.app.ui.feed.PictureWithoutMemoActivity
-import com.shoppi.app.ui.schedule.ScheduleWriteEditActivity
-import com.shoppi.app.ui.schedule.TheLocationActivity
+import com.shoppi.app.ui.schedule.subwork.ScheduleWriteEditActivity
+import com.shoppi.app.ui.schedule.placemap.TheLocationActivity
 import com.shoppi.app.ui.signstep.*
 import com.shoppi.app.ui.tutorials.calling.CallActivity
 

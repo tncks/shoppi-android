@@ -22,14 +22,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.shoppi.app.R
 import com.shoppi.app.common.FIRE_JSON_BASEURL
-import com.shoppi.app.common.PrepareJsonHelper
+import com.shoppi.app.common.jsoncraft.PrepareJsonHelper
 import com.shoppi.app.common.SAFEUID
 import com.shoppi.app.databinding.FragmentCategoryBinding
 import com.shoppi.app.databinding.ItemCategoryBinding
 import com.shoppi.app.model.Category
 import com.shoppi.app.network.ApiService
-import com.shoppi.app.ui.ProfileAddEditActivity
-import com.shoppi.app.ui.common.CategoryDiffCallback
+import com.shoppi.app.ui.category.subwork.ProfileAddEditActivity
+import com.shoppi.app.ui.common.diffcallbacks.CategoryDiffCallback
 import com.shoppi.app.util.leftDrawable
 import com.shoppi.app.util.slideGenie
 import kotlinx.coroutines.*

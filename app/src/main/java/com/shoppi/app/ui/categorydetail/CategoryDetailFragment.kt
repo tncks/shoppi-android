@@ -24,10 +24,11 @@ import com.shoppi.app.JustForContApplication
 import com.shoppi.app.R
 import com.shoppi.app.common.KEY_CATEGORY_PERIOD
 import com.shoppi.app.databinding.FragmentCategoryDetailBinding
-import com.shoppi.app.entitytype.ScheduleDataModel
+import com.shoppi.app.ui.schedule.ScheduleDataModel
 import com.shoppi.app.model.Schedule
 import com.shoppi.app.ui.common.EventObserver
-import com.shoppi.app.ui.common.ViewModelFactory
+import com.shoppi.app.ui.common.factories.ViewModelFactory
+import com.shoppi.app.ui.schedule.ScheduleAdapter
 import com.shoppi.app.util.*
 import kotlinx.coroutines.*
 import java.security.SecureRandom

@@ -2,7 +2,7 @@ package com.shoppi.app.ui.feed
 
 import com.shoppi.app.R
 import com.shoppi.app.databinding.ActivityPictureEditBinding
-import com.shoppi.app.ui.basewrapper.BaseActivity
+import com.shoppi.app.ui.common.basewrapper.BaseActivity
 
 class PictureEditActivity :
     BaseActivity<ActivityPictureEditBinding>(R.layout.activity_picture_edit) {

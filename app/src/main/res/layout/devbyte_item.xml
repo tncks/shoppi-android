@@ -9,11 +9,11 @@
 
         <variable
             name="video"
-            type="com.shoppi.app.domain.DevByteVideo" />
+            type="com.shoppi.app.ui.tutorials.videotuto.DevByteVideo" />
 
         <variable
             name="videoCallback"
-            type="com.shoppi.app.ui.VideoClick" />
+            type="com.shoppi.app.ui.tutorials.videotuto.VideoClick" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

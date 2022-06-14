@@ -2,7 +2,7 @@ package com.shoppi.app.ui.tutorials.entitytype
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.shoppi.app.ui.basewrapper.BaseViewModel
+import com.shoppi.app.ui.common.basewrapper.BaseViewModel
 import com.shoppi.app.ui.tutorials.datapool.Option
 
 // member param private val repository version need template or child에서 따로 개별적으로 각각 구현

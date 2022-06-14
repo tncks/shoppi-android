@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.shoppi.app.common.GLOBALUID
 import com.shoppi.app.common.SAFEUID
 import com.shoppi.app.common.SP_NOT_FOUND_USER_STRING_CODE
-import com.shoppi.app.myjetcp.MainComposeActivity
+import com.shoppi.app.jetpackcompose.JetActivity
 import com.shoppi.app.ui.signstep.SignBeforeStartActivity
 
 @SuppressLint("CustomSplashScreen")
@@ -35,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
         if (GLOBALUID == null) {
             startActivity(Intent(this, SignBeforeStartActivity::class.java))
         } else {
-            startActivity(Intent(this, MainComposeActivity::class.java))
+            startActivity(Intent(this, JetActivity::class.java))
         }
 
         finish()   // 이 줄은 필수

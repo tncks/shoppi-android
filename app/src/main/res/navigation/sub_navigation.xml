@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/devByte"
-        android:name="com.shoppi.app.ui.DevByteFragment"
+        android:name="com.shoppi.app.ui.tutorials.videotuto.DevByteFragment"
         android:label="fragment_dev_byte"
         tools:layout="@layout/fragment_dev_byte" />
 </navigation>

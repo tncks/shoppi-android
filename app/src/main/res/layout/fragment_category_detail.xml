@@ -9,7 +9,7 @@
 
         <variable
             name="ScheduleDataModel"
-            type="com.shoppi.app.entitytype.ScheduleDataModel" />
+            type="com.shoppi.app.ui.schedule.ScheduleDataModel" />
 
 
     </data>

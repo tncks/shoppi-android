@@ -2,7 +2,7 @@ package com.shoppi.app.ui.tutorials.heart
 
 import com.shoppi.app.R
 import com.shoppi.app.databinding.ActivityLoveBinding
-import com.shoppi.app.ui.basewrapper.TemplateActivity
+import com.shoppi.app.ui.common.basewrapper.TemplateActivity
 import com.shoppi.app.ui.tutorials.entitytype.LiveDataModel
 
 

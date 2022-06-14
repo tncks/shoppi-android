@@ -15,8 +15,9 @@ import com.shoppi.app.common.CONTENT_TYPE
 import com.shoppi.app.common.MY_BTN_JPG_URL_ADD_PLUS
 import com.shoppi.app.databinding.ItemCategoryTopSellingBinding
 import com.shoppi.app.model.Category
-import com.shoppi.app.ui.common.CategoryDiffCallback
+import com.shoppi.app.ui.common.diffcallbacks.CategoryDiffCallback
 import com.shoppi.app.util.*
+import com.shoppi.app.util.manager.daylife.DateIncrementer
 
 class CategoryTopSellingItemAdapter(
     private val categoryPeriod: String?

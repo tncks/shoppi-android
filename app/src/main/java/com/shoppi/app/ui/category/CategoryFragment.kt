@@ -28,13 +28,13 @@ import com.shoppi.app.common.KEY_CATEGORY_ID
 import com.shoppi.app.common.KEY_CATEGORY_LABEL
 import com.shoppi.app.common.KEY_CATEGORY_PERIOD
 import com.shoppi.app.databinding.FragmentCategoryBinding
-import com.shoppi.app.myjetcp.MainComposeActivity
-import com.shoppi.app.ui.ProfileCreateActivity
-import com.shoppi.app.ui.common.DialogStylingUtil
+import com.shoppi.app.jetpackcompose.JetActivity
+import com.shoppi.app.ui.category.subwork.ProfileCreateActivity
+import com.shoppi.app.ui.common.dialogcomponent.DialogStylingUtil
 import com.shoppi.app.ui.common.EventObserver
-import com.shoppi.app.ui.common.ViewModelFactory
-import com.shoppi.app.util.NetworkStatus
-import com.shoppi.app.util.NetworkStatusHelper
+import com.shoppi.app.ui.common.factories.ViewModelFactory
+import com.shoppi.app.util.manager.netstat.NetworkStatus
+import com.shoppi.app.util.manager.netstat.NetworkStatusHelper
 import com.shoppi.app.util.leftDrawable
 import kotlinx.coroutines.*
 import xyz.teamgravity.checkinternet.CheckInternet
@@ -545,7 +545,7 @@ class CategoryFragment : Fragment() {
         }
         if (this.flag) {
             this.flag = !this.flag
-            val mmIntent = Intent(requireContext(), MainComposeActivity::class.java)
+            val mmIntent = Intent(requireContext(), JetActivity::class.java)
             startActivity(mmIntent)
             activity?.finish()
         }
