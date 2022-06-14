@@ -1,12 +1,30 @@
 package com.shoppi.app.ui.common.subnavi
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.shoppi.app.R
+import com.shoppi.app.databinding.ActivityMoveToGalleryCameraPickOneWithNextBinding
+import com.shoppi.app.ui.common.basewrapper.BaseActivity
 
-class MoveToGalleryCameraPickOneWithNextActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_move_to_gallery_camera_pick_one_with_next)
+
+class MoveToGalleryCameraPickOneWithNextActivity: BaseActivity<ActivityMoveToGalleryCameraPickOneWithNextBinding>(R.layout.activity_move_to_gallery_camera_pick_one_with_next) {
+
+    override fun initView() {
+        super.initView()
+
+        binding.apply {
+            liveDataModel = viewModel
+            lifecycleOwner = this@MoveToGalleryCameraPickOneWithNextActivity
+        }
+
     }
+
+    override fun initViewModel() {
+        super.initViewModel()
+
+
+        viewModel.isUpdate.observe(this) {
+            binding.tvMoveToCamera.text = it.testOne
+        }
+    }
+
+
 }
