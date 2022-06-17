@@ -22,7 +22,7 @@ class TheLocationActivity :
 
 
         viewModel.isUpdate.observe(this) {
-            binding.plainTextInput0.setText(it.testOne)
+            binding.locationaddress.setText(it.testOne)
         }
     }
 }

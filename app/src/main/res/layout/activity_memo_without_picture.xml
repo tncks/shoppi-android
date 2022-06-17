@@ -16,12 +16,30 @@
 
         <!-- 글 액티비티 / p7. 여행피드 -->
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tbr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/shoppi_white"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            android:visibility="visible"
+            tools:visibility="visible"
+            tools:menu="@menu/menu_dummy_empty_topbar_dummy"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_scrollFlags="noScroll"
+            app:navigationIcon="@drawable/ic_chevron_left"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
-            android:id="@+id/iv_unreal_back_simple"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:id="@+id/bk"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:visibility="visible"
+            tools:visibility="invisible"
+            android:alpha="0.001"
             android:contentDescription="@string/label_category"
             android:src="@drawable/ic_unreal_back_page_left"
             app:layout_constraintStart_toStartOf="parent"

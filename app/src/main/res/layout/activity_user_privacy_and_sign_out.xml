@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <!-- 마이 페이지 - 회원 계정정보 조회 화면 -->
+    <!-- not yet work later -->
 
     <TextView
         android:id="@+id/tv_logout"
@@ -18,4 +19,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="HardcodedText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

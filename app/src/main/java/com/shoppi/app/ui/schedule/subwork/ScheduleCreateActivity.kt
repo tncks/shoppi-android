@@ -38,7 +38,7 @@ class ScheduleCreateActivity :
 /*
 viewModel.items.observe(this) {
             Log.d("observe","observe")
-            // binding.tvSimpleCompleteEditSubmit.text = it.testOne
+            // binding.sbmt.text = it.testOne
         }
 */
 
@@ -48,7 +48,7 @@ viewModel.items.observe(this) {
         super.initListener()
 
         binding.apply {
-            tvSimpleCompleteEditSubmit.setOnClickListener {
+            sbmt.setOnClickListener {
 
                 id = intent.getLongExtra(EXTRA_SCHEDULE_ID, -1)
 

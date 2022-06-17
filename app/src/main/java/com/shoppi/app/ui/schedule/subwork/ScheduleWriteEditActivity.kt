@@ -23,7 +23,7 @@ class ScheduleWriteEditActivity :
 
 
         viewModel.isUpdate.observe(this) {
-            binding.tvSimpleCompleteEditSubmit.text = it.testOne
+            binding.sbmt.text = it.testOne
         }
     }
 }
